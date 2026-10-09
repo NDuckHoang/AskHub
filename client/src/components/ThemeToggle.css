@@ -13,11 +13,15 @@
 }
 
 .theme-toggle:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--text);
 }
 
 .theme-toggle:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
 }

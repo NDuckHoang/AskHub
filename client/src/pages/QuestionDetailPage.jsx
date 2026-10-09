@@ -202,10 +202,11 @@ function QuestionDetailPage() {
 
       {!loadingAnswers && !errorAnswers && answers.length > 0 && (
         <div className="answer-list card">
-          {answers.map((a) => (
+          {answers.map((a, i) => (
             <AnswerItem
               key={a.id}
               answer={a}
+              animationDelay={`${Math.min(i, 8) * 30}ms`}
               questionOwnerId={question.user_id}
               onVoted={handleAnswerVoted}
               onEdited={handleAnswerEdited}

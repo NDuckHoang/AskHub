@@ -1,4 +1,5 @@
 .markdown-toolbar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -9,7 +10,10 @@
   background: var(--bg-subtle);
 }
 
-.markdown-toolbar button {
+/* Dùng class riêng (không phải "button" chung) vì popover chèn liên kết cũng nằm
+   trong .markdown-toolbar - nếu chọn theo thẻ thì style này sẽ đè luôn lên 2 nút
+   Hủy/Chèn liên kết của popover (chúng dùng .btn, không phải nút định dạng) */
+.markdown-toolbar-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,12 +27,12 @@
   transition: background-color 150ms, color 150ms;
 }
 
-.markdown-toolbar button:hover:not(:disabled) {
+.markdown-toolbar-btn:hover:not(:disabled) {
   background: var(--bg);
   color: var(--text);
 }
 
-.markdown-toolbar button:disabled {
+.markdown-toolbar-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -39,70 +43,138 @@
   margin-left: 4px;
 }
 
-/* textarea nối liền ngay dưới toolbar, không có khoảng hở + bo góc riêng */
-.markdown-toolbar + .textarea {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.image-attachment-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.image-attachment {
-  position: relative;
-  width: 64px;
-  height: 64px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.image-attachment img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.image-attachment-remove {
+/* Popover neo theo cả .markdown-toolbar (căn giữa bên dưới) thay vì theo riêng nút
+   Chèn liên kết - toolbar rộng bằng cả vùng soạn thảo nên luôn đủ chỗ, tránh tràn ra
+   ngoài màn hình hẹp như khi neo theo 1 nút nhỏ nằm giữa toolbar */
+.markdown-link-popover {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: calc(100% + 6px);
+  left: 50%;
+  z-index: 30;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(31, 35, 40, 0.65);
-  color: #ffffff;
-  cursor: pointer;
-  transition: background-color 150ms;
-}
-
-.image-attachment-remove:hover {
-  background: var(--danger);
-}
-
-.content-live-preview {
+  flex-direction: column;
+  gap: 6px;
+  width: 280px;
+  max-width: calc(100vw - 32px);
+  padding: 12px;
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  margin-top: 8px;
-  background: var(--bg-subtle);
+  box-shadow: var(--shadow-menu);
+  transform-origin: top center;
+  /* Không dùng chung .animate-scale-in - animation đó tự set transform: scale(...),
+     sẽ đè mất translateX(-50%) cần để căn giữa (1 phần tử chỉ có 1 giá trị transform) */
+  animation: markdown-link-popover-in 150ms ease-out both;
 }
 
-.content-live-preview-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
+@keyframes markdown-link-popover-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+.markdown-link-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* Vùng soạn thảo WYSIWYG: nối liền ngay dưới toolbar, style khớp với .textarea,
+   cộng thêm style cho các thẻ được chèn trực tiếp (đậm/nghiêng/code/quote/list/ảnh) -
+   dùng lại đúng các quy tắc của .markdown-content để lúc soạn và lúc hiển thị giống hệt nhau */
+.markdown-editable {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-y: auto;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.markdown-editable:hover {
+  border-color: var(--text-secondary);
+}
+
+.markdown-editable:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.markdown-editable.has-error {
+  border-color: var(--danger);
+}
+
+.markdown-editable.is-empty::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 10px;
+  left: 12px;
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  margin-bottom: 6px;
+  pointer-events: none;
+}
+
+.markdown-editable div {
+  min-height: 1.6em;
+}
+
+.markdown-editable strong {
+  font-weight: 600;
+}
+
+.markdown-editable code {
+  font-family: var(--font-mono);
+  background: var(--bg-subtle);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown-editable pre code {
+  display: block;
+  padding: 10px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.markdown-editable blockquote {
+  margin: 4px 0;
+  border-left: 3px solid var(--border);
+  padding-left: 12px;
+  color: var(--text-secondary);
+}
+
+.markdown-editable ul {
+  margin: 4px 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.markdown-editable li {
+  margin-bottom: 2px;
+}
+
+.markdown-editable img {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin: 4px 0;
+  vertical-align: middle;
+}
+
+.markdown-editable a {
+  color: var(--primary);
 }

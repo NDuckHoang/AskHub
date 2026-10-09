@@ -157,7 +157,7 @@ function AdminUsersPanel() {
                         </>
                       )}
                     </button>
-                    <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleDelete(u)}>
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(u)}>
                       <Trash2 size={14} /> Xóa
                     </button>
                   </>

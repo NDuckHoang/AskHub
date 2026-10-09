@@ -5,7 +5,8 @@ import { formatRelativeTime } from '../utils/formatTime'
 import './QuestionItem.css'
 
 // Một dòng câu hỏi trong danh sách: dòng số liệu, tiêu đề, tag, người đăng
-function QuestionItem({ question }) {
+// animationDelay: để QuestionList tạo hiệu ứng xuất hiện lần lượt (stagger) khi danh sách vừa tải xong
+function QuestionItem({ question, animationDelay }) {
   const {
     id,
     user_id,
@@ -23,7 +24,10 @@ function QuestionItem({ question }) {
   const hasAccepted = accepted_count > 0
 
   return (
-    <article className="question-item">
+    <article
+      className="question-item animate-fade-in-up"
+      style={animationDelay ? { animationDelay } : undefined}
+    >
       <div className="question-stats-line">
         <span className="q-stat">
           <span className="stat-number">{vote_count}</span> vote

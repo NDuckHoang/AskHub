@@ -11,7 +11,16 @@ import { useAuth } from '../hooks/useAuth'
 import * as answerService from '../services/answerService'
 import './AnswerItem.css'
 
-function AnswerItem({ answer, questionOwnerId, onVoted, onEdited, onDeleted, onAccepted, onCommentsChange }) {
+function AnswerItem({
+  answer,
+  questionOwnerId,
+  onVoted,
+  onEdited,
+  onDeleted,
+  onAccepted,
+  onCommentsChange,
+  animationDelay,
+}) {
   const { user } = useAuth()
   const [editing, setEditing] = useState(false)
   const [editContent, setEditContent] = useState(answer.content)
@@ -56,7 +65,10 @@ function AnswerItem({ answer, questionOwnerId, onVoted, onEdited, onDeleted, onA
   }
 
   return (
-    <div className={`answer-item${answer.is_accepted ? ' is-accepted' : ''}`}>
+    <div
+      className={`answer-item animate-fade-in-up${answer.is_accepted ? ' is-accepted' : ''}`}
+      style={animationDelay ? { animationDelay } : undefined}
+    >
       <VoteButton
         voteCount={answer.vote_count}
         myVote={answer.my_vote}

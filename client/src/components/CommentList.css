@@ -45,7 +45,7 @@
 }
 
 .comment-delete:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--danger);
 }
 

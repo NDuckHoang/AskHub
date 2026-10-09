@@ -20,3 +20,14 @@
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+/* Nhấn nhẹ bằng vàng nhạt khi có báo cáo đang chờ xử lý - màu duy nhất trong trang
+   admin dùng để "báo hiệu cần chú ý", không tô màu tràn lan các ô còn lại */
+.admin-stat-box-attention {
+  background: var(--warning-soft);
+  border-color: transparent;
+}
+
+.admin-stat-box-attention .admin-stat-label {
+  color: var(--warning-text);
+}

@@ -74,7 +74,7 @@
 }
 
 .admin-category-toggle:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
 }
 
 .admin-category-toggle:focus-visible {

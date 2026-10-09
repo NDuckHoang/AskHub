@@ -18,12 +18,16 @@
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background-color 150ms, color 150ms;
+  transition: background-color 150ms, color 150ms, transform 100ms;
 }
 
 .vote-btn:hover:not(:disabled) {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--text);
+}
+
+.vote-btn:active:not(:disabled) {
+  transform: scale(0.85);
 }
 
 .vote-btn:disabled {

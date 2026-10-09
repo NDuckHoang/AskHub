@@ -47,7 +47,7 @@
 }
 
 .modal-close:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--text);
 }
 

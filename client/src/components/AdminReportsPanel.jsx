@@ -123,7 +123,7 @@ function AdminReportsPanel() {
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleDismiss(r)}>
                     <X size={14} /> Bỏ qua
                   </button>
-                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleRemoveContent(r)}>
+                  <button type="button" className="btn btn-danger btn-sm" onClick={() => handleRemoveContent(r)}>
                     <Trash2 size={14} /> Xóa nội dung vi phạm
                   </button>
                 </div>

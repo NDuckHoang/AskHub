@@ -4,20 +4,29 @@
 :root {
   color-scheme: light;
 
-  /* Màu */
+  /* Màu - warm neutral + navy, xem CLAUDE.md để biết lý do chọn bảng màu này.
+     --bg-subtle/--bg-hover tách riêng vai trò "khối phụ tĩnh" và "trạng thái hover"
+     (trước đây dùng chung 1 token khiến giao diện thiếu phân lớp) */
+  --page-bg: #f3f5f7;
   --bg: #ffffff;
-  --bg-subtle: #f6f8fa;
-  --text: #1f2328;
-  --text-secondary: #656d76;
-  --border: #d0d7de;
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --primary-soft: #eff6ff;
-  --primary-soft-hover: #dbeafe;
-  --success: #1a7f37;
-  --success-soft: #dafbe1;
+  --bg-subtle: #edf1f5;
+  --bg-hover: #f7f9fb;
+  --text: #252b33;
+  --text-secondary: #687383;
+  --border: #d9dee5;
+  --primary: #234a70;
+  --primary-dark: #193a59;
+  --primary-soft: #e8eef6;
+  --primary-soft-hover: #dce6f0;
+  --tag-bg: #e8eef6;
+  --tag-text: #315b8a;
+  --success: #285b40;
+  --success-soft: #e6f0ea;
+  --warning-soft: #f7eedb;
+  --warning-text: #7a5b1e;
   --danger: #cf222e;
-  --danger-soft: #fff1f0;
+  --danger-soft: #fdecea;
+  --skeleton-shine: rgba(255, 255, 255, 0.8);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -26,7 +35,12 @@
   /* Khối */
   --radius-sm: 6px;
   --radius-lg: 8px;
-  --shadow-menu: 0 4px 12px rgba(31, 35, 40, 0.12);
+  --shadow-menu: 0 4px 12px rgba(37, 43, 51, 0.12);
+  --shadow-btn: 0 1px 2px rgba(37, 43, 51, 0.08);
+  --shadow-btn-hover: 0 3px 6px rgba(37, 43, 51, 0.12);
+  --shadow-btn-primary: 0 1px 3px rgba(35, 74, 112, 0.35);
+  --shadow-btn-primary-hover: 0 4px 10px rgba(25, 58, 89, 0.4);
+  --shadow-btn-active: 0 1px 1px rgba(37, 43, 51, 0.12);
 
   /* Layout */
   --header-height: 56px;
@@ -41,8 +55,10 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
+  --page-bg: #0d1117;
   --bg: #0d1117;
   --bg-subtle: #161b22;
+  --bg-hover: #1c232c;
   --text: #e6edf3;
   --text-secondary: #8b949e;
   --border: #30363d;
@@ -50,11 +66,21 @@
   --primary-dark: #6ca5ff;
   --primary-soft: #132f52;
   --primary-soft-hover: #1b3b66;
+  --tag-bg: #16304f;
+  --tag-text: #8bb4e0;
   --success: #3fb950;
   --success-soft: #122a1c;
+  --warning-soft: #3a2f16;
+  --warning-text: #d9b36c;
   --danger: #f85149;
   --danger-soft: #2d1215;
   --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-btn: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-btn-hover: 0 3px 8px rgba(0, 0, 0, 0.5);
+  --shadow-btn-primary: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(75, 139, 245, 0.35);
+  --shadow-btn-active: 0 1px 1px rgba(0, 0, 0, 0.3);
+  --skeleton-shine: rgba(255, 255, 255, 0.06);
 }
 
 /* =========================================================
@@ -75,7 +101,7 @@ body {
   font-size: 15px;
   line-height: 1.6;
   color: var(--text);
-  background: var(--bg-subtle);
+  background: var(--page-bg);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -203,8 +229,12 @@ select:focus-visible,
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 150ms, border-color 150ms, color 150ms;
+  transition: background-color 150ms, border-color 150ms, color 150ms, transform 100ms, box-shadow 150ms;
   white-space: nowrap;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .btn:disabled {
@@ -222,32 +252,50 @@ select:focus-visible,
   background: var(--primary);
   border-color: var(--primary);
   color: #ffffff;
+  box-shadow: var(--shadow-btn-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--primary-dark);
   border-color: var(--primary-dark);
+  box-shadow: var(--shadow-btn-primary-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
 }
 
 .btn-secondary {
   background: var(--bg);
   border-color: var(--border);
   color: var(--text);
+  box-shadow: var(--shadow-btn);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-secondary:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
 }
 
 .btn-danger {
   background: var(--bg);
   border-color: var(--border);
   color: var(--danger);
+  box-shadow: var(--shadow-btn);
 }
 
 .btn-danger:hover:not(:disabled) {
   background: var(--danger-soft);
   border-color: var(--danger);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-danger:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
 }
 
 .btn-ghost {
@@ -257,7 +305,7 @@ select:focus-visible,
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--text);
 }
 
@@ -327,6 +375,28 @@ select:focus-visible,
   border-color: var(--danger);
 }
 
+/* Select: bỏ mũi tên mặc định của trình duyệt (thô, không đồng bộ giữa các trình
+   duyệt), thay bằng chevron tự vẽ theo đúng màu token - đổi màu tự động theo theme */
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 34px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23687383' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+:root[data-theme='dark'] .select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* =========================================================
    CARD / PANEL
    ========================================================= */
@@ -344,8 +414,8 @@ select:focus-visible,
   align-items: center;
   height: 22px;
   padding: 0 8px;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
+  background: var(--tag-bg);
+  color: var(--tag-text);
   font-size: 13px;
   font-weight: 500;
   border-radius: var(--radius-sm);
@@ -366,11 +436,22 @@ a.tag-pill:hover {
 }
 
 /* =========================================================
-   SKELETON LOADING — khối tĩnh, không animation
+   SKELETON LOADING — hiệu ứng quét sáng nhẹ (shimmer)
    ========================================================= */
 .skeleton {
+  position: relative;
   background: var(--bg-subtle);
   border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--skeleton-shine), transparent);
+  animation: shimmer 1.6s ease-in-out infinite;
 }
 
 /* =========================================================
@@ -393,4 +474,68 @@ a.tag-pill:hover {
 
 .state-box.state-error {
   color: var(--danger);
+}
+
+/* =========================================================
+   MOTION — hệ chuyển động dùng chung (page/list vào trang, dropdown/modal mở ra)
+   ========================================================= */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 280ms ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 150ms ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 150ms ease-out both;
+}
+
+/* Tôn trọng lựa chọn "giảm chuyển động" của hệ điều hành/trình duyệt */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

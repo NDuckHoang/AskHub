@@ -5,12 +5,20 @@
 }
 
 .sidebar-section {
-  padding: 16px;
+  padding: 0 16px 16px;
+  overflow: hidden;
 }
 
+/* Dải tiêu đề nền ghi-xanh nhạt, tràn hết chiều rộng card - tạo phân cấp rõ giữa
+   tiêu đề nhóm và nội dung bên dưới thay vì chỉ là chữ in đậm trên nền trắng */
 .sidebar-section-title {
-  font-size: 15px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 -16px 12px;
+  padding: 10px 16px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  color: var(--primary-dark);
 }
 
 .sidebar-skeleton-list {

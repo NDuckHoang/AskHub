@@ -20,12 +20,20 @@ function AdminStatsPanel() {
 
   return (
     <div className="admin-stats-grid">
-      {items.map((item) => (
-        <div key={item.label} className="card admin-stat-box">
-          <span className="admin-stat-value stat-number">{item.value ?? '-'}</span>
-          <span className="admin-stat-label">{item.label}</span>
-        </div>
-      ))}
+      {items.map((item) => {
+        // Chỉ "Báo cáo chờ xử lý" mới cần nhấn mạnh bằng vàng nhạt khi > 0 - đây là số
+        // liệu cần hành động, không phải số liệu thống kê thuần túy như 4 ô còn lại
+        const needsAttention = item.label === 'Báo cáo chờ xử lý' && item.value > 0
+        return (
+          <div
+            key={item.label}
+            className={`card admin-stat-box${needsAttention ? ' admin-stat-box-attention' : ''}`}
+          >
+            <span className="admin-stat-value stat-number">{item.value ?? '-'}</span>
+            <span className="admin-stat-label">{item.label}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }

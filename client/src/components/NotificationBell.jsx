@@ -86,7 +86,7 @@ function NotificationBell() {
       </button>
 
       {open && (
-        <div className="notification-dropdown">
+        <div className="notification-dropdown animate-scale-in">
           <div className="notification-dropdown-header">
             <span>Thông báo</span>
             {unreadCount > 0 && (

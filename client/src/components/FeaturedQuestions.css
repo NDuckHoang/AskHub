@@ -1,14 +1,21 @@
 .featured-questions {
-  padding: 16px;
+  padding: 0 16px 12px;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
+/* Cùng kiểu dải tiêu đề nền ghi-xanh nhạt với sidebar, giúp tách rõ khối "nổi bật"
+   khỏi list "Câu hỏi mới nhất" ngay bên dưới dù cả 2 đều nằm trong vùng nội dung chính */
 .featured-heading {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 -16px 10px;
+  padding: 10px 16px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
   color: var(--primary-dark);
 }
 
@@ -27,7 +34,7 @@
 }
 
 .featured-list li:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
 }
 
 .featured-rank {

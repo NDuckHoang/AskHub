@@ -56,8 +56,8 @@ function QuestionList({
 
   return (
     <div className="card question-list">
-      {questions.map((q) => (
-        <QuestionItem key={q.id} question={q} />
+      {questions.map((q, i) => (
+        <QuestionItem key={q.id} question={q} animationDelay={`${Math.min(i, 8) * 30}ms`} />
       ))}
     </div>
   )

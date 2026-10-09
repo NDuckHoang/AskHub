@@ -14,7 +14,7 @@ function escapeHtml(str) {
 
 // Chỉ cho phép link/ảnh trỏ tới http(s) hoặc đường dẫn nội bộ (/uploads/...),
 // chặn javascript: và các scheme nguy hiểm khác
-function isSafeUrl(url) {
+export function isSafeUrl(url) {
   return /^(https?:\/\/|\/)/i.test(url.trim())
 }
 

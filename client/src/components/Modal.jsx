@@ -17,8 +17,11 @@ function Modal({ title, onClose, children }) {
   }, [onClose])
 
   return (
-    <div className="modal-overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal-panel card" role="dialog" aria-modal="true" aria-label={title}>
+    <div
+      className="modal-overlay animate-fade-in"
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="modal-panel card animate-scale-in" role="dialog" aria-modal="true" aria-label={title}>
         <div className="modal-header">
           <h2>{title}</h2>
           <button type="button" className="modal-close" onClick={onClose} aria-label="Đóng">

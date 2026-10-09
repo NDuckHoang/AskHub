@@ -14,7 +14,9 @@ function ThemeToggle() {
       aria-label={isDark ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'}
       title={isDark ? 'Giao diện sáng' : 'Giao diện tối'}
     >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      <span key={theme} className="theme-toggle-icon animate-scale-in">
+        {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      </span>
     </button>
   )
 }

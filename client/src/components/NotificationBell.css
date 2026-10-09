@@ -18,7 +18,7 @@
 }
 
 .notification-bell-trigger:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   color: var(--text);
 }
 
@@ -57,6 +57,7 @@
   box-shadow: var(--shadow-menu);
   z-index: 30;
   overflow: hidden;
+  transform-origin: top right;
 }
 
 .notification-dropdown-header {
@@ -111,7 +112,7 @@
 }
 
 .notification-item:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
   text-decoration: none;
 }
 

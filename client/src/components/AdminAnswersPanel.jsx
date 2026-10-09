@@ -120,7 +120,7 @@ function AdminAnswersPanel() {
                   {a.author_username} · {formatRelativeTime(a.created_at)}
                 </span>
               </div>
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleDelete(a)}>
+              <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(a)}>
                 <Trash2 size={14} /> Xóa
               </button>
             </div>

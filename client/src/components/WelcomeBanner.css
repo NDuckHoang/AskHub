@@ -5,10 +5,26 @@
   margin-bottom: 20px;
   border: 1px solid var(--border);
   line-height: 0;
+  /* Giới hạn chiều cao để banner không lấn át danh sách câu hỏi bên dưới -
+     ảnh được crop phần giữa (object-position) thay vì bị bóp méo */
+  max-height: 180px;
 }
 
 .welcome-banner img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  object-position: center;
   display: block;
+}
+
+@media (max-width: 480px) {
+  .welcome-banner {
+    max-height: 140px;
+  }
+
+  .welcome-banner img {
+    max-height: 140px;
+  }
 }

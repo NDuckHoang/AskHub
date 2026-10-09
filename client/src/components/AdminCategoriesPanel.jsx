@@ -200,7 +200,7 @@ function AdminCategoriesPanel() {
                         <button type="button" className="btn btn-ghost btn-sm" onClick={() => setEditingId(c.id)}>
                           <Pencil size={14} /> Sửa
                         </button>
-                        <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleDelete(c)}>
+                        <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(c)}>
                           <Trash2 size={14} /> Xóa
                         </button>
                       </div>

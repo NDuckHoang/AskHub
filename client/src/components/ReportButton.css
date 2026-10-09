@@ -24,7 +24,7 @@
 }
 
 .report-reason-option:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-hover);
 }
 
 .report-reason-option:has(input:checked) {

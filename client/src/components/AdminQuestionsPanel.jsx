@@ -117,7 +117,7 @@ function AdminQuestionsPanel() {
                   {q.author_username} · {formatRelativeTime(q.created_at)} · {q.answer_count} trả lời
                 </span>
               </div>
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => handleDelete(q)}>
+              <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(q)}>
                 <Trash2 size={14} /> Xóa
               </button>
             </div>
