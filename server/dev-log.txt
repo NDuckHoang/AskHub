@@ -188,3 +188,7 @@ Upload ảnh lên Vercel Blob thất bại: BlobError: Vercel Blob: No token fou
     at put (D:\qa-forum-giai-doan-1\qa-forum\server\node_modules\@vercel\blob\dist\chunk-4FOGRTRZ.cjs:1213:28)
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
     at async uploadImage (D:\qa-forum-giai-doan-1\qa-forum\server\controllers\uploadController.js:13:18)
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Đã kết nối MySQL thành công
+Server đang chạy tại http://localhost:5000
