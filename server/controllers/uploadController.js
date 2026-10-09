@@ -1,11 +1,24 @@
-function uploadImage(req, res) {
+const { put } = require('@vercel/blob');
+const crypto = require('crypto');
+const path = require('path');
+
+async function uploadImage(req, res) {
   if (!req.file) {
     return res.status(400).json({ message: 'Vui lòng chọn file ảnh' });
   }
-  // Trả về URL tuyệt đối (không phải "/uploads/...") vì khi deploy, frontend (Vercel)
-  // và backend (Railway...) nằm ở 2 domain khác nhau - URL tương đối sẽ bị trình duyệt
-  // hiểu nhầm là thuộc domain của frontend và báo lỗi 404
-  res.status(201).json({ url: `${process.env.SERVER_URL}/uploads/${req.file.filename}` });
+  try {
+    // Backend chạy serverless (Vercel) không có ổ đĩa lưu lâu dài -> đẩy file lên
+    // Vercel Blob, trả về URL tuyệt đối công khai để frontend hiển thị trực tiếp
+    const randomName = crypto.randomBytes(16).toString('hex');
+    const blob = await put(`${randomName}${path.extname(req.file.originalname)}`, req.file.buffer, {
+      access: 'public',
+      contentType: req.file.mimetype,
+    });
+    res.status(201).json({ url: blob.url });
+  } catch (error) {
+    console.error('Upload ảnh lên Vercel Blob thất bại:', error);
+    res.status(500).json({ message: 'Upload ảnh thất bại, vui lòng thử lại' });
+  }
 }
 
 module.exports = { uploadImage };

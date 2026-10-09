@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { testConnection } = require('./config/db');
@@ -19,9 +18,6 @@ const app = express();
 // ===== Middleware chung =====
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json()); // đọc body dạng JSON
-
-// Phục vụ ảnh đã upload (server/uploads/xxx.jpg -> http://localhost:5000/uploads/xxx.jpg)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ===== Route kiểm tra tình trạng server + database =====
 app.get('/api/health', async (req, res) => {

@@ -7,10 +7,6 @@ node_modules/
 # Build
 client/dist/
 
-# Ảnh người dùng upload (không commit, chỉ lưu trên máy chạy server)
-server/uploads/*
-!server/uploads/.gitkeep
-
 # Log
 *.log
 npm-debug.log*
