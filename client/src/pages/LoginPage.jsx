@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import './AuthForm.css'
 
 function LoginPage() {
-  const { login } = useAuth()
+  const { user, loading, login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const justRegistered = location.state?.justRegistered
@@ -13,6 +13,10 @@ function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  // Đã đăng nhập rồi thì không cần xem lại form đăng nhập
+  if (loading) return null
+  if (user) return <Navigate to="/" replace />
 
   async function handleSubmit(e) {
     e.preventDefault()

@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import './AuthForm.css'
 
 function RegisterPage() {
-  const { register } = useAuth()
+  const { user, loading, register } = useAuth()
   const navigate = useNavigate()
 
   const [username, setUsername] = useState('')
@@ -13,6 +13,10 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  // Đã đăng nhập rồi thì không cần xem lại form đăng ký
+  if (loading) return null
+  if (user) return <Navigate to="/" replace />
 
   async function handleSubmit(e) {
     e.preventDefault()
