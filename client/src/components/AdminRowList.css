@@ -1,0 +1,51 @@
+/* Thanh công cụ phía trên danh sách (nút xuất Excel, tìm kiếm...) */
+.admin-panel-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  max-width: 400px;
+}
+
+.admin-search-input {
+  flex: 1;
+}
+
+/* Style dùng chung cho danh sách dạng dòng ở trang Admin (Câu hỏi, Câu trả lời) */
+.admin-row-list {
+  padding: 4px 16px;
+}
+
+.admin-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-row:last-child {
+  border-bottom: none;
+}
+
+.admin-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-row-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+}

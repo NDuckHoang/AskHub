@@ -1,0 +1,34 @@
+.home-simple-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 12px 0 16px;
+}
+
+.home-simple-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.home-browse-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .home-simple-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-browse-all-link {
+    margin-left: 0;
+  }
+}

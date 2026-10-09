@@ -1,0 +1,159 @@
+.admin-categories-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.admin-category-form-card {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-category-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.admin-category-form .input {
+  flex: 1;
+  min-width: 160px;
+}
+
+.admin-category-form .field-error {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.admin-category-form-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.admin-category-list {
+  padding: 4px 16px;
+}
+
+.admin-category-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-category-item:last-child {
+  border-bottom: none;
+}
+
+.admin-category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Reset nút để trông giống 1 dòng thông tin bình thường, nhưng vẫn có hover/focus rõ ràng */
+.admin-category-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  padding: 4px;
+  margin: -4px;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.admin-category-toggle:hover {
+  background: var(--bg-subtle);
+}
+
+.admin-category-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.admin-category-toggle > svg {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.admin-category-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.admin-category-name {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.admin-category-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.admin-category-count {
+  font-size: 13px;
+  color: var(--primary-dark);
+}
+
+.admin-category-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.admin-category-questions {
+  margin-top: 10px;
+  margin-left: 22px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+}
+
+.admin-category-questions-empty {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.admin-category-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-category-questions-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.admin-category-questions-list .admin-category-question-meta {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+  .admin-category-questions-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}

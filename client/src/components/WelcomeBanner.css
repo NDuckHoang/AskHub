@@ -1,0 +1,14 @@
+.welcome-banner {
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  line-height: 0;
+}
+
+.welcome-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

@@ -1,0 +1,125 @@
+.user-profile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.user-profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-profile-info h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.user-profile-edit-btn {
+  flex-shrink: 0;
+}
+
+.user-profile-bio {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text);
+  max-width: 600px;
+}
+
+.user-profile-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-profile-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.user-profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.user-profile-stats .stat-number {
+  color: var(--text);
+}
+
+.user-profile-tabs {
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-answer-list {
+  padding: 0 16px;
+}
+
+.user-activity-list {
+  padding: 0 16px;
+}
+
+.user-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.user-activity-item:last-child {
+  border-bottom: none;
+}
+
+.user-activity-label {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.user-activity-item a {
+  flex: 1;
+  min-width: 0;
+  color: var(--text);
+}
+
+.user-activity-item a:hover {
+  color: var(--primary);
+}
+
+.user-activity-time {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 480px) {
+  .user-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

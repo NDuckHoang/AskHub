@@ -1,0 +1,18 @@
+.active-filter-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--primary-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.active-filter-banner strong {
+  color: var(--primary-dark);
+}

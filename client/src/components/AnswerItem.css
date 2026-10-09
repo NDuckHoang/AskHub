@@ -1,0 +1,81 @@
+/* answer-item là 1 "dòng" bên trong khối .answer-list dùng chung (không phải card riêng) */
+/* Cố tình nhỏ/nhẹ hơn khối câu hỏi (padding, cỡ chữ) để câu hỏi vẫn là trọng tâm */
+.answer-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.answer-item:last-child {
+  border-bottom: none;
+}
+
+.answer-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Câu trả lời được chấp nhận: chỉ cần dòng chữ màu xanh, không tô nền */
+.answer-accepted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.answer-content {
+  font-size: 14px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.answer-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.answer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.answer-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.answer-meta-author {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.answer-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.answer-list {
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .answer-item {
+    padding: 12px;
+    gap: 10px;
+  }
+}

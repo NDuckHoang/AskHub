@@ -1,0 +1,9 @@
+.answer-form {
+  padding-top: 20px;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.answer-form .field {
+  margin-bottom: 12px;
+}

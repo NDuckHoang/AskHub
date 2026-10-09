@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Biến môi trường (chứa mật khẩu DB, JWT secret)
+.env
+
+# Build
+client/dist/
+
+# Ảnh người dùng upload (không commit, chỉ lưu trên máy chạy server)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Log
+*.log
+npm-debug.log*
+
+# Hệ điều hành / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

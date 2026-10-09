@@ -1,0 +1,23 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: background-color 150ms, color 150ms;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--text);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

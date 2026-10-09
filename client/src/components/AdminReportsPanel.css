@@ -1,0 +1,38 @@
+.admin-report-filters {
+  justify-content: flex-start;
+}
+
+.admin-report-target-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.admin-report-preview {
+  font-size: 14px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.admin-report-reason {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.admin-report-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .admin-report-actions {
+    flex-direction: row;
+  }
+}

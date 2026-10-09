@@ -1,0 +1,29 @@
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  padding: 24px 0 40px;
+}
+
+/* Layout 2 cột dùng ở Home/Questions: nội dung chính + sidebar */
+.content-with-sidebar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .content-with-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: 16px 0 32px;
+  }
+}

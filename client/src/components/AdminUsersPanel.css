@@ -1,0 +1,74 @@
+.admin-user-list {
+  padding: 4px 16px;
+}
+
+.admin-user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.admin-user-row:last-child {
+  border-bottom: none;
+}
+
+.admin-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.admin-user-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.admin-user-email {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.admin-role-badge,
+.admin-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.admin-role-badge {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+.admin-status-badge {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.admin-user-reputation {
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.admin-user-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .admin-user-row {
+    justify-content: space-between;
+  }
+}

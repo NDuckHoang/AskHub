@@ -1,0 +1,46 @@
+.simple-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.simple-bar-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+}
+
+.simple-bar-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.simple-bar-track {
+  height: 8px;
+  background: var(--bg-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.simple-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 4px;
+  transition: width 150ms;
+}
+
+.simple-bar-value {
+  font-size: 13px;
+  color: var(--text);
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .simple-bar-row {
+    grid-template-columns: 80px 1fr 30px;
+  }
+}

@@ -1,0 +1,80 @@
+.question-detail-title {
+  margin-bottom: 8px;
+  max-width: var(--content-max-width);
+}
+
+.question-detail-meta-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.question-detail-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.question-detail-author-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.question-detail-body {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 32px;
+  /* Nền xanh nhạt + viền trên đậm để khối câu hỏi nổi bật, đối xứng với
+     màu nền xanh lá của câu trả lời được chấp nhận (success-soft) */
+  background: var(--primary-soft);
+  border-color: var(--primary-soft);
+  border-top: 3px solid var(--primary);
+}
+
+.question-detail-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.question-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Nền card đã là primary-soft nên tag phải đổi sang nền trắng để không bị "biến mất" */
+.question-detail-tags .tag-pill {
+  background: var(--bg);
+}
+
+.question-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.answers-heading {
+  margin-bottom: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.answer-form-section {
+  margin-top: 24px;
+  max-width: var(--content-max-width);
+}
+
+@media (max-width: 480px) {
+  .question-detail-body {
+    padding: 16px;
+    gap: 12px;
+  }
+}

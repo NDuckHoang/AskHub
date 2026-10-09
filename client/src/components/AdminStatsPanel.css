@@ -1,0 +1,22 @@
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+
+.admin-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+}
+
+.admin-stat-value {
+  font-size: 24px;
+}
+
+.admin-stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}

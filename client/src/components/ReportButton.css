@@ -1,0 +1,50 @@
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 320px;
+}
+
+.report-reason-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-reason-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 150ms, background-color 150ms;
+}
+
+.report-reason-option:hover {
+  background: var(--bg-subtle);
+}
+
+.report-reason-option:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.report-reason-option input {
+  accent-color: var(--primary);
+}
+
+.report-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.report-done-message {
+  color: var(--success);
+  min-width: 280px;
+}

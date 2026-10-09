@@ -1,0 +1,38 @@
+.export-dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 320px;
+}
+
+.export-dialog-filter-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.export-dialog-fields {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.export-dialog-fields .field-label,
+.export-dialog-dates .field-label {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.export-dialog-dates {
+  display: flex;
+  gap: 12px;
+}
+
+.export-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}

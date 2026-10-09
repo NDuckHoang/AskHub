@@ -1,0 +1,8 @@
+.ask-page h1 {
+  margin-bottom: 16px;
+}
+
+.ask-page-card {
+  padding: 24px;
+  max-width: var(--content-max-width);
+}

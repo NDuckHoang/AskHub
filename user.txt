@@ -1,0 +1,9 @@
+Username	Email	Mật khẩu	Vai trò	Ghi chú
+admin	admin@askhub.vn	password123	ADMIN	
+nguyenvana	nguyenvana@gmail.com	password123	USER	
+tranthib	tranthib@gmail.com	password123	USER	
+levanc	levanc@gmail.com	password123	USER	
+phamthid	phamthid@gmail.com	password123	USER	
+hoangvane	hoangvane@gmail.com	password123	USER	
+dothif	dothif@gmail.com	password123	USER	đang bị khóa (BLOCKED)
+buiminhg	buiminhg@gmail.com	password123	USER

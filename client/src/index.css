@@ -1,0 +1,396 @@
+/* =========================================================
+   DESIGN TOKENS — dùng biến CSS này ở mọi nơi, không hard-code màu
+   ========================================================= */
+:root {
+  color-scheme: light;
+
+  /* Màu */
+  --bg: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --text: #1f2328;
+  --text-secondary: #656d76;
+  --border: #d0d7de;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-soft: #eff6ff;
+  --primary-soft-hover: #dbeafe;
+  --success: #1a7f37;
+  --success-soft: #dafbe1;
+  --danger: #cf222e;
+  --danger-soft: #fff1f0;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, Consolas, 'SFMono-Regular', monospace;
+
+  /* Khối */
+  --radius-sm: 6px;
+  --radius-lg: 8px;
+  --shadow-menu: 0 4px 12px rgba(31, 35, 40, 0.12);
+
+  /* Layout */
+  --header-height: 56px;
+  --content-max-width: 720px;
+  --page-max-width: 1200px;
+}
+
+/* =========================================================
+   DARK MODE — cùng bộ token, chỉ đổi giá trị màu. Mọi nơi khác trong code
+   đều dùng var(--...) nên không cần sửa gì thêm ngoài file này.
+   ========================================================= */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0d1117;
+  --bg-subtle: #161b22;
+  --text: #e6edf3;
+  --text-secondary: #8b949e;
+  --border: #30363d;
+  --primary: #4b8bf5;
+  --primary-dark: #6ca5ff;
+  --primary-soft: #132f52;
+  --primary-soft-hover: #1b3b66;
+  --success: #3fb950;
+  --success-soft: #122a1c;
+  --danger: #f85149;
+  --danger-soft: #2d1215;
+  --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg-subtle);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+small {
+  font-size: 13px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 15px;
+  color: inherit;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  overflow-x: auto;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Focus ring rõ ràng, nhất quán cho mọi phần tử tương tác được */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   LAYOUT DÙNG CHUNG
+   ========================================================= */
+.container {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-sm {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-subtle);
+}
+
+.btn-danger {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--danger);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--bg-subtle);
+  color: var(--text);
+}
+
+/* =========================================================
+   FORM (input / textarea / select)
+   ========================================================= */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.field-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.field-error {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  padding: 0 12px;
+  height: 36px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.textarea {
+  height: auto;
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: var(--text-secondary);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.input.has-error,
+.textarea.has-error {
+  border-color: var(--danger);
+}
+
+/* =========================================================
+   CARD / PANEL
+   ========================================================= */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* =========================================================
+   TAG
+   ========================================================= */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+a.tag-pill:hover {
+  text-decoration: none;
+  background: var(--primary-soft-hover);
+}
+
+/* =========================================================
+   SỐ LIỆU (vote / answer / view) — căn thẳng cột
+   ========================================================= */
+.stat-number {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* =========================================================
+   SKELETON LOADING — khối tĩnh, không animation
+   ========================================================= */
+.skeleton {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+
+/* =========================================================
+   TRẠNG THÁI: empty / error
+   ========================================================= */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.state-box p {
+  max-width: 360px;
+}
+
+.state-box.state-error {
+  color: var(--danger);
+}
