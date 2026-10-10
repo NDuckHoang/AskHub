@@ -131,7 +131,7 @@ function QuestionDetailPage() {
 
       <div className="question-detail-meta-row">
         <span className="question-detail-author">
-          <UserAvatar username={question.author_username} avatar={question.author_avatar} size={18} />
+          <UserAvatar username={question.author_username} avatar={question.author_avatar} size={28} />
           Hỏi bởi{' '}
           <Link to={`/users/${question.user_id}`} className="question-detail-author-name">
             {question.author_username}

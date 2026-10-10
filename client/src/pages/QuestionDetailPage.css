@@ -16,7 +16,8 @@
 .question-detail-author {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-size: 14px;
 }
 
 .question-detail-author-name {
