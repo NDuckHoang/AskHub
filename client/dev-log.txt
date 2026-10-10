@@ -1,11 +1,95 @@
-
+﻿
 > qa-forum-client@0.0.0 dev
 > vite
 
-2:42:34 PM [vite] (client) Re-optimizing dependencies because vite config has changed
 
-  VITE v8.3.3  ready in 254 ms
+  VITE v8.3.3  ready in 775 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-  ➜  press h + enter to show help
+9:47:22 AM [vite] (client) hmr update /src/index.css
+9:52:07 AM [vite] (client) page reload src/main.jsx
+9:52:17 AM [vite] (client) hmr update /src/layouts/MainLayout.jsx
+9:52:20 AM [vite] (client) hmr update /src/layouts/MainLayout.jsx
+9:52:26 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+9:52:30 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+9:52:34 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+9:52:39 AM [vite] (client) hmr update /src/components/AnswerItem.jsx
+9:52:42 AM [vite] (client) hmr update /src/components/AnswerItem.jsx
+9:52:50 AM [vite] (client) hmr update /src/components/AnswerItem.jsx
+9:52:54 AM [vite] (client) hmr update /src/components/CommentList.jsx
+9:52:58 AM [vite] (client) hmr update /src/components/CommentList.jsx
+9:53:02 AM [vite] (client) hmr update /src/components/CommentList.jsx
+9:53:08 AM [vite] (client) hmr update /src/pages/AskPage.jsx
+9:53:14 AM [vite] (client) hmr update /src/components/AskQuestionModal.jsx
+9:53:17 AM [vite] (client) hmr update /src/pages/EditQuestionPage.jsx
+9:53:21 AM [vite] (client) hmr update /src/pages/EditQuestionPage.jsx
+9:53:25 AM [vite] (client) hmr update /src/pages/EditQuestionPage.jsx
+9:53:30 AM [vite] (client) hmr update /src/components/AnswerForm.jsx
+9:53:34 AM [vite] (client) hmr update /src/components/AnswerForm.jsx
+9:53:38 AM [vite] (client) hmr update /src/pages/EditProfilePage.jsx
+9:53:41 AM [vite] (client) hmr update /src/pages/EditProfilePage.jsx
+9:53:44 AM [vite] (client) hmr update /src/pages/EditProfilePage.jsx
+9:53:49 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+9:53:53 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+9:54:01 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+9:54:05 AM [vite] (client) hmr update /src/components/AdminQuestionsPanel.jsx
+9:54:08 AM [vite] (client) hmr update /src/components/AdminQuestionsPanel.jsx
+9:54:13 AM [vite] (client) hmr update /src/components/AdminQuestionsPanel.jsx
+9:54:18 AM [vite] (client) hmr update /src/components/AdminAnswersPanel.jsx
+9:54:23 AM [vite] (client) hmr update /src/components/AdminAnswersPanel.jsx
+9:54:27 AM [vite] (client) hmr update /src/components/AdminCategoriesPanel.jsx
+9:54:31 AM [vite] (client) hmr update /src/components/AdminCategoriesPanel.jsx
+9:54:35 AM [vite] (client) hmr update /src/components/AdminCategoriesPanel.jsx
+9:54:41 AM [vite] (client) hmr update /src/components/AdminCategoriesPanel.jsx
+9:54:46 AM [vite] (client) hmr update /src/components/AdminReportsPanel.jsx
+9:54:49 AM [vite] (client) hmr update /src/components/AdminReportsPanel.jsx
+9:54:56 AM [vite] (client) hmr update /src/components/AdminReportsPanel.jsx
+10:02:29 AM [vite] (client) hmr update /src/pages/UserProfilePage.jsx
+10:02:42 AM [vite] (client) hmr update /src/pages/UserProfilePage.css
+10:02:47 AM [vite] (client) hmr update /src/pages/UserProfilePage.css
+10:08:14 AM [vite] (client) hmr update /src/components/QuestionItem.jsx
+10:08:19 AM [vite] (client) hmr update /src/components/QuestionItem.css
+10:08:23 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+10:08:30 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+10:08:39 AM [vite] (client) hmr update /src/components/AdminUsersPanel.css
+10:12:32 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+10:12:36 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.css
+10:19:50 AM [vite] (client) hmr update /src/pages/UserProfilePage.jsx, /src/pages/EditProfilePage.jsx
+10:19:58 AM [vite] (client) hmr update /src/components/VoteButton.jsx
+10:20:03 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+10:20:08 AM [vite] (client) hmr update /src/components/AnswerItem.jsx
+10:20:12 AM [vite] (client) hmr update /src/components/Sidebar.jsx
+10:20:18 AM [vite] (client) hmr update /src/components/Sidebar.jsx
+10:20:24 AM [vite] (client) hmr update /src/components/Sidebar.jsx
+10:20:30 AM [vite] (client) hmr update /src/components/Sidebar.css
+10:25:32 AM [vite] (client) hmr update /src/components/Sidebar.jsx
+10:25:51 AM [vite] (client) hmr update /src/components/Sidebar.css
+10:37:58 AM [vite] (client) hmr update /src/index.css
+10:38:03 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:09 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:17 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:27 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:33 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:39 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:47 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:52 AM [vite] (client) hmr update /src/components/Navbar.css
+10:38:57 AM [vite] (client) hmr update /src/components/ThemeToggle.css
+10:39:03 AM [vite] (client) hmr update /src/components/NotificationBell.css
+10:39:13 AM [vite] (client) hmr update /src/components/Footer.css
+10:40:26 AM [vite] (client) hmr update /src/index.css
+10:40:30 AM [vite] (client) hmr update /src/components/ConfirmDialog.jsx
+10:40:34 AM [vite] (client) hmr update /src/components/AdminUsersPanel.jsx
+10:40:56 AM [vite] (client) hmr update /src/components/AdminStatsPanel.jsx
+10:41:02 AM [vite] (client) hmr update /src/components/AdminStatsPanel.css
+10:48:52 AM [vite] (client) hmr update /src/components/Navbar.css
+10:48:57 AM [vite] (client) hmr update /src/components/Navbar.css
+10:49:06 AM [vite] (client) hmr update /src/components/Navbar.css
+10:49:11 AM [vite] (client) hmr update /src/components/Footer.jsx
+10:52:38 AM [vite] (client) hmr update /src/components/QuestionItem.jsx
+10:52:42 AM [vite] (client) hmr update /src/components/QuestionItem.jsx
+10:52:46 AM [vite] (client) hmr update /src/components/QuestionItem.jsx
+10:52:50 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+10:52:54 AM [vite] (client) hmr update /src/pages/QuestionDetailPage.jsx
+10:55:32 AM [vite] (client) hmr update /src/components/Sidebar.jsx
+10:55:36 AM [vite] (client) hmr update /src/components/Sidebar.css
