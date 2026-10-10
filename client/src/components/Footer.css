@@ -1,5 +1,6 @@
 .footer {
-  border-top: 1px solid var(--border);
+  background: var(--chrome-bg);
+  border-top: 1px solid var(--chrome-border);
   margin-top: 48px;
 }
 
@@ -14,7 +15,7 @@
 
 .footer-text {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--chrome-text-muted);
   max-width: 480px;
 }
 
@@ -25,9 +26,9 @@
 }
 
 .footer-links a {
-  color: var(--text-secondary);
+  color: var(--chrome-text-muted);
 }
 
 .footer-links a:hover {
-  color: var(--text);
+  color: var(--chrome-text);
 }

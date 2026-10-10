@@ -10,30 +10,24 @@ function AdminStatsPanel() {
     adminService.getStats().then(setStats).catch(() => {})
   }, [])
 
+  // variant: phân nhóm màu nền - người dùng (xanh lá), nội dung (xanh dương),
+  // báo cáo chờ xử lý (đỏ, cần chú ý) - theo đúng yêu cầu phân loại trực quan
   const items = [
-    { label: 'Tổng người dùng', value: stats?.totalUsers },
-    { label: 'Tổng câu hỏi', value: stats?.totalQuestions },
-    { label: 'Tổng câu trả lời', value: stats?.totalAnswers },
-    { label: 'Tổng bình luận', value: stats?.totalComments },
-    { label: 'Báo cáo chờ xử lý', value: stats?.pendingReports },
+    { label: 'Tổng người dùng', value: stats?.totalUsers, variant: 'green' },
+    { label: 'Tổng câu hỏi', value: stats?.totalQuestions, variant: 'blue' },
+    { label: 'Tổng câu trả lời', value: stats?.totalAnswers, variant: 'blue' },
+    { label: 'Tổng bình luận', value: stats?.totalComments, variant: 'blue' },
+    { label: 'Báo cáo chờ xử lý', value: stats?.pendingReports, variant: 'red' },
   ]
 
   return (
     <div className="admin-stats-grid">
-      {items.map((item) => {
-        // Chỉ "Báo cáo chờ xử lý" mới cần nhấn mạnh bằng vàng nhạt khi > 0 - đây là số
-        // liệu cần hành động, không phải số liệu thống kê thuần túy như 4 ô còn lại
-        const needsAttention = item.label === 'Báo cáo chờ xử lý' && item.value > 0
-        return (
-          <div
-            key={item.label}
-            className={`card admin-stat-box${needsAttention ? ' admin-stat-box-attention' : ''}`}
-          >
-            <span className="admin-stat-value stat-number">{item.value ?? '-'}</span>
-            <span className="admin-stat-label">{item.label}</span>
-          </div>
-        )
-      })}
+      {items.map((item) => (
+        <div key={item.label} className={`card admin-stat-box admin-stat-box-${item.variant}`}>
+          <span className="admin-stat-value stat-number">{item.value ?? '-'}</span>
+          <span className="admin-stat-label">{item.label}</span>
+        </div>
+      ))}
     </div>
   )
 }

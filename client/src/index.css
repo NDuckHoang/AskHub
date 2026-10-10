@@ -46,6 +46,15 @@
   --header-height: 56px;
   --content-max-width: 720px;
   --page-max-width: 1200px;
+
+  /* Header/Footer: nền navy đậm cố định, KHÔNG đổi theo light/dark mode
+     (khác với --bg - đây là màu thương hiệu riêng, giữ nguyên để luôn tách
+     biệt rõ với nền trang, tránh lặp lỗi header/footer trùng màu nền) */
+  --chrome-bg: #193a59;
+  --chrome-text: #ffffff;
+  --chrome-text-muted: rgba(255, 255, 255, 0.68);
+  --chrome-border: rgba(255, 255, 255, 0.14);
+  --chrome-hover-bg: rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================================
@@ -295,6 +304,23 @@ select:focus-visible,
 }
 
 .btn-danger:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
+}
+
+.btn-success {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--success);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: var(--success-soft);
+  border-color: var(--success);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-success:active:not(:disabled) {
   box-shadow: var(--shadow-btn-active);
 }
 

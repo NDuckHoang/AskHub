@@ -156,7 +156,7 @@ function AdminUsersPanel() {
                   <>
                     <button
                       type="button"
-                      className="btn btn-ghost btn-sm"
+                      className={`btn btn-sm ${u.status === 'ACTIVE' ? 'btn-ghost' : 'btn-success'}`}
                       onClick={() => handleToggleStatus(u)}
                     >
                       {u.status === 'ACTIVE' ? (

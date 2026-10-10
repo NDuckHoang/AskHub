@@ -1,6 +1,6 @@
 .navbar {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  background: var(--chrome-bg);
+  border-bottom: 1px solid var(--chrome-border);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -16,7 +16,7 @@
 .navbar-logo {
   font-size: 17px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--chrome-text);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -33,8 +33,8 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background: var(--primary);
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--chrome-bg);
   border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 700;
@@ -60,19 +60,19 @@
 .navbar-link {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--chrome-text-muted);
   padding: 6px 2px;
   border-bottom: 2px solid transparent;
 }
 
 .navbar-link:hover {
-  color: var(--text);
+  color: var(--chrome-text);
   text-decoration: none;
 }
 
 .navbar-link.is-active {
-  color: var(--text);
-  border-bottom-color: var(--primary);
+  color: var(--chrome-text);
+  border-bottom-color: var(--chrome-text);
   font-weight: 600;
 }
 
@@ -83,7 +83,7 @@
   gap: 6px;
   height: 32px;
   padding: 0 10px;
-  background: var(--bg-subtle);
+  background: #ffffff;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   flex: 1;
@@ -93,11 +93,12 @@
 
 .navbar-search:focus-within {
   border-color: var(--primary);
-  background: var(--bg);
 }
 
+/* Ô search luôn nền trắng (xem .navbar-search) bất kể light/dark mode,
+   nên chữ/icon bên trong cũng cố định màu tối, không dùng var(--text...) */
 .navbar-search-icon {
-  color: var(--text-secondary);
+  color: #687383;
   flex-shrink: 0;
 }
 
@@ -108,6 +109,7 @@
   width: 100%;
   height: 100%;
   font-size: 14px;
+  color: #1f2328;
 }
 
 /* Trình duyệt tự vẽ nút xóa/gợi ý cho input type="search" trông không đồng nhất với
@@ -244,12 +246,12 @@
   cursor: pointer;
   padding: 4px 6px;
   border-radius: var(--radius-sm);
-  color: var(--text);
+  color: var(--chrome-text);
   transition: background-color 150ms;
 }
 
 .navbar-user-trigger:hover {
-  background: var(--bg-hover);
+  background: var(--chrome-hover-bg);
 }
 
 .navbar-username {
@@ -302,12 +304,12 @@
   border: none;
   cursor: pointer;
   padding: 6px;
-  color: var(--text);
+  color: var(--chrome-text);
   border-radius: var(--radius-sm);
 }
 
 .navbar-mobile-toggle:hover {
-  background: var(--bg-hover);
+  background: var(--chrome-hover-bg);
 }
 
 @media (max-width: 768px) {
@@ -336,7 +338,7 @@
     align-items: stretch;
     gap: 4px;
     padding-top: 12px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--chrome-border);
   }
 
   .navbar-collapsible.is-open {
@@ -357,11 +359,11 @@
 
   .navbar-link {
     padding: 10px 8px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--chrome-border);
   }
 
   .navbar-link.is-active {
-    background: var(--primary-soft);
+    background: var(--chrome-hover-bg);
     border-radius: var(--radius-sm);
   }
 }

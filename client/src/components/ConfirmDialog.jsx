@@ -12,7 +12,7 @@ function ConfirmDialog({ title, message, danger, confirmLabel, onConfirm, onCanc
           </button>
           <button
             type="button"
-            className={`btn btn-sm ${danger ? 'btn-danger' : 'btn-primary'}`}
+            className={`btn btn-sm ${danger ? 'btn-danger' : 'btn-success'}`}
             onClick={onConfirm}
           >
             {confirmLabel}
