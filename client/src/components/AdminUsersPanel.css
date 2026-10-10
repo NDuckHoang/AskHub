@@ -21,12 +21,24 @@
   border-bottom: none;
 }
 
+.admin-user-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 220px;
+  color: inherit;
+}
+
+.admin-user-link:hover .admin-user-name {
+  color: var(--primary);
+}
+
 .admin-user-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  flex: 1;
-  min-width: 160px;
+  min-width: 0;
 }
 
 .admin-user-name {

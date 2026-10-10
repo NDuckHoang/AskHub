@@ -53,7 +53,7 @@ function QuestionItem({ question, animationDelay }) {
       )}
 
       <div className="question-item-meta">
-        <UserAvatar username={author_username} avatar={author_avatar} size={18} />
+        <UserAvatar username={author_username} avatar={author_avatar} size={28} />
         <span>
           Hỏi bởi <Link to={`/users/${user_id}`}>{author_username}</Link> ·{' '}
           {formatRelativeTime(created_at)}

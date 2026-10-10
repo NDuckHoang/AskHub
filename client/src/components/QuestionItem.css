@@ -71,14 +71,15 @@
 .question-item-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: 8px;
+  margin-top: 2px;
+  font-size: 14px;
   color: var(--text-secondary);
 }
 
 .question-item-meta a {
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--text);
+  font-weight: 600;
 }
 
 .question-item-meta a:hover {

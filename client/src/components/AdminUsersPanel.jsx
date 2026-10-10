@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Lock, Unlock, Trash2 } from 'lucide-react'
 import * as adminService from '../services/adminService'
 import { useAuth } from '../hooks/useAuth'
@@ -138,15 +139,17 @@ function AdminUsersPanel() {
         <div className="card admin-user-list">
           {users.map((u) => (
             <div key={u.id} className="admin-user-row">
-              <UserAvatar username={u.username} size={32} />
-              <div className="admin-user-info">
-                <span className="admin-user-name">
-                  {u.username}
-                  {u.role === 'ADMIN' && <span className="admin-role-badge">Admin</span>}
-                  {u.status === 'BLOCKED' && <span className="admin-status-badge">Đã khóa</span>}
-                </span>
-                <span className="admin-user-email">{u.email}</span>
-              </div>
+              <Link to={`/users/${u.id}`} className="admin-user-link">
+                <UserAvatar username={u.username} size={32} />
+                <div className="admin-user-info">
+                  <span className="admin-user-name">
+                    {u.username}
+                    {u.role === 'ADMIN' && <span className="admin-role-badge">Admin</span>}
+                    {u.status === 'BLOCKED' && <span className="admin-status-badge">Đã khóa</span>}
+                  </span>
+                  <span className="admin-user-email">{u.email}</span>
+                </div>
+              </Link>
               <span className="admin-user-reputation stat-number">{u.reputation} điểm</span>
               <div className="admin-user-actions">
                 {u.id !== currentUser.id && (
