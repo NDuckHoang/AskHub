@@ -5,11 +5,11 @@ import banner2 from '../assets/home-banner-3.png'
 import './WelcomeBanner.css'
 
 const SLIDES = [banner1, banner2]
-const SLIDE_INTERVAL_MS = 2000
+const SLIDE_INTERVAL_MS = 5000
 
-// Banner quảng bá ở đầu trang chủ - ảnh do người dùng tự thiết kế, bấm vào để sang trang đăng ký.
-// Tự động chuyển ảnh sau mỗi SLIDE_INTERVAL_MS, dừng lại khi tab không hiển thị (setInterval vẫn
-// chạy ngầm nhưng không ai nhìn thấy nên không cần dừng thủ công).
+// Banner quảng bá ở đầu trang chủ - bấm vào để sang trang đăng ký.
+// Các ảnh nằm cạnh nhau trong 1 "track" dài, mỗi 5 giây dịch track sang trái 1 ảnh
+// (transform: translateX) để tạo hiệu ứng trượt ngang, quay vòng về ảnh đầu sau ảnh cuối.
 function WelcomeBanner() {
   const [slideIndex, setSlideIndex] = useState(0)
 
@@ -22,12 +22,14 @@ function WelcomeBanner() {
 
   return (
     <Link to="/register" className="welcome-banner">
-      <img
-        key={slideIndex}
-        src={SLIDES[slideIndex]}
-        alt="AskHub - Cộng đồng hỏi đáp lập trình"
-        className="animate-fade-in"
-      />
+      <div
+        className="welcome-banner-track"
+        style={{ transform: `translateX(-${slideIndex * 100}%)` }}
+      >
+        {SLIDES.map((src, i) => (
+          <img key={i} src={src} alt="AskHub - Cộng đồng hỏi đáp lập trình" />
+        ))}
+      </div>
     </Link>
   )
 }
