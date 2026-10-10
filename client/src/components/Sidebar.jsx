@@ -84,16 +84,18 @@ function Sidebar() {
           <ul className="sidebar-stat-bars">
             {sortedCategories.map((c) => (
               <li key={c.id}>
-                <div className="sidebar-stat-bar-row">
-                  <span className="sidebar-stat-bar-label">{c.name}</span>
-                  <span className="stat-number sidebar-stat-bar-value">{c.question_count}</span>
-                </div>
-                <div className="sidebar-stat-bar-track">
-                  <div
-                    className="sidebar-stat-bar-fill"
-                    style={{ width: `${(c.question_count / maxCategoryCount) * 100}%` }}
-                  />
-                </div>
+                <Link to={`/questions?category_id=${c.id}`} className="sidebar-stat-bar-link">
+                  <div className="sidebar-stat-bar-row">
+                    <span className="sidebar-stat-bar-label">{c.name}</span>
+                    <span className="stat-number sidebar-stat-bar-value">{c.question_count}</span>
+                  </div>
+                  <div className="sidebar-stat-bar-track">
+                    <div
+                      className="sidebar-stat-bar-fill"
+                      style={{ width: `${(c.question_count / maxCategoryCount) * 100}%` }}
+                    />
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>

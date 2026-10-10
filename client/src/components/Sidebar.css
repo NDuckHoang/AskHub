@@ -127,6 +127,19 @@
   gap: 10px;
 }
 
+.sidebar-stat-bar-link {
+  display: block;
+  color: inherit;
+}
+
+.sidebar-stat-bar-link:hover {
+  text-decoration: none;
+}
+
+.sidebar-stat-bar-link:hover .sidebar-stat-bar-label {
+  color: var(--primary);
+}
+
 .sidebar-stat-bar-row {
   display: flex;
   align-items: baseline;
