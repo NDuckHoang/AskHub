@@ -517,7 +517,10 @@ a.tag-pill:hover {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 280ms ease-out both;
+  /* Không dùng "both"/"forwards": animation để lại transform (dù chỉ là ma trận identity)
+     sẽ biến phần tử này thành containing block mới, khiến mọi "position: fixed" bên trong
+     (modal, dropdown...) bị neo theo nó thay vì theo viewport - modal sẽ cuộn theo trang. */
+  animation: fade-in-up 280ms ease-out;
 }
 
 .animate-scale-in {
