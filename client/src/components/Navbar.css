@@ -87,7 +87,6 @@
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   flex: 1;
-  max-width: 360px;
   transition: border-color 150ms, background-color 150ms;
 }
 
@@ -105,11 +104,16 @@
 .navbar-search-input {
   border: none;
   background: transparent;
-  outline: none;
   width: 100%;
   height: 100%;
   font-size: 14px;
   color: #1f2328;
+}
+
+/* Focus ring mặc định (xem index.css) là hình chữ nhật, không khớp viền bo tròn
+   của ô search - dùng border-color đổi màu ở .navbar-search:focus-within thay thế */
+.navbar-search-input:focus-visible {
+  outline: none;
 }
 
 /* Trình duyệt tự vẽ nút xóa/gợi ý cho input type="search" trông không đồng nhất với
@@ -226,6 +230,18 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
+}
+
+/* .btn-primary (navy) gần giống màu nền header, không nổi bật - dùng xanh dương
+   sáng cố định riêng cho CTA chính này để luôn tách biệt rõ trên nền navy */
+.navbar-ask-btn {
+  background: #4b8bf5;
+  border-color: #4b8bf5;
+}
+
+.navbar-ask-btn:hover:not(:disabled) {
+  background: #6ca5ff;
+  border-color: #6ca5ff;
 }
 
 .navbar-auth-links {
