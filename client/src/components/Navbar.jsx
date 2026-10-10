@@ -6,6 +6,7 @@ import { useAskModal } from '../hooks/useAskModal'
 import UserAvatar from './UserAvatar'
 import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
+import logoIcon from '../assets/logo-icon.png'
 import './Navbar.css'
 
 const SEARCH_HISTORY_KEY = 'askhub-search-history'
@@ -124,7 +125,7 @@ function Navbar() {
     <header className="navbar">
       <div className="container navbar-inner">
         <Link to="/" className="navbar-logo">
-          <span className="navbar-logo-mark">A</span>
+          <img src={logoIcon} alt="" className="navbar-logo-icon" />
           AskHub
         </Link>
 

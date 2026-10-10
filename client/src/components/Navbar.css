@@ -27,17 +27,10 @@
   text-decoration: none;
 }
 
-.navbar-logo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: #ffffff;
-  color: var(--chrome-bg);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 700;
+.navbar-logo-icon {
+  height: 28px;
+  width: auto;
+  display: block;
   flex-shrink: 0;
 }
 
