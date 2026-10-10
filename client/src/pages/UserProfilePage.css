@@ -1,10 +1,19 @@
 .user-profile-header {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 24px;
+  gap: 24px;
+  padding: 32px 28px;
   margin-top: 8px;
   margin-bottom: 20px;
+}
+
+.user-profile-avatar-wrap .user-avatar,
+.user-profile-avatar-wrap .user-avatar-fallback {
+  border: 1px solid var(--border);
+}
+
+.user-profile-avatar-wrap .user-avatar-fallback {
+  font-size: 36px;
 }
 
 .user-profile-info {
@@ -12,19 +21,32 @@
   min-width: 0;
 }
 
-.user-profile-info h1 {
+.user-profile-name-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 10px;
+}
+
+.user-profile-info h1 {
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .user-profile-edit-btn {
   flex-shrink: 0;
 }
 
+.user-profile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
 .user-profile-bio {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 14px;
   color: var(--text);
   max-width: 600px;
@@ -33,10 +55,7 @@
 .user-profile-contact {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--text-secondary);
+  gap: 4px;
 }
 
 .user-profile-admin-badge {
@@ -53,14 +72,28 @@
 
 .user-profile-stats {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text-secondary);
+  gap: 28px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
-.user-profile-stats .stat-number {
+.user-profile-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-profile-stat-value {
+  font-size: 20px;
+  font-weight: 700;
   color: var(--text);
+  line-height: 1.2;
+}
+
+.user-profile-stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .user-profile-tabs {
@@ -120,6 +153,33 @@
 @media (max-width: 480px) {
   .user-profile-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .user-profile-name-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .user-profile-meta {
+    justify-content: center;
+  }
+
+  .user-profile-bio {
+    max-width: none;
+  }
+
+  .user-profile-stats {
+    justify-content: center;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .user-profile-edit-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

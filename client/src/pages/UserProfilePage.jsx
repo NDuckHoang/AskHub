@@ -140,17 +140,21 @@ function UserProfilePage() {
   return (
     <div className="container user-profile-page">
       <div className="card user-profile-header">
-        <UserAvatar username={profile.username} avatar={profile.avatar} size={64} />
+        <div className="user-profile-avatar-wrap">
+          <UserAvatar username={profile.username} avatar={profile.avatar} size={96} />
+        </div>
+
         <div className="user-profile-info">
-          <h1>
-            {profile.username}
+          <div className="user-profile-name-row">
+            <h1>{profile.username}</h1>
             {profile.role === 'ADMIN' && (
               <span className="user-profile-admin-badge">
                 <ShieldCheck size={14} /> Admin
               </span>
             )}
-          </h1>
-          <div className="user-profile-stats">
+          </div>
+
+          <div className="user-profile-meta">
             <span>Tham gia {formatJoinDate(profile.created_at)}</span>
             {profile.gender && (
               <>
@@ -158,26 +162,34 @@ function UserProfilePage() {
                 <span>{GENDER_LABELS[profile.gender]}</span>
               </>
             )}
-            <span>·</span>
-            <span>
-              <strong className="stat-number">{profile.reputation}</strong> điểm uy tín
-            </span>
-            <span>·</span>
-            <span>
-              <strong className="stat-number">{profile.question_count}</strong> câu hỏi
-            </span>
-            <span>·</span>
-            <span>
-              <strong className="stat-number">{profile.answer_count}</strong> câu trả lời
-            </span>
+            {profile.contact && (
+              <>
+                <span>·</span>
+                <span className="user-profile-contact">
+                  <Phone size={13} /> {profile.contact}
+                </span>
+              </>
+            )}
           </div>
+
           {profile.bio && <p className="user-profile-bio">{profile.bio}</p>}
-          {profile.contact && (
-            <span className="user-profile-contact">
-              <Phone size={13} /> {profile.contact}
-            </span>
-          )}
+
+          <div className="user-profile-stats">
+            <div className="user-profile-stat">
+              <span className="user-profile-stat-value stat-number">{profile.reputation}</span>
+              <span className="user-profile-stat-label">điểm uy tín</span>
+            </div>
+            <div className="user-profile-stat">
+              <span className="user-profile-stat-value stat-number">{profile.question_count}</span>
+              <span className="user-profile-stat-label">câu hỏi</span>
+            </div>
+            <div className="user-profile-stat">
+              <span className="user-profile-stat-value stat-number">{profile.answer_count}</span>
+              <span className="user-profile-stat-label">câu trả lời</span>
+            </div>
+          </div>
         </div>
+
         {isOwnProfile && (
           <Link to={`/users/${id}/edit`} className="btn btn-secondary btn-sm user-profile-edit-btn">
             <Pencil size={14} /> Chỉnh sửa hồ sơ
