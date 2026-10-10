@@ -54,24 +54,27 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <SidebarSection title="Bảng xếp hạng uy tín">
+      <SidebarSection title="Bảng xếp hạng người dùng">
         {!leaderboard && !error && <SkeletonLines count={5} />}
         {leaderboard && leaderboard.length === 0 && (
           <p className="sidebar-empty">Chưa có dữ liệu xếp hạng.</p>
         )}
         {leaderboard && leaderboard.length > 0 && (
-          <ol className="sidebar-leaderboard">
-            {leaderboard.map((u, i) => (
-              <li key={u.id}>
-                <Link to={`/users/${u.id}`} className="sidebar-leaderboard-row">
-                  <span className={`sidebar-leaderboard-rank${i < 3 ? ' is-top' : ''}`}>{i + 1}</span>
-                  <UserAvatar username={u.username} avatar={u.avatar} size={24} />
-                  <span className="sidebar-leaderboard-name">{u.username}</span>
-                  <span className="stat-number sidebar-leaderboard-points">{u.reputation}</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <ul className="sidebar-leaderboard">
+            {leaderboard.map((u, i) => {
+              const rankClass = i === 0 ? ' is-gold' : i === 1 ? ' is-silver' : i === 2 ? ' is-bronze' : ''
+              return (
+                <li key={u.id}>
+                  <Link to={`/users/${u.id}`} className={`sidebar-leaderboard-row${rankClass}`}>
+                    <span className="sidebar-leaderboard-rank">{i + 1}</span>
+                    <UserAvatar username={u.username} avatar={u.avatar} size={24} />
+                    <span className="sidebar-leaderboard-name">{u.username}</span>
+                    <span className="stat-number sidebar-leaderboard-points">{u.reputation}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
         )}
       </SidebarSection>
 

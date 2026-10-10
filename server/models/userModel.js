@@ -87,12 +87,13 @@ async function adjustReputation(id, delta) {
   await pool.query('UPDATE users SET reputation = reputation + ? WHERE id = ?', [delta, id]);
 }
 
-// Top N user theo điểm uy tín, dùng cho bảng xếp hạng ở sidebar - chỉ tính user còn hoạt động
+// Top N user theo điểm uy tín, dùng cho bảng xếp hạng ở sidebar
+// - chỉ tính user còn hoạt động, không tính Admin (Admin không tham gia xếp hạng)
 async function findTopByReputation(limit = 10) {
   const [rows] = await pool.query(
     `SELECT id, username, avatar, reputation
      FROM users
-     WHERE status = 'ACTIVE'
+     WHERE status = 'ACTIVE' AND role != 'ADMIN'
      ORDER BY reputation DESC, created_at ASC
      LIMIT ?`,
     [limit]

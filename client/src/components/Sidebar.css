@@ -58,6 +58,9 @@
 .sidebar-leaderboard {
   display: flex;
   flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .sidebar-leaderboard-row {
@@ -81,8 +84,26 @@
   text-align: center;
 }
 
-.sidebar-leaderboard-rank.is-top {
-  color: var(--primary-dark);
+/* Top 3: đổi màu chữ (hạng + tên) thành vàng/bạc/đồng, không dùng background/glow */
+.sidebar-leaderboard-row.is-gold .sidebar-leaderboard-rank,
+.sidebar-leaderboard-row.is-gold .sidebar-leaderboard-name {
+  color: #ab8714;
+}
+
+.sidebar-leaderboard-row.is-silver .sidebar-leaderboard-rank,
+.sidebar-leaderboard-row.is-silver .sidebar-leaderboard-name {
+  color: #8a94a6;
+}
+
+.sidebar-leaderboard-row.is-bronze .sidebar-leaderboard-rank,
+.sidebar-leaderboard-row.is-bronze .sidebar-leaderboard-name {
+  color: #ab6a37;
+}
+
+.sidebar-leaderboard-row.is-gold:hover .sidebar-leaderboard-name,
+.sidebar-leaderboard-row.is-silver:hover .sidebar-leaderboard-name,
+.sidebar-leaderboard-row.is-bronze:hover .sidebar-leaderboard-name {
+  color: var(--primary);
 }
 
 .sidebar-leaderboard-name {
