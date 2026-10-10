@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import * as answerService from '../services/answerService'
+import { useToast } from '../hooks/useToast'
 import MarkdownEditor from './MarkdownEditor'
 import './AnswerForm.css'
 
 function AnswerForm({ questionId, onSubmitted }) {
+  const showToast = useToast()
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -23,6 +25,7 @@ function AnswerForm({ questionId, onSubmitted }) {
       const data = await answerService.createAnswer(questionId, content.trim())
       setContent('')
       onSubmitted(data.answer)
+      showToast('Đăng câu trả lời thành công!')
     } catch (err) {
       setError(err.response?.data?.message || 'Không gửi được câu trả lời, vui lòng thử lại')
     } finally {

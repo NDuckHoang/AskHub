@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import QuestionForm from '../components/QuestionForm'
 import * as questionService from '../services/questionService'
+import { useToast } from '../hooks/useToast'
 import './AskPage.css'
 
 function AskPage() {
   const navigate = useNavigate()
+  const showToast = useToast()
 
   async function handleSubmit(data) {
     const res = await questionService.createQuestion(data)
+    showToast('Đăng câu hỏi thành công!')
     navigate(`/questions/${res.question.id}`)
   }
 

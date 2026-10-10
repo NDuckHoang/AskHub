@@ -8,6 +8,8 @@ import ReportButton from './ReportButton'
 import UserAvatar from './UserAvatar'
 import { formatRelativeTime } from '../utils/formatTime'
 import { useAuth } from '../hooks/useAuth'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import * as answerService from '../services/answerService'
 import './AnswerItem.css'
 
@@ -22,6 +24,8 @@ function AnswerItem({
   animationDelay,
 }) {
   const { user } = useAuth()
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [editing, setEditing] = useState(false)
   const [editContent, setEditContent] = useState(answer.content)
   const [busy, setBusy] = useState(false)
@@ -41,6 +45,7 @@ function AnswerItem({
     try {
       await answerService.setAccepted(answer.id, !answer.is_accepted)
       onAccepted()
+      showToast(answer.is_accepted ? 'Đã bỏ đánh dấu câu trả lời đúng' : 'Đã đánh dấu câu trả lời đúng')
     } finally {
       setBusy(false)
     }
@@ -53,15 +58,18 @@ function AnswerItem({
       const data = await answerService.updateContent(answer.id, editContent.trim())
       onEdited(answer.id, data.answer.content)
       setEditing(false)
+      showToast('Đã lưu thay đổi')
     } finally {
       setBusy(false)
     }
   }
 
   async function handleDelete() {
-    if (!window.confirm('Xóa câu trả lời này?')) return
+    const ok = await confirm({ title: 'Xóa câu trả lời', message: 'Xóa câu trả lời này?', danger: true })
+    if (!ok) return
     await answerService.deleteAnswer(answer.id)
     onDeleted(answer.id)
+    showToast('Đã xóa câu trả lời')
   }
 
   return (

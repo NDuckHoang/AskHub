@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import AskQuestionModal from '../components/AskQuestionModal'
+import ToastContainer from '../components/ToastContainer'
 import './MainLayout.css'
 
 // Khung chung cho mọi trang: Navbar cố định trên đầu, Footer cuối trang,
@@ -21,6 +22,7 @@ function MainLayout() {
       </main>
       <Footer />
       <AskQuestionModal />
+      <ToastContainer />
     </div>
   )
 }

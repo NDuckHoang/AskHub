@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Trash2, X } from 'lucide-react'
 import * as adminService from '../services/adminService'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import Pagination from './Pagination'
 import { formatRelativeTime } from '../utils/formatTime'
 import './AdminRowList.css'
@@ -20,6 +22,8 @@ function targetLink(report) {
 }
 
 function AdminReportsPanel() {
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [status, setStatus] = useState('PENDING')
   const [reports, setReports] = useState(null)
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 })
@@ -49,11 +53,17 @@ function AdminReportsPanel() {
   }
 
   async function handleRemoveContent(r) {
-    if (!window.confirm('Xóa nội dung vi phạm này? Hành động không thể hoàn tác.')) return
+    const ok = await confirm({
+      title: 'Xóa nội dung vi phạm',
+      message: 'Xóa nội dung vi phạm này? Hành động không thể hoàn tác.',
+      danger: true,
+    })
+    if (!ok) return
     setActionError('')
     try {
       await adminService.resolveReport(r.id, 'RESOLVED', true)
       fetchReports()
+      showToast('Đã xóa nội dung vi phạm')
     } catch (err) {
       setActionError(err.response?.data?.message || 'Thao tác thất bại')
     }
@@ -64,6 +74,7 @@ function AdminReportsPanel() {
     try {
       await adminService.resolveReport(r.id, 'DISMISSED', false)
       fetchReports()
+      showToast('Đã bỏ qua báo cáo')
     } catch (err) {
       setActionError(err.response?.data?.message || 'Thao tác thất bại')
     }

@@ -4,6 +4,8 @@ import { Pencil, Trash2 } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import * as answerService from '../services/answerService'
 import { useAuth } from '../hooks/useAuth'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import VoteButton from '../components/VoteButton'
 import Tag from '../components/Tag'
 import UserAvatar from '../components/UserAvatar'
@@ -21,6 +23,8 @@ function QuestionDetailPage() {
   const { id } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
+  const confirm = useConfirm()
+  const showToast = useToast()
 
   const [question, setQuestion] = useState(null)
   const [loadingQuestion, setLoadingQuestion] = useState(true)
@@ -66,8 +70,14 @@ function QuestionDetailPage() {
   }
 
   async function handleDeleteQuestion() {
-    if (!window.confirm('Xóa câu hỏi này? Hành động không thể hoàn tác.')) return
+    const ok = await confirm({
+      title: 'Xóa câu hỏi',
+      message: 'Xóa câu hỏi này? Hành động không thể hoàn tác.',
+      danger: true,
+    })
+    if (!ok) return
     await questionService.deleteQuestion(question.id)
+    showToast('Đã xóa câu hỏi')
     navigate('/')
   }
 

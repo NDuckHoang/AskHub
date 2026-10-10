@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { Camera } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
+import { useToast } from '../hooks/useToast'
 import * as userService from '../services/userService'
 import * as uploadService from '../services/uploadService'
 import UserAvatar from '../components/UserAvatar'
@@ -20,6 +21,7 @@ function EditProfilePage() {
   const { id } = useParams()
   const { user, updateUser } = useAuth()
   const navigate = useNavigate()
+  const showToast = useToast()
 
   const [avatar, setAvatar] = useState(user?.avatar || '')
   const [email, setEmail] = useState(user?.email || '')
@@ -90,6 +92,7 @@ function EditProfilePage() {
         contact: contact.trim(),
       })
       updateUser(data.user)
+      showToast('Đã lưu thay đổi hồ sơ')
       navigate(`/users/${id}`)
     } catch (err) {
       setSubmitError(err.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại')

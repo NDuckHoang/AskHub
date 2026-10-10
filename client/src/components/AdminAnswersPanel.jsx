@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Trash2, Check } from 'lucide-react'
 import * as adminService from '../services/adminService'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import Pagination from './Pagination'
 import ExportButton from './ExportButton'
 import { formatRelativeTime } from '../utils/formatTime'
@@ -9,6 +11,8 @@ import './AdminRowList.css'
 import './AdminAnswersPanel.css'
 
 function AdminAnswersPanel() {
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [answers, setAnswers] = useState(null)
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 })
   const [error, setError] = useState(false)
@@ -40,11 +44,13 @@ function AdminAnswersPanel() {
   }
 
   async function handleDelete(a) {
-    if (!window.confirm('Xóa câu trả lời này?')) return
+    const ok = await confirm({ title: 'Xóa câu trả lời', message: 'Xóa câu trả lời này?', danger: true })
+    if (!ok) return
     setActionError('')
     try {
       await adminService.deleteAnswer(a.id)
       fetchAnswers()
+      showToast('Đã xóa câu trả lời')
     } catch (err) {
       setActionError(err.response?.data?.message || 'Xóa thất bại')
     }

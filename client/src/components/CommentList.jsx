@@ -5,12 +5,16 @@ import UserAvatar from './UserAvatar'
 import ReportButton from './ReportButton'
 import { formatRelativeTime } from '../utils/formatTime'
 import { useAuth } from '../hooks/useAuth'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import * as commentService from '../services/commentService'
 import './CommentList.css'
 
 // Danh sách bình luận của 1 question hoặc 1 answer (truyền đúng 1 trong 2 id)
 function CommentList({ comments, questionId, answerId, onChange }) {
   const { user } = useAuth()
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [text, setText] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -38,9 +42,11 @@ function CommentList({ comments, questionId, answerId, onChange }) {
   }
 
   async function handleDelete(id) {
-    if (!window.confirm('Xóa bình luận này?')) return
+    const ok = await confirm({ title: 'Xóa bình luận', message: 'Xóa bình luận này?', danger: true })
+    if (!ok) return
     await commentService.deleteComment(id)
     onChange(comments.filter((c) => c.id !== id))
+    showToast('Đã xóa bình luận')
   }
 
   return (

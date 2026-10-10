@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight, Pencil, Trash2, Plus, X } from 'lucide-react'
 import * as categoryService from '../services/categoryService'
 import * as questionService from '../services/questionService'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import { formatRelativeTime } from '../utils/formatTime'
 import './AdminCategoriesPanel.css'
 
@@ -59,6 +61,8 @@ function CategoryForm({ initialValues, onSubmit, onCancel, submitLabel }) {
 }
 
 function AdminCategoriesPanel() {
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [categories, setCategories] = useState(null)
   const [error, setError] = useState(false)
   const [showAddForm, setShowAddForm] = useState(false)
@@ -85,12 +89,14 @@ function AdminCategoriesPanel() {
     await categoryService.createCategory(data)
     setShowAddForm(false)
     fetchCategories()
+    showToast('Đã tạo danh mục')
   }
 
   async function handleUpdate(id, data) {
     await categoryService.updateCategory(id, data)
     setEditingId(null)
     fetchCategories()
+    showToast('Đã lưu thay đổi')
   }
 
   function fetchCategoryQuestions(categoryId) {
@@ -114,15 +120,17 @@ function AdminCategoriesPanel() {
   }
 
   async function handleDelete(c) {
-    if (
-      !window.confirm(`Xóa danh mục "${c.name}"? Câu hỏi trong danh mục này sẽ chuyển thành "chưa phân loại".`)
-    ) {
-      return
-    }
+    const ok = await confirm({
+      title: 'Xóa danh mục',
+      message: `Xóa danh mục "${c.name}"? Câu hỏi trong danh mục này sẽ chuyển thành "chưa phân loại".`,
+      danger: true,
+    })
+    if (!ok) return
     setActionError('')
     try {
       await categoryService.deleteCategory(c.id)
       fetchCategories()
+      showToast(`Đã xóa danh mục "${c.name}"`)
     } catch (err) {
       setActionError(err.response?.data?.message || 'Xóa thất bại')
     }

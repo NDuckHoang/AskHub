@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Lock, Unlock, Trash2 } from 'lucide-react'
 import * as adminService from '../services/adminService'
 import { useAuth } from '../hooks/useAuth'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import UserAvatar from './UserAvatar'
 import Pagination from './Pagination'
 import ExportButton from './ExportButton'
@@ -10,6 +12,8 @@ import './AdminUsersPanel.css'
 
 function AdminUsersPanel() {
   const { user: currentUser } = useAuth()
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [users, setUsers] = useState(null)
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 })
   const [error, setError] = useState(false)
@@ -46,19 +50,24 @@ function AdminUsersPanel() {
     try {
       await adminService.updateUserStatus(u.id, newStatus)
       fetchUsers()
+      showToast(newStatus === 'BLOCKED' ? `Đã khóa tài khoản "${u.username}"` : `Đã mở khóa tài khoản "${u.username}"`)
     } catch (err) {
       setActionError(err.response?.data?.message || 'Thao tác thất bại')
     }
   }
 
   async function handleDelete(u) {
-    if (!window.confirm(`Xóa người dùng "${u.username}"? Toàn bộ câu hỏi/trả lời/bình luận của họ cũng sẽ bị xóa.`)) {
-      return
-    }
+    const ok = await confirm({
+      title: 'Xóa người dùng',
+      message: `Xóa người dùng "${u.username}"? Toàn bộ câu hỏi/trả lời/bình luận của họ cũng sẽ bị xóa.`,
+      danger: true,
+    })
+    if (!ok) return
     setActionError('')
     try {
       await adminService.deleteUser(u.id)
       fetchUsers()
+      showToast(`Đã xóa người dùng "${u.username}"`)
     } catch (err) {
       setActionError(err.response?.data?.message || 'Xóa thất bại')
     }

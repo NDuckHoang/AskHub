@@ -4,12 +4,16 @@ import { Trash2 } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import * as adminService from '../services/adminService'
 import * as categoryService from '../services/categoryService'
+import { useConfirm } from '../hooks/useConfirm'
+import { useToast } from '../hooks/useToast'
 import Pagination from './Pagination'
 import ExportButton from './ExportButton'
 import { formatRelativeTime } from '../utils/formatTime'
 import './AdminRowList.css'
 
 function AdminQuestionsPanel() {
+  const confirm = useConfirm()
+  const showToast = useToast()
   const [questions, setQuestions] = useState(null)
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 })
   const [error, setError] = useState(false)
@@ -46,11 +50,13 @@ function AdminQuestionsPanel() {
   }
 
   async function handleDelete(q) {
-    if (!window.confirm(`Xóa câu hỏi "${q.title}"?`)) return
+    const ok = await confirm({ title: 'Xóa câu hỏi', message: `Xóa câu hỏi "${q.title}"?`, danger: true })
+    if (!ok) return
     setActionError('')
     try {
       await adminService.deleteQuestion(q.id)
       fetchQuestions()
+      showToast('Đã xóa câu hỏi')
     } catch (err) {
       setActionError(err.response?.data?.message || 'Xóa thất bại')
     }

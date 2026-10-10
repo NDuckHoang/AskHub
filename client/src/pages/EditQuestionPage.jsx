@@ -3,12 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import QuestionForm from '../components/QuestionForm'
 import * as questionService from '../services/questionService'
 import { useAuth } from '../hooks/useAuth'
+import { useToast } from '../hooks/useToast'
 import './AskPage.css'
 
 function EditQuestionPage() {
   const { id } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
+  const showToast = useToast()
 
   const [question, setQuestion] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -24,6 +26,7 @@ function EditQuestionPage() {
 
   async function handleSubmit(data) {
     await questionService.updateQuestion(id, data)
+    showToast('Đã lưu thay đổi')
     navigate(`/questions/${id}`)
   }
 
