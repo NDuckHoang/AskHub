@@ -1,5 +1,9 @@
 import api from './api'
 
+export function getLeaderboard(limit = 10) {
+  return api.get('/users/leaderboard', { params: { limit } }).then((res) => res.data.users)
+}
+
 export function getUserProfile(id) {
   return api.get(`/users/${id}`).then((res) => res.data.user)
 }

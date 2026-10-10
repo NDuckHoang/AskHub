@@ -3,7 +3,7 @@ import './VoteButton.css'
 
 // Nút vote dọc dùng chung cho question và answer: ▲ số ▼
 // size="sm" dùng cho answer để nhỏ hơn question, tạo thứ bậc rõ ràng
-function VoteButton({ voteCount, myVote, onVote, disabled, size = 'md' }) {
+function VoteButton({ voteCount, myVote, onVote, disabled, disabledTitle = 'Đăng nhập để vote', size = 'md' }) {
   const iconSize = size === 'sm' ? 16 : 20
 
   return (
@@ -14,7 +14,7 @@ function VoteButton({ voteCount, myVote, onVote, disabled, size = 'md' }) {
         onClick={() => onVote(1)}
         disabled={disabled}
         aria-label="Upvote"
-        title={disabled ? 'Đăng nhập để vote' : 'Upvote'}
+        title={disabled ? disabledTitle : 'Upvote'}
       >
         <ChevronUp size={iconSize} />
       </button>
@@ -27,7 +27,7 @@ function VoteButton({ voteCount, myVote, onVote, disabled, size = 'md' }) {
         onClick={() => onVote(-1)}
         disabled={disabled}
         aria-label="Downvote"
-        title={disabled ? 'Đăng nhập để vote' : 'Downvote'}
+        title={disabled ? disabledTitle : 'Downvote'}
       >
         <ChevronDown size={iconSize} />
       </button>

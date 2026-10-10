@@ -17,6 +17,15 @@ function parsePagination(query) {
   return { page, limit };
 }
 
+async function getLeaderboard(req, res) {
+  let limit = parseInt(req.query.limit, 10);
+  if (!Number.isInteger(limit) || limit < 1) limit = 10;
+  if (limit > 20) limit = 20;
+
+  const users = await userModel.findTopByReputation(limit);
+  res.json({ users });
+}
+
 async function getUserProfile(req, res) {
   const id = parseId(req.params.id);
   if (!id) {
@@ -101,4 +110,4 @@ async function updateProfile(req, res) {
   res.json({ message: 'Cập nhật hồ sơ thành công', user: updated });
 }
 
-module.exports = { getUserProfile, getUserAnswers, updateProfile };
+module.exports = { getLeaderboard, getUserProfile, getUserAnswers, updateProfile };

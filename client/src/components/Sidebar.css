@@ -55,6 +55,51 @@
   gap: 6px;
 }
 
+.sidebar-leaderboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  color: var(--text);
+}
+
+.sidebar-leaderboard-row:hover .sidebar-leaderboard-name {
+  color: var(--primary);
+}
+
+.sidebar-leaderboard-rank {
+  flex-shrink: 0;
+  width: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.sidebar-leaderboard-rank.is-top {
+  color: var(--primary-dark);
+}
+
+.sidebar-leaderboard-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-leaderboard-points {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
 .sidebar-stat-bars {
   display: flex;
   flex-direction: column;

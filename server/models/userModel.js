@@ -80,6 +80,26 @@ async function updateStatus(id, status) {
   await pool.query('UPDATE users SET status = ? WHERE id = ?', [status, id]);
 }
 
+// Cộng/trừ điểm uy tín (delta âm để trừ). Dùng khi vote câu hỏi/câu trả lời
+// hoặc khi câu trả lời được/bị bỏ đánh dấu đúng - xem reputationPoints.js
+async function adjustReputation(id, delta) {
+  if (!delta) return;
+  await pool.query('UPDATE users SET reputation = reputation + ? WHERE id = ?', [delta, id]);
+}
+
+// Top N user theo điểm uy tín, dùng cho bảng xếp hạng ở sidebar - chỉ tính user còn hoạt động
+async function findTopByReputation(limit = 10) {
+  const [rows] = await pool.query(
+    `SELECT id, username, avatar, reputation
+     FROM users
+     WHERE status = 'ACTIVE'
+     ORDER BY reputation DESC, created_at ASC
+     LIMIT ?`,
+    [limit]
+  );
+  return rows;
+}
+
 async function remove(id) {
   await pool.query('DELETE FROM users WHERE id = ?', [id]);
 }
@@ -94,4 +114,6 @@ module.exports = {
   findAllForAdmin,
   updateStatus,
   remove,
+  adjustReputation,
+  findTopByReputation,
 };

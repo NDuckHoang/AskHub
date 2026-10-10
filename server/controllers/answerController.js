@@ -3,6 +3,8 @@ const questionModel = require('../models/questionModel');
 const commentModel = require('../models/commentModel');
 const voteModel = require('../models/voteModel');
 const notificationModel = require('../models/notificationModel');
+const userModel = require('../models/userModel');
+const { REPUTATION } = require('../utils/reputationPoints');
 
 function parseId(rawId) {
   const id = Number(rawId);
@@ -111,9 +113,25 @@ async function updateAnswer(req, res) {
     if (questionOwnerId !== req.user.id) {
       return res.status(403).json({ message: 'Chỉ chủ câu hỏi mới có quyền chấp nhận câu trả lời' });
     }
-    await answerModel.setAccepted(id, answer.question_id, Boolean(is_accepted));
 
-    if (is_accepted) {
+    const wasAccepted = Boolean(answer.is_accepted);
+    const willAccept = Boolean(is_accepted);
+
+    if (willAccept && !wasAccepted) {
+      // Nếu câu hỏi đang có câu trả lời khác được chấp nhận, đổi sang câu này
+      // thì phải trừ lại điểm của câu trả lời cũ trước
+      const previousAccepted = await answerModel.findAcceptedByQuestionId(answer.question_id);
+      if (previousAccepted && previousAccepted.id !== id) {
+        await userModel.adjustReputation(previousAccepted.user_id, -REPUTATION.ANSWER_ACCEPTED);
+      }
+      await userModel.adjustReputation(answer.user_id, REPUTATION.ANSWER_ACCEPTED);
+    } else if (!willAccept && wasAccepted) {
+      await userModel.adjustReputation(answer.user_id, -REPUTATION.ANSWER_ACCEPTED);
+    }
+
+    await answerModel.setAccepted(id, answer.question_id, willAccept);
+
+    if (willAccept) {
       await notificationModel.create({
         userId: answer.user_id,
         actorId: req.user.id,

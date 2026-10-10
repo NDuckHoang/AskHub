@@ -146,7 +146,8 @@ function QuestionDetailPage() {
           voteCount={question.vote_count}
           myVote={question.my_vote}
           onVote={handleVoteQuestion}
-          disabled={!user}
+          disabled={!user || isQuestionOwner}
+          disabledTitle={!user ? 'Đăng nhập để vote' : 'Không thể vote cho câu hỏi của chính mình'}
         />
 
         <div className="question-detail-content">

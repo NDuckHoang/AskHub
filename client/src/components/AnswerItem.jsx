@@ -81,7 +81,8 @@ function AnswerItem({
         voteCount={answer.vote_count}
         myVote={answer.my_vote}
         onVote={handleVote}
-        disabled={!user}
+        disabled={!user || isOwner}
+        disabledTitle={!user ? 'Đăng nhập để vote' : 'Không thể vote cho câu trả lời của chính mình'}
         size="sm"
       />
 

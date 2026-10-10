@@ -98,6 +98,16 @@ async function updateContent(id, content) {
   await pool.query('UPDATE answers SET content = ? WHERE id = ?', [content, id]);
 }
 
+// Câu trả lời đang được đánh dấu đúng của 1 câu hỏi (nếu có) - dùng để biết phải
+// trừ điểm uy tín của ai khi chủ câu hỏi đổi sang chấp nhận câu trả lời khác
+async function findAcceptedByQuestionId(questionId) {
+  const [rows] = await pool.query(
+    'SELECT id, user_id FROM answers WHERE question_id = ? AND is_accepted = 1',
+    [questionId]
+  );
+  return rows[0] || null;
+}
+
 // Mỗi câu hỏi chỉ được có 1 câu trả lời accepted tại một thời điểm
 async function setAccepted(id, questionId, accepted) {
   if (accepted) {
@@ -119,6 +129,7 @@ module.exports = {
   findById,
   create,
   updateContent,
+  findAcceptedByQuestionId,
   setAccepted,
   remove,
 };

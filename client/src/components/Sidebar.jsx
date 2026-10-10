@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as categoryService from '../services/categoryService'
 import * as tagService from '../services/tagService'
+import * as userService from '../services/userService'
 import Tag from './Tag'
+import UserAvatar from './UserAvatar'
 import './Sidebar.css'
 
 // Khối dùng chung cho mỗi phần trong sidebar: tiêu đề + nội dung bên trong 1 card
@@ -30,13 +32,15 @@ function SkeletonLines({ count = 5 }) {
 function Sidebar() {
   const [categories, setCategories] = useState(null)
   const [tags, setTags] = useState(null)
+  const [leaderboard, setLeaderboard] = useState(null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    Promise.all([categoryService.getCategories(), tagService.getPopularTags(8)])
-      .then(([categoriesData, tagsData]) => {
+    Promise.all([categoryService.getCategories(), tagService.getPopularTags(8), userService.getLeaderboard(5)])
+      .then(([categoriesData, tagsData, leaderboardData]) => {
         setCategories(categoriesData)
         setTags(tagsData)
+        setLeaderboard(leaderboardData)
       })
       .catch(() => setError(true))
   }, [])
@@ -50,6 +54,27 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
+      <SidebarSection title="Bảng xếp hạng uy tín">
+        {!leaderboard && !error && <SkeletonLines count={5} />}
+        {leaderboard && leaderboard.length === 0 && (
+          <p className="sidebar-empty">Chưa có dữ liệu xếp hạng.</p>
+        )}
+        {leaderboard && leaderboard.length > 0 && (
+          <ol className="sidebar-leaderboard">
+            {leaderboard.map((u, i) => (
+              <li key={u.id}>
+                <Link to={`/users/${u.id}`} className="sidebar-leaderboard-row">
+                  <span className={`sidebar-leaderboard-rank${i < 3 ? ' is-top' : ''}`}>{i + 1}</span>
+                  <UserAvatar username={u.username} avatar={u.avatar} size={24} />
+                  <span className="sidebar-leaderboard-name">{u.username}</span>
+                  <span className="stat-number sidebar-leaderboard-points">{u.reputation}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        )}
+      </SidebarSection>
+
       <SidebarSection title="Thống kê theo danh mục">
         {!sortedCategories && !error && <SkeletonLines count={6} />}
         {sortedCategories && (
