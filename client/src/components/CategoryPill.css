@@ -1,0 +1,20 @@
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.category-pill:hover {
+  text-decoration: none;
+  border-color: var(--primary);
+  color: var(--primary);
+}

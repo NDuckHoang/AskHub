@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Tag from './Tag'
+import CategoryPill from './CategoryPill'
 import UserAvatar from './UserAvatar'
 import { formatRelativeTime } from '../utils/formatTime'
 import './QuestionItem.css'
@@ -16,6 +17,8 @@ function QuestionItem({ question, animationDelay }) {
     answer_count,
     accepted_count,
     tags,
+    category_id,
+    category_name,
     author_username,
     author_avatar,
     created_at,
@@ -44,8 +47,9 @@ function QuestionItem({ question, animationDelay }) {
         <Link to={`/questions/${id}`}>{title}</Link>
       </h3>
 
-      {tags.length > 0 && (
+      {(category_id || tags.length > 0) && (
         <div className="question-item-tags">
+          <CategoryPill id={category_id} name={category_name} />
           {tags.map((t) => (
             <Tag key={t.id} id={t.id} name={t.name} />
           ))}

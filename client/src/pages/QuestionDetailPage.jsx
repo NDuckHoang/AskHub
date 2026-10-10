@@ -8,6 +8,7 @@ import { useConfirm } from '../hooks/useConfirm'
 import { useToast } from '../hooks/useToast'
 import VoteButton from '../components/VoteButton'
 import Tag from '../components/Tag'
+import CategoryPill from '../components/CategoryPill'
 import UserAvatar from '../components/UserAvatar'
 import MarkdownContent from '../components/MarkdownContent'
 import CommentList from '../components/CommentList'
@@ -153,8 +154,9 @@ function QuestionDetailPage() {
         <div className="question-detail-content">
           <MarkdownContent text={question.content} />
 
-          {question.tags.length > 0 && (
+          {(question.category_id || question.tags.length > 0) && (
             <div className="question-detail-tags">
+              <CategoryPill id={question.category_id} name={question.category_name} />
               {question.tags.map((t) => (
                 <Tag key={t.id} id={t.id} name={t.name} />
               ))}
