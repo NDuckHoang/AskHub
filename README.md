@@ -2,8 +2,6 @@
 
 Diễn đàn hỏi đáp lập trình (ReactJS + Node.js/Express + MySQL).
 
-> README đầy đủ sẽ được hoàn thiện ở Giai đoạn 12.
-
 ## Cài đặt nhanh
 
 Yêu cầu: Node.js 18+, MySQL 8 (hoặc MariaDB 10.6+).
