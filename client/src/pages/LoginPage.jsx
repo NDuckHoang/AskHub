@@ -77,6 +77,10 @@ function LoginPage() {
             />
           </div>
 
+          <Link to="/forgot-password" className="auth-forgot-link">
+            Quên mật khẩu?
+          </Link>
+
           <button type="submit" className="btn btn-primary auth-submit" disabled={submitting}>
             {submitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>

@@ -105,6 +105,33 @@ async function remove(id) {
   await pool.query('DELETE FROM users WHERE id = ?', [id]);
 }
 
+// ===== Quên mật khẩu / đặt lại mật khẩu =====
+// Lưu HASH (SHA-256) của token, không lưu token gốc - gốc chỉ nằm trong link gửi qua email,
+// giống cách lưu password (không ai đọc được token thật từ database nếu bị lộ)
+async function setResetToken(id, tokenHash, expiresAt) {
+  await pool.query('UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE id = ?', [
+    tokenHash,
+    expiresAt,
+    id,
+  ]);
+}
+
+async function findByResetTokenHash(tokenHash) {
+  const [rows] = await pool.query(
+    'SELECT * FROM users WHERE reset_token = ? AND reset_token_expires > NOW()',
+    [tokenHash]
+  );
+  return rows[0];
+}
+
+// Đổi mật khẩu và xóa luôn token (token chỉ dùng được 1 lần)
+async function updatePasswordAndClearToken(id, passwordHash) {
+  await pool.query(
+    'UPDATE users SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?',
+    [passwordHash, id]
+  );
+}
+
 module.exports = {
   findByEmail,
   findByUsername,
@@ -117,4 +144,7 @@ module.exports = {
   remove,
   adjustReputation,
   findTopByReputation,
+  setResetToken,
+  findByResetTokenHash,
+  updatePasswordAndClearToken,
 };

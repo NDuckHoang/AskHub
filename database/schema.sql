@@ -27,6 +27,8 @@ CREATE TABLE users (
   contact     VARCHAR(255) DEFAULT NULL,       -- số điện thoại, link liên hệ...
   reputation  INT NOT NULL DEFAULT 0,
   status      ENUM('ACTIVE', 'BLOCKED') NOT NULL DEFAULT 'ACTIVE',
+  reset_token         VARCHAR(255) DEFAULT NULL,  -- hash SHA-256 của token quên mật khẩu, không lưu token gốc
+  reset_token_expires TIMESTAMP NULL DEFAULT NULL,
   created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
