@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import PasswordInput from '../components/PasswordInput'
 import './AuthForm.css'
 
 function LoginPage() {
@@ -68,10 +69,8 @@ function LoginPage() {
             <label className="field-label" htmlFor="password">
               Mật khẩu
             </label>
-            <input
+            <PasswordInput
               id="password"
-              type="password"
-              className="input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"

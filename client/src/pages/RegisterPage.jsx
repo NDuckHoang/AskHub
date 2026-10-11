@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import PasswordInput from '../components/PasswordInput'
 import './AuthForm.css'
 
 function RegisterPage() {
@@ -85,10 +86,8 @@ function RegisterPage() {
             <label className="field-label" htmlFor="password">
               Mật khẩu
             </label>
-            <input
+            <PasswordInput
               id="password"
-              type="password"
-              className="input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
@@ -99,10 +98,8 @@ function RegisterPage() {
             <label className="field-label" htmlFor="confirmPassword">
               Nhập lại mật khẩu
             </label>
-            <input
+            <PasswordInput
               id="confirmPassword"
-              type="password"
-              className="input"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
