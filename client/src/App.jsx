@@ -7,6 +7,7 @@ import SearchPage from './pages/SearchPage'
 import UserProfilePage from './pages/UserProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
 import AdminPage from './pages/AdminPage'
+import NotificationsPage from './pages/NotificationsPage'
 import QuestionDetailPage from './pages/QuestionDetailPage'
 import AskPage from './pages/AskPage'
 import EditQuestionPage from './pages/EditQuestionPage'
@@ -57,6 +58,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AskPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <NotificationsPage />
             </ProtectedRoute>
           }
         />

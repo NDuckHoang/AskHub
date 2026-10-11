@@ -120,6 +120,12 @@ function NotificationBell() {
               ))}
             </ul>
           )}
+
+          {notifications && notifications.length > 0 && (
+            <Link to="/notifications" className="notification-see-all" onClick={() => setOpen(false)}>
+              Xem tất cả thông báo
+            </Link>
+          )}
         </div>
       )}
     </div>

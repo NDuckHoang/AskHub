@@ -1,0 +1,51 @@
+.notifications-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 20px;
+  flex-wrap: wrap;
+}
+
+.notifications-page-list {
+  padding: 4px 16px;
+  margin-bottom: 20px;
+}
+
+.notifications-page-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.notifications-page-item:last-child {
+  border-bottom: none;
+}
+
+.notifications-page-item:hover {
+  background: var(--bg-hover);
+  text-decoration: none;
+  margin: 0 -16px;
+  padding: 14px 16px;
+}
+
+.notifications-page-item.is-unread {
+  background: var(--primary-soft);
+  margin: 0 -16px;
+  padding: 14px 16px;
+}
+
+.notifications-page-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.notifications-page-time {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
