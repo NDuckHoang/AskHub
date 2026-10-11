@@ -10,6 +10,14 @@
   margin-top: 8px;
 }
 
+.edit-profile-card + .edit-profile-card {
+  margin-top: 20px;
+}
+
+.edit-profile-section-title {
+  font-size: 17px;
+}
+
 .edit-profile-avatar-row {
   display: flex;
   align-items: center;

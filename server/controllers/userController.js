@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
 const answerModel = require('../models/answerModel');
 
@@ -110,4 +111,34 @@ async function updateProfile(req, res) {
   res.json({ message: 'Cập nhật hồ sơ thành công', user: updated });
 }
 
-module.exports = { getLeaderboard, getUserProfile, getUserAnswers, updateProfile };
+// Đổi mật khẩu - chỉ chủ tài khoản, phải nhập đúng mật khẩu hiện tại
+async function changePassword(req, res) {
+  const id = parseId(req.params.id);
+  if (!id) {
+    return res.status(400).json({ message: 'id không hợp lệ' });
+  }
+  if (req.user.id !== id) {
+    return res.status(403).json({ message: 'Bạn không có quyền đổi mật khẩu của tài khoản này' });
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: 'Vui lòng nhập đầy đủ mật khẩu hiện tại và mật khẩu mới' });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ message: 'Mật khẩu mới phải có ít nhất 6 ký tự' });
+  }
+
+  const currentHash = await userModel.findPasswordHashById(id);
+  const isMatch = await bcrypt.compare(currentPassword, currentHash);
+  if (!isMatch) {
+    return res.status(400).json({ message: 'Mật khẩu hiện tại không đúng' });
+  }
+
+  const newHash = await bcrypt.hash(newPassword, 10);
+  await userModel.updatePassword(id, newHash);
+
+  res.json({ message: 'Đổi mật khẩu thành công' });
+}
+
+module.exports = { getLeaderboard, getUserProfile, getUserAnswers, updateProfile, changePassword };

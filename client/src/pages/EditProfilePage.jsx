@@ -6,6 +6,7 @@ import { useToast } from '../hooks/useToast'
 import * as userService from '../services/userService'
 import * as uploadService from '../services/uploadService'
 import UserAvatar from '../components/UserAvatar'
+import PasswordInput from '../components/PasswordInput'
 import './EditProfilePage.css'
 
 const GENDER_OPTIONS = [
@@ -16,6 +17,94 @@ const GENDER_OPTIONS = [
 ]
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Form đổi mật khẩu - tách riêng khỏi form hồ sơ chính vì khác API, khác luồng
+// thành công/lỗi (đổi hồ sơ xong thì chuyển trang, đổi mật khẩu xong thì ở lại và xóa form)
+function ChangePasswordForm({ userId }) {
+  const showToast = useToast()
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+
+    if (newPassword.length < 6) {
+      setError('Mật khẩu mới phải có ít nhất 6 ký tự')
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setError('Mật khẩu mới nhập lại không khớp')
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      await userService.changePassword(userId, { currentPassword, newPassword })
+      showToast('Đổi mật khẩu thành công')
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch (err) {
+      setError(err.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <form className="card edit-profile-card" onSubmit={handleSubmit} noValidate>
+      <h2 className="edit-profile-section-title">Đổi mật khẩu</h2>
+
+      {error && <div className="auth-error">{error}</div>}
+
+      <div className="field">
+        <label className="field-label" htmlFor="currentPassword">
+          Mật khẩu hiện tại
+        </label>
+        <PasswordInput
+          id="currentPassword"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          autoComplete="current-password"
+        />
+      </div>
+
+      <div className="field">
+        <label className="field-label" htmlFor="newPassword">
+          Mật khẩu mới
+        </label>
+        <PasswordInput
+          id="newPassword"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+      </div>
+
+      <div className="field">
+        <label className="field-label" htmlFor="confirmNewPassword">
+          Nhập lại mật khẩu mới
+        </label>
+        <PasswordInput
+          id="confirmNewPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+      </div>
+
+      <div className="edit-profile-actions">
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
+          {submitting ? 'Đang lưu...' : 'Đổi mật khẩu'}
+        </button>
+      </div>
+    </form>
+  )
+}
 
 function EditProfilePage() {
   const { id } = useParams()
@@ -208,6 +297,8 @@ function EditProfilePage() {
           </button>
         </div>
       </form>
+
+      <ChangePasswordForm userId={id} />
     </div>
   )
 }

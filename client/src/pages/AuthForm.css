@@ -27,19 +27,6 @@
   color: var(--text-secondary);
 }
 
-.auth-hint {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-}
-
-.auth-forgot-link {
-  display: block;
-  margin: -8px 0 16px;
-  font-size: 13px;
-  text-align: right;
-}
-
 .auth-error {
   background: var(--danger-soft);
   color: var(--danger);

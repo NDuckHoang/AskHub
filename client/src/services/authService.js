@@ -11,11 +11,3 @@ export function login(data) {
 export function getMe() {
   return api.get('/auth/me').then((res) => res.data)
 }
-
-export function forgotPassword(email) {
-  return api.post('/auth/forgot-password', { email }).then((res) => res.data)
-}
-
-export function resetPassword(token, password) {
-  return api.post('/auth/reset-password', { token, password }).then((res) => res.data)
-}

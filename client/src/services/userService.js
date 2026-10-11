@@ -15,3 +15,7 @@ export function getUserAnswers(id, params) {
 export function updateProfile(id, data) {
   return api.put(`/users/${id}`, data).then((res) => res.data)
 }
+
+export function changePassword(id, data) {
+  return api.put(`/users/${id}/password`, data).then((res) => res.data)
+}
