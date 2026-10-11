@@ -10,6 +10,7 @@ client/dist/
 # Log
 *.log
 npm-debug.log*
+dev-log.txt
 
 # Hệ điều hành / editor
 .DS_Store
