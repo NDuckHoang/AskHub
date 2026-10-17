@@ -24,4 +24,11 @@
 
 .theme-toggle-icon {
   display: inline-flex;
+  flex-shrink: 0;
+}
+
+.theme-toggle-label {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
 }

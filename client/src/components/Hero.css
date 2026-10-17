@@ -1,0 +1,144 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.1), transparent 55%),
+    var(--brand-gradient);
+  border-radius: var(--radius-xl);
+  padding: 32px 36px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Vệt tròn mờ trang trí - rất tiết chế, không phải glow/neon, chỉ tạo chiều sâu nhẹ */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/* Sơ đồ điểm-nối trừu tượng, neo bên phải, độ mờ thấp để không cạnh tranh với chữ */
+.hero-pattern {
+  position: absolute;
+  top: 0;
+  right: -40px;
+  height: 100%;
+  width: 60%;
+  max-width: 480px;
+  pointer-events: none;
+}
+
+.hero-text {
+  position: relative;
+  max-width: 560px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-secondary-btn {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.hero-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+  text-decoration: none;
+}
+
+/* Số liệu tích hợp bằng vạch chia mảnh bên trái thay vì 1 hộp riêng - đọc như
+   1 phần của câu chuyện trong hero, không giống thành phần được "gắn thêm vào" */
+.hero-stat {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  padding-left: 28px;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  min-width: 128px;
+}
+
+.hero-stat-number {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12.5px;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 20px;
+  }
+
+  .hero-title {
+    font-size: 22px;
+  }
+
+  .hero-stat {
+    align-self: stretch;
+    margin-top: 20px;
+    padding-left: 0;
+    padding-top: 16px;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

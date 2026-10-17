@@ -12,12 +12,10 @@ function ToastContainer() {
   return (
     <div className="toast-container">
       {toasts.map((t) => (
-        <div
-          key={t.id}
-          className={`toast toast-${t.type} animate-fade-in-up`}
-          onClick={() => removeToast(t.id)}
-        >
-          {t.type === 'error' ? <XCircle size={16} /> : <CheckCircle2 size={16} />}
+        <div key={t.id} className={`toast toast-${t.type}`} onClick={() => removeToast(t.id)}>
+          <span className="toast-icon">
+            {t.type === 'error' ? <XCircle size={14} /> : <CheckCircle2 size={14} />}
+          </span>
           <span>{t.message}</span>
         </div>
       ))}

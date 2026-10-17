@@ -27,6 +27,12 @@
   outline-offset: 2px;
 }
 
+.notification-bell-label {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .notification-bell-badge {
   position: absolute;
   top: 1px;
@@ -53,11 +59,21 @@
   max-width: calc(100vw - 32px);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-menu);
   z-index: 30;
   overflow: hidden;
   transform-origin: top right;
+}
+
+/* Trong AppRail: trigger nằm sát đáy sidebar bên trái - mở dropdown sang phải,
+   neo đáy để dropdown "mọc" lên trên thay vì tràn xuống dưới viewport */
+.notification-dropdown-rail {
+  right: auto;
+  top: auto;
+  left: calc(100% + 10px);
+  bottom: 0;
+  transform-origin: bottom left;
 }
 
 .notification-dropdown-header {

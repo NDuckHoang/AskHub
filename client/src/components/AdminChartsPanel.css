@@ -10,9 +10,13 @@
 }
 
 .admin-chart-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 16px;
+  color: var(--primary-dark);
 }
 
 .admin-chart-empty {

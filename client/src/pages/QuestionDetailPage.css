@@ -37,6 +37,13 @@
   border-top: 3px solid var(--primary);
 }
 
+/* VoteButton trạng thái active mặc định cũng dùng nền --primary-soft - trùng hệt màu nền
+   của khối câu hỏi nên gần như biến mất. Đổi sang nền trắng ở riêng ngữ cảnh này để vẫn
+   thấy rõ đang chọn chiều vote nào. */
+.question-detail-body .vote-btn.is-active-up {
+  background: var(--bg);
+}
+
 .question-detail-content {
   flex: 1;
   min-width: 0;
@@ -63,9 +70,24 @@
 }
 
 .answers-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 16px;
-  padding-top: 8px;
+  padding-top: 20px;
   border-top: 1px solid var(--border);
+}
+
+.answers-heading-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
 }
 
 .answer-form-section {

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Inbox, AlertCircle } from 'lucide-react'
 import QuestionItem from './QuestionItem'
 import './QuestionList.css'
 
@@ -35,6 +36,9 @@ function QuestionList({
   if (error) {
     return (
       <div className="card state-box state-error">
+        <span className="state-box-icon">
+          <AlertCircle size={22} />
+        </span>
         <p>Không tải được danh sách câu hỏi. Vui lòng kiểm tra kết nối và thử lại.</p>
         <button type="button" className="btn btn-secondary btn-sm" onClick={onRetry}>
           Thử lại
@@ -46,6 +50,9 @@ function QuestionList({
   if (questions.length === 0) {
     return (
       <div className="card state-box">
+        <span className="state-box-icon">
+          <Inbox size={22} />
+        </span>
         <p>{emptyMessage}</p>
         <Link to={emptyActionTo} className="btn btn-primary btn-sm">
           {emptyActionLabel}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { BarChart2, Activity } from 'lucide-react'
 import * as adminService from '../services/adminService'
 import * as categoryService from '../services/categoryService'
 import SimpleBarChart from './SimpleBarChart'
@@ -35,7 +36,9 @@ function AdminChartsPanel() {
   return (
     <div className="admin-charts-grid">
       <div className="card admin-chart-box">
-        <h3 className="admin-chart-title">Câu hỏi theo danh mục</h3>
+        <h3 className="admin-chart-title">
+          <BarChart2 size={15} /> Câu hỏi theo danh mục
+        </h3>
         {categories === null && <div className="skeleton" style={{ height: 160, borderRadius: 8 }} />}
         {categories && categoryData.length === 0 && (
           <p className="admin-chart-empty">Chưa có câu hỏi nào được phân loại.</p>
@@ -44,7 +47,9 @@ function AdminChartsPanel() {
       </div>
 
       <div className="card admin-chart-box">
-        <h3 className="admin-chart-title">Hoạt động 7 ngày gần đây</h3>
+        <h3 className="admin-chart-title">
+          <Activity size={15} /> Hoạt động 7 ngày gần đây
+        </h3>
         {activity === null && <div className="skeleton" style={{ height: 160, borderRadius: 8 }} />}
         {activity && activity.length > 0 && (
           <>

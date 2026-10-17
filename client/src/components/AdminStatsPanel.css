@@ -6,10 +6,29 @@
 }
 
 .admin-stat-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 16px;
+  padding-right: 52px;
+}
+
+.admin-stat-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+:root[data-theme='dark'] .admin-stat-icon {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .admin-stat-value {
@@ -30,6 +49,10 @@
   color: var(--success);
 }
 
+.admin-stat-box-green .admin-stat-icon {
+  color: var(--success);
+}
+
 .admin-stat-box-blue {
   background: var(--primary-soft);
   border-color: transparent;
@@ -39,11 +62,19 @@
   color: var(--primary-dark);
 }
 
+.admin-stat-box-blue .admin-stat-icon {
+  color: var(--primary-dark);
+}
+
 .admin-stat-box-red {
   background: var(--danger-soft);
   border-color: transparent;
 }
 
 .admin-stat-box-red .admin-stat-label {
+  color: var(--danger);
+}
+
+.admin-stat-box-red .admin-stat-icon {
   color: var(--danger);
 }

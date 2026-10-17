@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { MessageSquareCode } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import PasswordInput from '../components/PasswordInput'
 import './AuthForm.css'
@@ -48,9 +49,15 @@ function RegisterPage() {
   }
 
   return (
-    <div className="container auth-container">
+    <div className="auth-wrap">
       <div className="card auth-card">
-        <h1>Đăng ký</h1>
+        <div className="auth-card-head">
+          <span className="auth-card-icon">
+            <MessageSquareCode size={22} />
+          </span>
+          <h1>Tạo tài khoản</h1>
+          <p className="auth-card-subtitle">Tham gia cộng đồng lập trình AskHub.</p>
+        </div>
 
         {error && <div className="auth-error">{error}</div>}
 
@@ -62,6 +69,7 @@ function RegisterPage() {
             <input
               id="username"
               className="input"
+              placeholder="vd: nguyenvana"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
@@ -76,6 +84,7 @@ function RegisterPage() {
               id="email"
               type="email"
               className="input"
+              placeholder="ban@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -88,6 +97,7 @@ function RegisterPage() {
             </label>
             <PasswordInput
               id="password"
+              placeholder="Tối thiểu 6 ký tự"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
@@ -100,6 +110,7 @@ function RegisterPage() {
             </label>
             <PasswordInput
               id="confirmPassword"
+              placeholder="Nhập lại mật khẩu vừa tạo"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"

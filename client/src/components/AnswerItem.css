@@ -3,8 +3,9 @@
 .answer-item {
   display: flex;
   gap: 12px;
-  padding: 16px;
+  padding: 16px 16px 16px 13px;
   border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
   transition: background-color 150ms;
 }
 
@@ -14,6 +15,18 @@
 
 .answer-item:last-child {
   border-bottom: none;
+}
+
+/* Câu trả lời được chấp nhận: viền trái + nền tint xanh lá nhẹ, không chỉ 1 dòng chữ -
+   để nổi bật rõ ràng ngay cả khi lướt nhanh, không cần đọc hết nội dung */
+.answer-item.is-accepted {
+  border-left-color: var(--success);
+  background: var(--success-soft);
+}
+
+.answer-item.is-accepted:hover {
+  background: var(--success-soft);
+  filter: brightness(0.98);
 }
 
 .answer-body {

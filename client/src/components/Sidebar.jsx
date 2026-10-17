@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Trophy, BarChart2, Hash } from 'lucide-react'
 import * as categoryService from '../services/categoryService'
 import * as tagService from '../services/tagService'
 import * as userService from '../services/userService'
@@ -7,11 +8,13 @@ import Tag from './Tag'
 import UserAvatar from './UserAvatar'
 import './Sidebar.css'
 
-// Khối dùng chung cho mỗi phần trong sidebar: tiêu đề + nội dung bên trong 1 card
-function SidebarSection({ title, children }) {
+// Khối dùng chung cho mỗi phần trong sidebar: tiêu đề (kèm icon nhận diện) + nội dung bên trong 1 card
+function SidebarSection({ title, icon: Icon, children }) {
   return (
     <section className="card sidebar-section">
-      <h3 className="sidebar-section-title">{title}</h3>
+      <h3 className="sidebar-section-title">
+        <Icon size={14} /> {title}
+      </h3>
       {children}
     </section>
   )
@@ -54,7 +57,7 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <SidebarSection title="Bảng xếp hạng người dùng">
+      <SidebarSection title="Bảng xếp hạng người dùng" icon={Trophy}>
         {!leaderboard && !error && <SkeletonLines count={5} />}
         {leaderboard && leaderboard.length === 0 && (
           <p className="sidebar-empty">Chưa có dữ liệu xếp hạng.</p>
@@ -78,7 +81,7 @@ function Sidebar() {
         )}
       </SidebarSection>
 
-      <SidebarSection title="Thống kê theo danh mục">
+      <SidebarSection title="Thống kê theo danh mục" icon={BarChart2}>
         {!sortedCategories && !error && <SkeletonLines count={6} />}
         {sortedCategories && (
           <ul className="sidebar-stat-bars">
@@ -106,7 +109,7 @@ function Sidebar() {
         </Link>
       </SidebarSection>
 
-      <SidebarSection title="Tag phổ biến">
+      <SidebarSection title="Tag phổ biến" icon={Hash}>
         {!tags && !error && <SkeletonLines count={4} />}
         {tags && tags.length === 0 && <p className="sidebar-empty">Chưa có tag nào.</p>}
         {tags && tags.length > 0 && (

@@ -15,11 +15,13 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  transition: border-color 150ms;
+  transition: transform 150ms, box-shadow 150ms, border-color 150ms;
 }
 
 .category-card:hover {
   border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .category-card-header {

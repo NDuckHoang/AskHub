@@ -61,117 +61,159 @@ Không dùng Redux nếu Context API là đủ.
 
 # 2. ĐIỀU QUAN TRỌNG NHẤT: GIAO DIỆN
 
-Giao diện phải **hiện đại, sạch, chuyên nghiệp** — kiểu sản phẩm dành cho developer năm 2025–2026.
+> **Cập nhật 2026-10-16:** Thay toàn bộ định hướng UI cũ (tối giản kiểu GitHub/Linear) bằng bản sắc riêng, có cá tính, hiện đại — tinh thần Linear (bố cục gọn, typography tốt) + Reddit (cảm giác cộng đồng, dễ khám phá) + Discord (màu sắc, cá tính) + các SaaS hiện đại (card tinh tế, trạng thái tương tác đẹp). Mục 3 và mục 29 bên dưới đã viết lại theo định hướng này — khi đọc toàn bộ tài liệu, lấy nội dung mới nhất của 2 mục đó làm chuẩn.
 
-Tham khảo tinh thần (KHÔNG sao chép): GitHub, Linear, Vercel docs, dev.to.
+Giao diện phải **hiện đại, có bản sắc riêng, chuyên nghiệp** — không phải bản sao của Stack Overflow, không phải một trang CRUD trắng-xám nhàm chán.
 
-Đẹp nhờ **typography, khoảng cách, sự nhất quán** — không nhờ hiệu ứng.
+Tham khảo tinh thần (KHÔNG sao chép nguyên xi): Linear (bố cục, typography), Reddit (khám phá nội dung, cảm giác cộng đồng), Discord (cá tính, màu sắc), các sản phẩm SaaS hiện đại.
 
 Có thể lấy cảm hứng từ bố cục của Stack Overflow nhưng:
 
 * KHÔNG sao chép nguyên giao diện.
 * KHÔNG sao chép logo.
-* KHÔNG sao chép màu sắc hoàn toàn.
 * KHÔNG sao chép HTML/CSS.
+
+## Được phép dùng (có kiểm soát, không lạm dụng):
+
+* Gradient tinh tế (cùng tông màu thương hiệu) ở hero, CTA chính, hoặc điểm nhấn — không dùng tràn lan trên mọi card.
+* Hero section ngắn gọn ở trang chủ, không chiếm quá nhiều diện tích, không giống landing page bán hàng.
+* Shadow nhẹ/vừa để tạo chiều sâu cho card nổi bật, dropdown, modal.
+* Animation/transition mượt cho hover, chuyển tab, vote feedback, skeleton loading — tôn trọng `prefers-reduced-motion`.
+* Icon trong vòng tròn màu, badge, avatar, tag có thiết kế riêng.
 
 ## Tuyệt đối KHÔNG sử dụng:
 
-* Gradient tím/xanh kiểu AI.
 * Glassmorphism.
-* Neon, glow, background phát sáng.
-* Hero section kiểu landing page startup.
-* Emoji dùng làm icon.
-* Card lồng trong card.
-* Shadow đậm.
-* Animation phức tạp, hiệu ứng "wow".
+* Neon, glow chói mắt.
+* Emoji dùng làm icon (vẫn dùng `lucide-react`).
+* Card lồng trong card gây rối mắt.
+* Animation giật, chậm, hoặc gây mất tập trung khi đọc nội dung.
 * Biểu đồ không cần thiết.
-* Dashboard kiểu "AI SaaS".
+* Toàn bộ trang chỉ toàn card giống hệt nhau — phải có nhịp điệu và phân cấp thị giác.
 
 ---
 
 # 3. PHONG CÁCH GIAO DIỆN (DESIGN TOKENS)
 
-Khai báo toàn bộ token dưới dạng CSS variables trong `client/src/index.css` và dùng nhất quán ở mọi nơi.
+Khai báo toàn bộ token dưới dạng CSS variables trong `client/src/index.css` (có bản light + dark qua `ThemeContext` đã có sẵn) và dùng nhất quán ở mọi nơi — không hard-code màu/spacing trong từng file CSS riêng lẻ.
 
 ## Font
 
 * Inter (Google Fonts), fallback `system-ui, sans-serif`.
 * Font code: `ui-monospace, Consolas, monospace`.
 * Base 15px, line-height 1.6.
-* Thang chữ: 13 / 15 / 17 / 20 / 24px.
-* Tiêu đề trang 24px, weight 600. Không dùng chữ lớn hơn 24px.
+* Thang chữ mở rộng: 12 / 13 / 15 / 17 / 20 / 24 / 28 / 34 / 42px.
+* Tiêu đề trang 24–28px/weight 700. Kiểu chữ hero (34–42px/weight 800) chỉ được dùng ở đúng 2 vị trí trong toàn site — Hero trang chủ, và headline banner trái của `/login`+`/register` (cập nhật 2026-10-20, xem mục 29) — không lặp lại ở bất kỳ nơi nào khác.
+
+### Vai trò chữ (áp dụng thực tế trong code, không phải lý thuyết)
+
+| Vai trò | Kích thước / weight | Màu | Ví dụ |
+|---|---|---|---|
+| Page title (`h1`) | 28px / 700 | `--text` | "Quản trị", "Danh mục" |
+| Hero title | 28px / 800 (desktop), 22px mobile | `#fff` trên gradient | Chỉ ở Hero trang chủ, và headline banner trái `/login`+`/register` (40px/800 desktop, 24px mobile — xem mục 29) |
+| Section heading (`h2` cấp trang) | 20px / 600 | `--text` | "Câu hỏi mới nhất" |
+| Section heading thu gọn (trong card/sidebar) | 14–15px / 600–700 | `--primary-dark` hoặc `--text` | Tiêu đề sidebar, "Câu hỏi nổi bật", "X câu trả lời" |
+| Question title (list, `h3`) | 17px / 600 | `--text` | Tiêu đề trong `QuestionItem` |
+| Body / nội dung câu hỏi-trả lời | 14–15px / 400, line-height 1.5–1.6 | `--text` | `MarkdownContent` |
+| Metadata (tác giả, thời gian, lượt xem) | 12.5–14px / 400–500 | `--text-secondary` | "Hỏi bởi X · 2 giờ trước" |
+| Badge / tag | 11–13px / 500–600 | tùy ngữ cảnh (tag-text, success, accent...) | `.tag-pill`, "Đã giải quyết", role badge |
+| Button label | 15px (`.btn`) / 13px (`.btn-sm`), weight 500 | theo biến thể nút | Mọi `.btn-*` |
+
+Quy tắc: 1 vai trò chỉ dùng 1 kích thước cố định xuyên suốt site — không tự chọn size tùy hứng cho cùng 1 loại nội dung ở 2 trang khác nhau.
 
 ## Spacing
 
-* Theo bội số 4px: 4, 8, 12, 16, 24, 32.
+* Theo bội số 4px: 4, 8, 12, 16, 20, 24, 32, 48, 64.
 
-## Màu
+## Màu — brand identity riêng của AskHub (teal 2 tầng + cam)
+
+> **Cập nhật 2026-10-18:** Áp dụng đúng bảng màu đề xuất (Primary `#103F3A`, Primary accent `#087F73`, CTA accent `#FF781F`...). Kiến trúc token đã sẵn có 2 biến teal tách biệt — `--chrome-bg` (nền tối, dùng cho AppRail + Navbar + Footer) và `--primary` (teal sáng hơn, dùng cho link/nút/trạng thái active) — khớp tự nhiên với 2 mã "Primary" và "Primary accent" của brief.
+
+Giữ nguyên **tên token đã có** trong `client/src/index.css` (toàn bộ ~120 chỗ trong code đã dùng `var(--primary)`, `var(--tag-bg)`... không đổi tên để tránh phải sửa tay hàng loạt file) — chỉ đổi **giá trị màu**:
 
 ```css
+/* Light mode */
+--page-bg: #f5f7fa;
 --bg: #ffffff;
---bg-subtle: #f6f8fa;
---text: #1f2328;
---text-secondary: #656d76;
---border: #d0d7de;
---primary: #2563eb;
---primary-dark: #1d4ed8;
---primary-soft: #eff6ff;
---success: #1a7f37;
---success-soft: #dafbe1;
---danger: #cf222e;
+--text: #172b3a;
+--text-secondary: #667788;
+--border: #e1e7ec;
+
+--chrome-bg: #103f3a;         /* "Primary" - nền AppRail/Navbar/Footer */
+--primary: #087f73;           /* "Primary accent" - link/nút chính/trạng thái active */
+--primary-dark: #066a5f;
+--primary-soft: #e6f5f3;
+--primary-soft-hover: #cceae6;
+--tag-bg: #e6f5f3;
+--tag-text: #066a5f;
+
+--accent: #ff781f;            /* "CTA accent" - nút Đặt câu hỏi, badge nổi bật */
+--accent-dark: #d9661a;
+--accent-soft: #ffeee2;
+--brand-gradient: linear-gradient(135deg, #087f73 0%, #103f3a 100%);
+--radius-xl: 16px;            /* hero, khối lớn */
 ```
 
-* Chỉ một màu accent (xanh dương).
-* Header: nền trắng có border dưới (hoặc navy đậm — chọn một và giữ nhất quán).
+* 2 màu chính: `--primary` (teal accent, dùng cho link/CTA chính/trạng thái active) và `--accent` (cam, dùng tiết chế cho CTA nổi bật nhất — nút "Đặt câu hỏi"). Không thêm màu thứ 3 ngoài semantic (success/danger/warning).
+* Dark mode: đổi `--bg`/`--bg-subtle`/`--text`/`--border` sang bộ màu tối như cũ, `--primary` sang teal sáng (`#2dd4bf`), `--accent` sang cam sáng hơn (`#ff9152`) để đủ tương phản.
+* `--chrome-bg` giữ nguyên `#103f3a` ở cả 2 theme (không đổi theo light/dark) — đây là màu thương hiệu cố định cho vùng chrome (AppRail/Navbar/Footer).
 
 ## Hình khối
 
-* Border-radius: 6px cho button/input/tag, 8px cho khối lớn.
+* Border-radius: 8px cho button/input/tag (`--radius-lg` nâng từ 8px, `--radius-sm` giữ 6px cho control nhỏ), 16px cho card lớn/hero (`--radius-xl`), pill (9999px) cho badge/tag tròn.
 * Border 1px màu `--border`.
-* Shadow: chỉ cho dropdown/modal, rất nhẹ.
+* Shadow: giữ hệ `--shadow-btn*`/`--shadow-menu` đã có (rất nhẹ, dùng cho button/dropdown/modal), thêm `--shadow-card-hover` rõ hơn một chút cho card nổi bật khi hover.
 
 ## Icon
 
-* Dùng `lucide-react`, size 16px, chỉ ở chỗ thật sự cần (search, menu, vote...).
+* Dùng `lucide-react`, size 16–20px. Có thể đặt trong vòng tròn nền màu nhạt (`--brand-soft`/`--accent-soft`) cho icon tiêu đề mục, category, stat.
 
 ## Chuyển động
 
-* Transition 150ms cho hover/focus. Không có animation nào khác.
+* Transition 150–200ms ease cho hover/focus/active.
+* Card hover: nâng nhẹ (shadow tăng + translateY nhỏ).
+* Dropdown/modal: fade + scale nhẹ khi mở.
+* Vote/like: hiệu ứng phản hồi ngắn khi bấm (không quá 300ms).
+* Skeleton loading: shimmer nhẹ.
+* Luôn bọc trong `@media (prefers-reduced-motion: reduce)` để tắt khi người dùng yêu cầu.
 
 ## Chi tiết tạo cảm giác chỉn chu
 
-* Mọi button/input/link có trạng thái hover, focus (focus ring rõ ràng), disabled.
+* Mọi button/input/link có trạng thái hover, focus (focus ring rõ ràng theo `--brand`), disabled, loading.
 * Loading dùng skeleton thay vì chữ "Đang tải...".
-* Empty state có 1 câu giải thích + 1 nút hành động.
+* Empty state có minh họa/icon nhỏ + 1 câu giải thích + 1 nút hành động.
 * Số liệu (vote, answer, view) dùng `font-variant-numeric: tabular-nums`, căn thẳng cột.
 * Câu hỏi có câu trả lời được chấp nhận: ô số answer nền `--success-soft`.
-* Tag: nền `--primary-soft`, chữ xanh đậm, nhỏ gọn.
+* Tag: nền `--brand-soft`, chữ `--brand-dark`, bo tròn pill, nhỏ gọn.
 * Nội dung câu hỏi/trả lời: độ rộng tối đa ~720px; code block nền `--bg-subtle`, font monospace.
 
 ---
 # 4. LAYOUT
 
-Website desktop có layout:
+> **Cập nhật 2026-10-17:** Đổi từ thanh nav ngang sang **rail điều hướng dọc bên trái** (desktop ≥769px) — kiến trúc "app shell" kiểu Linear/Discord/Notion, thay vì layout 1 thanh ngang truyền thống. Đây là thay đổi áp dụng lên toàn bộ trang (nằm trong `MainLayout`), không phải chỉ riêng trang chủ.
+
+Website desktop (≥769px) có layout 2 vùng tách biệt:
 
 ```text
---------------------------------------------------
-| LOGO | Câu hỏi | Danh mục | Search | User     |
---------------------------------------------------
-
---------------------------------------------------
-|                                                |
-|              MAIN CONTENT                      |
-|                                                |
-|  Question list                 Sidebar         |
-|                                                |
-|  Question                       Categories     |
-|  Question                       Popular tags   |
-|  Question                       Statistics     |
-|                                                |
---------------------------------------------------
+----+---------------------------------------------
+|R |  Search..................  🌙 🔔 User       |  <- thanh trên (Navbar)
+|A  +---------------------------------------------
+|I  |                                              |
+|L  |              MAIN CONTENT                    |
+|   |                                              |
+|⌂ |  Question list                 Sidebar         |
+|? |                                                |
+|▦ |  Question                       Bảng xếp hạng  |
+|  |  Question                       Thống kê       |
+|➕|  Question                       Tag phổ biến    |
+----+---------------------------------------------
 ```
 
-Không làm sidebar quá rộng.
+* **AppRail** (trái, 72px, nền `--chrome-bg`, cố định suốt chiều cao trang, `position: sticky`): logo, 3 icon điều hướng (Trang chủ/Câu hỏi/Danh mục, có tooltip khi hover), nút tròn "Đặt câu hỏi" màu `--accent` ở dưới cùng nhóm icon.
+* **Navbar** (thanh trên, trong vùng nội dung bên phải, `position: sticky`): logo nhỏ + ô tìm kiếm (rộng, vì không còn link điều hướng) + ThemeToggle + NotificationBell + User/Login.
+* Dưới 768px: AppRail ẩn hoàn toàn, Navbar quay về bản đầy đủ cũ (logo + link + search gộp trong menu hamburger, nút "Đặt câu hỏi" dạng icon luôn hiển thị) — xem mục 21.
+
+Không làm sidebar (bên phải, trong main content) quá rộng — giữ nguyên 280px như cũ.
 
 Main content phải là phần quan trọng nhất.
 
@@ -179,16 +221,14 @@ Main content phải là phần quan trọng nhất.
 
 # 5. HEADER
 
-Header gồm:
+> **Cập nhật 2026-10-19 — "Light Floating Header":** Header (Navbar) đổi từ nền teal đậm sang nền sáng (`--header-bg`, token riêng, tách khỏi `--chrome-bg` mà AppRail/Footer vẫn dùng) để tạo tương phản sáng/tối có chủ đích với sidebar. Dùng `box-shadow: var(--shadow-btn)` + `border-bottom: var(--border)` thay vì border trắng mờ cũ.
 
-* Logo: AskHub
-* Trang chủ
-* Câu hỏi
-* Danh mục
-* Ô tìm kiếm
-* Nút "Đặt câu hỏi"
-* Username/avatar
-* Menu tài khoản
+Điều hướng chính (Trang chủ/Câu hỏi/Danh mục, nhóm Quản trị) nằm ở **AppRail bên trái** (desktop) — xem mục 4. Thanh Navbar phía trên (desktop) chỉ còn đúng 2 thứ:
+
+* Ô tìm kiếm (42px cao, bo góc 11px, nền `--bg`, viền `--border`, focus chuyển viền teal + box-shadow ring nhẹ `--primary-soft`) — có badge "Ctrl+K" (phím tắt thật, focus thẳng vào ô search từ bất kỳ đâu trên trang, ẩn khi đang gõ/đang focus).
+* Nút "Đặt câu hỏi" (cam, cao bằng ô search, bo góc 10px) — **tự ẩn ở desktop khi đang trong `/admin/*`** (đã có FAB tương đương trong AppRail, tránh trùng lặp gây nhầm lẫn ngữ cảnh).
+
+Logo/ThemeToggle/NotificationBell/AccountMenu **không** còn trong Navbar ở desktop (đã chuyển hết xuống AppRail — xem mục 4). Ở mobile (AppRail ẩn), Navbar quay về bản đầy đủ như trước redesign: logo, nav links (+ nhóm Quản trị nếu là admin), search, CTA luôn hiện (thu gọn còn icon ở màn rất hẹp), ThemeToggle/NotificationBell/AccountMenu đầy đủ — tất cả đổi sang màu chữ/icon tối phù hợp nền sáng mới.
 
 Khi chưa đăng nhập:
 
@@ -1084,29 +1124,33 @@ Nếu phát hiện lỗi:
 
 Đây là yêu cầu ưu tiên rất cao.
 
+**Bối cảnh (2026-10-16):** Toàn bộ giao diện đã được redesign theo bản sắc riêng (teal + coral, mục 2–3) — khác với bản UI tối giản ban đầu. Quy tắc dưới đây áp dụng cho redesign này và mọi lần chỉnh sửa UI tiếp theo.
+
 Cách làm UI:
 
-1. Làm design tokens + layout (Navbar, sidebar, footer) trước, cho tôi duyệt.
-2. Sau đó mới làm từng trang: Home, Question detail, Ask, Categories, Search, Profile, Login/Register.
-3. Sau mỗi trang: chạy dev server, chụp screenshot ở 1440px và 375px, tự đánh giá theo mục 2 và 3, sửa rồi mới báo tôi.
-
-Nếu nhìn giao diện và có cảm giác "đây là website AI vừa generate" (gradient, glow, card to, chữ khổng lồ, icon khắp nơi) thì phải thiết kế lại.
+1. Làm design tokens (mục 3) + layout dùng chung (Navbar, sidebar, footer, button/input/card/tag) trước, cho tôi duyệt.
+2. Sau đó mới làm từng trang theo thứ tự ưu tiên: Home → Question detail → Ask → Categories/Search → Profile → Login/Register → Admin.
+3. Sau mỗi trang (hoặc mỗi nhóm trang nhỏ): chạy dev server, chụp screenshot ở 1440px và 375px, tự đánh giá theo mục 2 và 3, sửa lỗi tràn/lệch/overflow rồi mới báo tôi — không im lặng làm hết toàn bộ rồi mới báo 1 lần.
 
 UI phải có:
 
-* Header thực tế, gọn.
-* Danh sách question rõ ràng, dễ quét mắt.
-* Typography có thứ bậc rõ ràng.
-* Khoảng cách đều, thoáng nhưng không lãng phí.
-* Màu sắc tiết chế, nhất quán.
+* Header hiện đại, gọn, có điểm nhận diện thương hiệu riêng (không phải thanh menu HTML mặc định).
+* Danh sách question rõ ràng, dễ quét mắt — không biến QuestionItem thành card to kiểu mạng xã hội.
+* Typography có thứ bậc rõ ràng; kiểu chữ hero chỉ xuất hiện ở đúng 2 nơi — Hero trang chủ, và headline banner trái `/login`+`/register` (cập nhật 2026-10-20) — không lặp lại ở bất kỳ trang con nào khác.
+* Khoảng cách đều, thoáng nhưng không lãng phí; không để trắng vô nghĩa cũng không nhồi nhét.
+* Màu sắc có cá tính (teal + coral) nhưng nhất quán — không đổi tông màu giữa các trang.
 * Sidebar hữu ích, không quá rộng.
-* Không trang trí thừa.
+* Card/button/tag/badge dùng chung 1 ngôn ngữ thiết kế trên toàn bộ site — không có trang nào "lạc" phong cách.
+* Không hardcode dữ liệu mẫu để giao diện trông đẹp hơn — mọi nơi vẫn lấy dữ liệu thật từ API hiện có.
+* Không được chỉ sửa giao diện mà làm hỏng chức năng đang hoạt động (API, quyền hạn, luồng dữ liệu phải giữ nguyên).
 
 Mục tiêu:
 
-**Một website Q&A hiện đại, đẹp, mà sinh viên có thể thật sự sử dụng hàng ngày.**
+**Một website Q&A hiện đại, đẹp, có bản sắc riêng, mà sinh viên có thể thật sự sử dụng hàng ngày.**
 
 Không phải một concept UI.
+
+**Cập nhật 2026-10-20 — `/login` và `/register` dùng layout split-screen:** `AuthLayout` chia 2 cột ở desktop — cột trái là banner thương hiệu (nền `--chrome-bg`/gradient teal đậm, logo + headline hero + mô tả + 2-3 điểm nổi bật của AskHub), cột phải là form trên nền sáng. Đây là vị trí hero thứ 2 duy nhất được phép ngoài trang chủ (xem mục 3). Mobile: banner thu gọn thành dải trên cùng chỉ còn logo + 1 câu mô tả ngắn, form chiếm phần lớn màn hình bên dưới. Không thêm liên kết "Quên mật khẩu?" vì dự án chưa có chức năng này.
 
 ---
 

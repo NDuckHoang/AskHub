@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
+import AuthLayout from './layouts/AuthLayout'
 import HomePage from './pages/HomePage'
 import QuestionsPage from './pages/QuestionsPage'
 import CategoriesPage from './pages/CategoriesPage'
@@ -7,6 +8,11 @@ import SearchPage from './pages/SearchPage'
 import UserProfilePage from './pages/UserProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
 import AdminPage from './pages/AdminPage'
+import AdminUsersPage from './pages/AdminUsersPage'
+import AdminQuestionsPage from './pages/AdminQuestionsPage'
+import AdminAnswersPage from './pages/AdminAnswersPage'
+import AdminCategoriesPage from './pages/AdminCategoriesPage'
+import AdminReportsPage from './pages/AdminReportsPage'
 import NotificationsPage from './pages/NotificationsPage'
 import QuestionDetailPage from './pages/QuestionDetailPage'
 import AskPage from './pages/AskPage'
@@ -20,10 +26,12 @@ import AdminRoute from './components/AdminRoute'
 function App() {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
+      <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+      </Route>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/questions/:id" element={<QuestionDetailPage />} />
         <Route
@@ -50,6 +58,46 @@ function App() {
           element={
             <AdminRoute>
               <AdminPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminUsersPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/questions"
+          element={
+            <AdminRoute>
+              <AdminQuestionsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/answers"
+          element={
+            <AdminRoute>
+              <AdminAnswersPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <AdminRoute>
+              <AdminCategoriesPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <AdminRoute>
+              <AdminReportsPage />
             </AdminRoute>
           }
         />

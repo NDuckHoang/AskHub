@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { MessageSquareCode } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import PasswordInput from '../components/PasswordInput'
 import './AuthForm.css'
@@ -41,9 +42,15 @@ function LoginPage() {
   }
 
   return (
-    <div className="container auth-container">
+    <div className="auth-wrap">
       <div className="card auth-card">
-        <h1>Đăng nhập</h1>
+        <div className="auth-card-head">
+          <span className="auth-card-icon">
+            <MessageSquareCode size={22} />
+          </span>
+          <h1>Chào mừng trở lại!</h1>
+          <p className="auth-card-subtitle">Tiếp tục hành trình chia sẻ kiến thức cùng AskHub.</p>
+        </div>
 
         {justRegistered && (
           <div className="auth-success">Đăng ký thành công! Hãy đăng nhập để tiếp tục.</div>
@@ -59,6 +66,7 @@ function LoginPage() {
               id="email"
               type="email"
               className="input"
+              placeholder="ban@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -71,6 +79,7 @@ function LoginPage() {
             </label>
             <PasswordInput
               id="password"
+              placeholder="Nhập mật khẩu của bạn"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { AlertCircle, FolderOpen } from 'lucide-react'
 import * as categoryService from '../services/categoryService'
 import * as questionService from '../services/questionService'
 import './CategoriesPage.css'
@@ -64,6 +65,9 @@ function CategoriesPage() {
 
       {error && (
         <div className="card state-box state-error">
+          <span className="state-box-icon">
+            <AlertCircle size={22} />
+          </span>
           <p>Không tải được danh sách danh mục. Vui lòng thử lại.</p>
           <button type="button" className="btn btn-secondary btn-sm" onClick={fetchCategories}>
             Thử lại
@@ -73,6 +77,9 @@ function CategoriesPage() {
 
       {categories && categories.length === 0 && (
         <div className="card state-box">
+          <span className="state-box-icon">
+            <FolderOpen size={22} />
+          </span>
           <p>Chưa có danh mục nào.</p>
         </div>
       )}

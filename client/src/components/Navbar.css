@@ -1,6 +1,7 @@
 .navbar {
-  background: var(--chrome-bg);
-  border-bottom: 1px solid var(--chrome-border);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-btn);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -16,11 +17,19 @@
 .navbar-logo {
   font-size: 17px;
   font-weight: 700;
-  color: var(--chrome-text);
+  color: var(--text);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* >=769px: AppRail đã có logo riêng, ẩn bản này để tránh lặp lại thương hiệu
+   2 lần trên cùng 1 màn hình. Dưới 768px AppRail ẩn nên vẫn cần giữ logo ở đây. */
+@media (min-width: 769px) {
+  .navbar-logo {
+    display: none;
+  }
 }
 
 .navbar-logo:hover {
@@ -34,10 +43,13 @@
   flex-shrink: 0;
 }
 
-/* Logo -> nav links -> search (co giãn) -> actions */
+/* Logo -> nav links -> search (co giãn) -> actions.
+   justify-content: center để ô search nằm giữa khoảng trống còn lại (giữa logo và
+   cụm action bên phải) thay vì dồn hết về sát logo, để lại 1 mảng trống lớn phía sau. */
 .navbar-collapsible {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
   flex: 1;
   min-width: 0;
@@ -50,22 +62,48 @@
   flex-shrink: 0;
 }
 
+/* >=769px: điều hướng đã chuyển sang AppRail bên trái, ẩn link ngang ở đây để
+   nhường chỗ cho ô tìm kiếm rộng hơn. Dưới 768px vẫn hiện trong menu mobile. */
+@media (min-width: 769px) {
+  .navbar-links {
+    display: none;
+  }
+}
+
 .navbar-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--chrome-text-muted);
-  padding: 6px 2px;
-  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  padding: 8px 2px;
+  border-bottom: 3px solid transparent;
+  transition: color 150ms;
+}
+
+/* Nhãn phân nhóm "Quản trị" trong menu mobile - chỉ hiện với admin, ngăn cách
+   bằng đường kẻ trên để không bị nhầm là tiếp nối của 3 link điều hướng chính */
+.navbar-links-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
 }
 
 .navbar-link:hover {
-  color: var(--chrome-text);
+  color: var(--text);
   text-decoration: none;
 }
 
 .navbar-link.is-active {
-  color: var(--chrome-text);
-  border-bottom-color: var(--chrome-text);
+  color: var(--text);
+  border-bottom-color: var(--accent);
   font-weight: 600;
 }
 
@@ -73,24 +111,28 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 10px;
-  background: #ffffff;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 11px;
   flex: 1;
-  transition: border-color 150ms, background-color 150ms;
+  max-width: 640px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.navbar-search:hover {
+  border-color: var(--text-secondary);
 }
 
 .navbar-search:focus-within {
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
-/* Ô search luôn nền trắng (xem .navbar-search) bất kể light/dark mode,
-   nên chữ/icon bên trong cũng cố định màu tối, không dùng var(--text...) */
 .navbar-search-icon {
-  color: #687383;
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
@@ -100,7 +142,29 @@
   width: 100%;
   height: 100%;
   font-size: 14px;
-  color: #1f2328;
+  color: var(--text);
+}
+
+.navbar-search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Gợi ý phím tắt Ctrl/Cmd+K - chỉ hiện khi ô trống và chưa gõ gì, tự ẩn khi có nội
+   dung hoặc đang mở lịch sử tìm kiếm để không đè lên nhau. Phím tắt có hoạt động thật
+   (xem useEffect trong Navbar.jsx), không phải chỉ vẽ cho đẹp. */
+.navbar-search-shortcut {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 5px;
 }
 
 /* Focus ring mặc định (xem index.css) là hình chữ nhật, không khớp viền bo tròn
@@ -126,7 +190,7 @@
   top: calc(100% + 6px);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-menu);
   z-index: 30;
   overflow: hidden;
@@ -225,16 +289,45 @@
   flex-shrink: 0;
 }
 
-/* .btn-primary (navy) gần giống màu nền header, không nổi bật - dùng xanh dương
-   sáng cố định riêng cho CTA chính này để luôn tách biệt rõ trên nền navy */
+/* CTA chính - cam thương hiệu, cao bằng ô search (42px) và bo góc đồng bộ (~10px),
+   không dùng .btn-sm mặc định (quá nhỏ so với search input mới) */
 .navbar-ask-btn {
-  background: #4b8bf5;
-  border-color: #4b8bf5;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .navbar-ask-btn:hover:not(:disabled) {
-  background: #6ca5ff;
-  border-color: #6ca5ff;
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.navbar-ask-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Trong khu vực /admin, CTA "Đặt câu hỏi" dễ gây nhầm lẫn với ngữ cảnh quản trị -
+   ẩn ở desktop (đã có FAB tương tự trong AppRail). Mobile vẫn giữ vì không có rail. */
+@media (min-width: 769px) {
+  .navbar-ask-btn.is-admin-area {
+    display: none;
+  }
+}
+
+/* >=769px: Thông báo, Dark mode, Tài khoản đã chuyển xuống nhóm tiện ích cuối AppRail -
+   ẩn bản trong thanh trên để không lặp lại cùng 1 chức năng ở 2 nơi. Dưới 768px AppRail
+   ẩn nên 3 thành phần này vẫn hiện đầy đủ ở đây như trước, không đổi hành vi mobile. */
+@media (min-width: 769px) {
+  .navbar-actions > .theme-toggle,
+  .navbar-actions > .notification-bell,
+  .navbar-actions > .navbar-user {
+    display: none;
+  }
 }
 
 .navbar-auth-links {
@@ -255,12 +348,12 @@
   cursor: pointer;
   padding: 4px 6px;
   border-radius: var(--radius-sm);
-  color: var(--chrome-text);
+  color: var(--text);
   transition: background-color 150ms;
 }
 
 .navbar-user-trigger:hover {
-  background: var(--chrome-hover-bg);
+  background: var(--bg-hover);
 }
 
 .navbar-username {
@@ -278,12 +371,22 @@
   top: calc(100% + 6px);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-menu);
   min-width: 170px;
   padding: 4px;
   z-index: 30;
   transform-origin: top right;
+}
+
+/* Trong AppRail: trigger nằm sát đáy sidebar - mở dropdown sang phải thay vì xuống dưới,
+   neo đáy để "mọc" lên trên (tránh tràn khỏi viewport vì trigger đã ở gần đáy màn hình) */
+.navbar-dropdown-rail {
+  right: auto;
+  top: auto;
+  left: calc(100% + 10px);
+  bottom: 0;
+  transform-origin: bottom left;
 }
 
 .navbar-dropdown-item {
@@ -313,12 +416,12 @@
   border: none;
   cursor: pointer;
   padding: 6px;
-  color: var(--chrome-text);
+  color: var(--text);
   border-radius: var(--radius-sm);
 }
 
 .navbar-mobile-toggle:hover {
-  background: var(--chrome-hover-bg);
+  background: var(--bg-hover);
 }
 
 @media (max-width: 768px) {
@@ -347,7 +450,7 @@
     align-items: stretch;
     gap: 4px;
     padding-top: 12px;
-    border-top: 1px solid var(--chrome-border);
+    border-top: 1px solid var(--border);
   }
 
   .navbar-collapsible.is-open {
@@ -366,13 +469,18 @@
     margin-bottom: 4px;
   }
 
+  /* Phím tắt bàn phím không có ý nghĩa trên thiết bị cảm ứng */
+  .navbar-search-shortcut {
+    display: none;
+  }
+
   .navbar-link {
     padding: 10px 8px;
-    border-bottom: 1px solid var(--chrome-border);
+    border-bottom: 1px solid var(--border);
   }
 
   .navbar-link.is-active {
-    background: var(--chrome-hover-bg);
+    background: var(--bg-hover);
     border-radius: var(--radius-sm);
   }
 }
@@ -383,7 +491,7 @@
   }
 
   .navbar-ask-btn {
-    width: 36px;
+    width: 42px;
     padding: 0;
   }
 

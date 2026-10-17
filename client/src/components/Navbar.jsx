@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Search, Menu, X, ChevronDown, LogOut, User, ShieldCheck, Plus, Clock } from 'lucide-react'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { Search, Menu, X, Plus, Clock } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useAskModal } from '../hooks/useAskModal'
-import UserAvatar from './UserAvatar'
 import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
+import AccountMenu from './AccountMenu'
+import { ADMIN_ITEMS } from './adminNavItems'
 import logoIcon from '../assets/logo-icon.png'
 import './Navbar.css'
 
@@ -31,29 +32,40 @@ function saveSearchHistory(history) {
 }
 
 function Navbar() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const { openAskModal } = useAskModal()
+  const location = useLocation()
+  const isAdminArea = location.pathname.startsWith('/admin')
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [searchHistory, setSearchHistory] = useState(loadSearchHistory)
-  const menuRef = useRef(null)
   const searchRef = useRef(null)
+  const searchInputRef = useRef(null)
 
-  // Bấm ra ngoài dropdown user / lịch sử tìm kiếm thì tự đóng lại
+  // Bấm ra ngoài lịch sử tìm kiếm thì tự đóng lại
   useEffect(() => {
     function handleClickOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false)
-      }
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setHistoryOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Phím tắt Ctrl/Cmd+K focus thẳng vào ô tìm kiếm, dùng được từ bất kỳ đâu trên trang
+  useEffect(() => {
+    function handleGlobalKeyDown(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleGlobalKeyDown)
+    return () => document.removeEventListener('keydown', handleGlobalKeyDown)
   }, [])
 
   // Lưu từ khóa vào lịch sử (mới nhất lên đầu, không trùng lặp, tối đa MAX_SEARCH_HISTORY)
@@ -102,12 +114,6 @@ function Navbar() {
     if (e.key === 'Escape') setHistoryOpen(false)
   }
 
-  function handleLogout() {
-    logout()
-    setMenuOpen(false)
-    navigate('/')
-  }
-
   function handleAskClick() {
     setMobileOpen(false)
     if (user) {
@@ -140,21 +146,48 @@ function Navbar() {
             <NavLink to="/categories" className={linkClass} onClick={() => setMobileOpen(false)}>
               Danh mục
             </NavLink>
+
+            {user?.role === 'ADMIN' && (
+              <>
+                <span className="navbar-links-group-label">Quản trị</span>
+                {ADMIN_ITEMS.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={linkClass}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <item.icon size={15} /> {item.label}
+                  </NavLink>
+                ))}
+              </>
+            )}
           </nav>
 
           <form className="navbar-search" onSubmit={handleSearchSubmit} role="search" ref={searchRef}>
             <Search size={16} className="navbar-search-icon" />
             <input
+              ref={searchInputRef}
               type="search"
               className="navbar-search-input"
-              placeholder="Tìm câu hỏi..."
+              placeholder="Tìm câu hỏi, chủ đề..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setHistoryOpen(true)}
+              onFocus={() => {
+                setHistoryOpen(true)
+                setSearchFocused(true)
+              }}
+              onBlur={() => setSearchFocused(false)}
               onClick={() => setHistoryOpen(true)}
               onKeyDown={handleSearchKeyDown}
               autoComplete="off"
             />
+            {!searchFocused && !query && (
+              <span className="navbar-search-shortcut" aria-hidden="true">
+                Ctrl+K
+              </span>
+            )}
 
             {historyOpen && !query.trim() && searchHistory.length > 0 && (
               <div className="navbar-search-history animate-scale-in">
@@ -194,7 +227,7 @@ function Navbar() {
         <div className="navbar-actions">
           <button
             type="button"
-            className="btn btn-primary btn-sm navbar-ask-btn"
+            className={`btn btn-primary btn-sm navbar-ask-btn${isAdminArea ? ' is-admin-area' : ''}`}
             onClick={handleAskClick}
           >
             <Plus size={16} />
@@ -216,43 +249,7 @@ function Navbar() {
 
           {user && <NotificationBell />}
 
-          {user && (
-            <div className="navbar-user" ref={menuRef}>
-              <button
-                type="button"
-                className="navbar-user-trigger"
-                onClick={() => setMenuOpen((v) => !v)}
-              >
-                <UserAvatar username={user.username} avatar={user.avatar} size={28} />
-                <span className="navbar-username">{user.username}</span>
-                <ChevronDown size={14} />
-              </button>
-
-              {menuOpen && (
-                <div className="navbar-dropdown animate-scale-in">
-                  <Link
-                    to={`/users/${user.id}`}
-                    className="navbar-dropdown-item"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <User size={16} /> Hồ sơ
-                  </Link>
-                  {user.role === 'ADMIN' && (
-                    <Link
-                      to="/admin"
-                      className="navbar-dropdown-item"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      <ShieldCheck size={16} /> Quản trị
-                    </Link>
-                  )}
-                  <button type="button" className="navbar-dropdown-item" onClick={handleLogout}>
-                    <LogOut size={16} /> Đăng xuất
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+          <AccountMenu />
 
           <button
             type="button"

@@ -3,13 +3,13 @@
   align-items: center;
   gap: 4px;
   height: 22px;
-  padding: 0 8px;
+  padding: 0 10px;
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 500;
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   white-space: nowrap;
 }
 

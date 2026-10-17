@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2, AlertCircle, MessageSquarePlus, MessageSquare } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import * as answerService from '../services/answerService'
 import { useAuth } from '../hooks/useAuth'
@@ -114,6 +114,9 @@ function QuestionDetailPage() {
     return (
       <div className="container">
         <div className="card state-box state-error">
+          <span className="state-box-icon">
+            <AlertCircle size={22} />
+          </span>
           <p>Không tìm thấy câu hỏi hoặc có lỗi khi tải dữ liệu.</p>
           <Link to="/" className="btn btn-secondary btn-sm">
             Về trang chủ
@@ -188,6 +191,9 @@ function QuestionDetailPage() {
       </div>
 
       <h2 className="answers-heading">
+        <span className="answers-heading-icon">
+          <MessageSquare size={15} />
+        </span>
         {loadingAnswers ? 'Câu trả lời' : `${answers.length} câu trả lời`}
       </h2>
 
@@ -200,6 +206,9 @@ function QuestionDetailPage() {
 
       {errorAnswers && (
         <div className="card state-box state-error">
+          <span className="state-box-icon">
+            <AlertCircle size={22} />
+          </span>
           <p>Không tải được câu trả lời.</p>
           <button type="button" className="btn btn-secondary btn-sm" onClick={fetchAnswers}>
             Thử lại
@@ -209,6 +218,9 @@ function QuestionDetailPage() {
 
       {!loadingAnswers && !errorAnswers && answers.length === 0 && (
         <div className="card state-box">
+          <span className="state-box-icon">
+            <MessageSquarePlus size={22} />
+          </span>
           <p>Chưa có câu trả lời nào. Hãy là người đầu tiên trả lời!</p>
         </div>
       )}

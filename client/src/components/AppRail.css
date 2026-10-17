@@ -1,0 +1,327 @@
+.app-rail {
+  display: none;
+  flex-shrink: 0;
+  width: 72px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: var(--chrome-bg);
+  border-right: 1px solid var(--chrome-border);
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0 16px;
+  gap: 8px;
+  z-index: 25;
+  transition: width 200ms ease;
+}
+
+.app-rail.is-expanded {
+  width: 212px;
+  align-items: stretch;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.app-rail-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.app-rail.is-expanded .app-rail-logo {
+  width: auto;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-left: 2px;
+}
+
+.app-rail-logo img {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.app-rail-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 200ms ease, opacity 150ms ease;
+}
+
+.app-rail.is-expanded .app-rail-logo-text {
+  max-width: 120px;
+  opacity: 1;
+  transition: max-width 200ms ease, opacity 200ms ease 60ms;
+}
+
+.app-rail-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.app-rail-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  align-self: center;
+  border-radius: var(--radius-lg);
+  color: var(--chrome-text-muted);
+  transition: background-color 150ms, color 150ms;
+}
+
+.app-rail.is-expanded .app-rail-link {
+  width: 100%;
+  align-self: stretch;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-left: 12px;
+}
+
+.app-rail-link:hover {
+  background: var(--chrome-hover-bg);
+  color: var(--chrome-text);
+  text-decoration: none;
+}
+
+.app-rail-link.is-active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+/* Vạch nhỏ bên trái báo mục đang chọn - giống quy ước "active rail" của Discord/Linear */
+.app-rail-link.is-active::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+
+.app-rail.is-expanded .app-rail-link.is-active::before {
+  left: -12px;
+}
+
+/* Nhóm tiện ích (Thông báo/Dark mode/Tài khoản) ở đáy rail - tái dùng nguyên component
+   NotificationBell/ThemeToggle/AccountMenu, chỉ ghi đè kích thước/màu cho khớp rail dọc
+   (mặc định các component này được thiết kế cho thanh ngang Navbar). */
+.app-rail-utility {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.app-rail-utility > * {
+  display: flex;
+  justify-content: center;
+}
+
+.app-rail-utility .theme-toggle,
+.app-rail-utility .notification-bell-trigger,
+.app-rail-utility .navbar-user-trigger {
+  width: 44px;
+  height: 44px;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  color: var(--chrome-text-muted);
+  padding: 0;
+}
+
+.app-rail-utility .theme-toggle:hover,
+.app-rail-utility .notification-bell-trigger:hover,
+.app-rail-utility .navbar-user-trigger:hover {
+  background: var(--chrome-hover-bg);
+  color: var(--chrome-text);
+}
+
+.app-rail.is-expanded .app-rail-utility .theme-toggle,
+.app-rail.is-expanded .app-rail-utility .notification-bell-trigger,
+.app-rail.is-expanded .app-rail-utility .navbar-user-trigger {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-left: 12px;
+}
+
+/* notification-bell/navbar-user có 1 div bọc ngoài nút - div này cũng cần rộng 100%
+   khi mở rộng, nếu không nút con bên trong (width:100%) không có mốc % rõ ràng để tính */
+.app-rail.is-expanded .app-rail-utility .notification-bell,
+.app-rail.is-expanded .app-rail-utility .navbar-user {
+  width: 100%;
+}
+
+.app-rail-utility .navbar-username {
+  color: inherit;
+}
+
+/* Thu gọn: chỉ hiện avatar, ẩn hẳn tên + chevron (mặc định navbar-user-trigger không
+   ẩn các phần tử con này, chỉ ép khung 44px nên chữ/icon bị tràn ra ngoài vòng tròn) */
+.app-rail-utility .navbar-username,
+.app-rail-utility .navbar-user-chevron {
+  display: none;
+}
+
+.app-rail.is-expanded .app-rail-utility .navbar-username,
+.app-rail.is-expanded .app-rail-utility .navbar-user-chevron {
+  display: block;
+}
+
+.app-rail-divider {
+  width: 28px;
+  height: 1px;
+  align-self: center;
+  margin: 8px 0 2px;
+  background: var(--chrome-border);
+  flex-shrink: 0;
+}
+
+.app-rail.is-expanded .app-rail-divider {
+  width: 100%;
+}
+
+.app-rail-ask-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  align-self: center;
+  margin-top: 2px;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn-primary);
+  transition: background-color 150ms, transform 150ms, box-shadow 150ms, width 200ms, border-radius 200ms;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.app-rail-ask-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: var(--shadow-btn-primary-hover);
+}
+
+.app-rail.is-expanded .app-rail-ask-btn {
+  width: 100%;
+  align-self: stretch;
+  border-radius: var(--radius-lg);
+  justify-content: flex-start;
+  gap: 10px;
+  padding-left: 13px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.app-rail.is-expanded .app-rail-ask-btn:hover {
+  transform: none;
+}
+
+.app-rail-label {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 200ms ease, opacity 150ms ease;
+}
+
+.app-rail.is-expanded .app-rail-label {
+  max-width: 150px;
+  opacity: 1;
+  transition: max-width 200ms ease, opacity 200ms ease 60ms;
+}
+
+.app-rail-spacer {
+  flex: 1;
+}
+
+.app-rail-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 36px;
+  align-self: center;
+  background: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--chrome-text-muted);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background-color 150ms, color 150ms;
+}
+
+.app-rail-toggle:hover {
+  background: var(--chrome-hover-bg);
+  color: var(--chrome-text);
+}
+
+.app-rail.is-expanded .app-rail-toggle {
+  align-self: flex-end;
+}
+
+/* Tooltip hiện khi hover, neo bên phải icon - chỉ cần thiết vì rail không có chữ */
+.app-rail-tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  white-space: nowrap;
+  background: var(--chrome-bg);
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-menu);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms, transform 150ms;
+}
+
+.app-rail-link:hover .app-rail-tooltip,
+.app-rail-ask-btn:hover .app-rail-tooltip,
+.admin-nav-trigger:hover .app-rail-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media (min-width: 769px) {
+  .app-rail {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-rail,
+  .app-rail-tooltip,
+  .app-rail-label,
+  .app-rail-logo-text,
+  .app-rail-ask-btn {
+    transition: none;
+  }
+}

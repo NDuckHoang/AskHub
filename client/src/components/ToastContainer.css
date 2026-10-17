@@ -9,33 +9,72 @@
   max-width: calc(100vw - 32px);
 }
 
+/* Trượt nhẹ từ phải + mờ dần vào - hợp hướng xuất hiện ở góc phải màn hình hơn
+   animate-fade-in-up dùng chung (vốn thiết kế cho nội dung trang xuất hiện từ dưới lên) */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .toast {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
+  gap: 10px;
+  padding: 10px 14px 10px 12px;
+  border-radius: var(--radius-lg);
   background: var(--bg);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
   box-shadow: var(--shadow-menu);
   font-size: 14px;
   color: var(--text);
   cursor: pointer;
   max-width: 360px;
+  animation: toast-slide-in 200ms ease-out;
+}
+
+.toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
 }
 
 .toast-success {
-  border-color: var(--success);
+  border-left-color: var(--success);
+}
+
+.toast-success .toast-icon {
+  background: var(--success-soft);
   color: var(--success);
 }
 
 .toast-error {
-  border-color: var(--danger);
+  border-left-color: var(--danger);
+}
+
+.toast-error .toast-icon {
+  background: var(--danger-soft);
   color: var(--danger);
 }
 
 .toast span {
   color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
 }
 
 @media (max-width: 480px) {

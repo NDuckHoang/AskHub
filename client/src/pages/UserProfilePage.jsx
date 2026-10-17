@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ShieldCheck, Pencil, Phone } from 'lucide-react'
+import { ShieldCheck, Pencil, Phone, UserX, MessageSquare, Activity, AlertCircle } from 'lucide-react'
 import * as userService from '../services/userService'
 import * as questionService from '../services/questionService'
 import { useAuth } from '../hooks/useAuth'
@@ -114,6 +114,9 @@ function UserProfilePage() {
     return (
       <div className="container">
         <div className="card state-box state-error">
+          <span className="state-box-icon">
+            <UserX size={22} />
+          </span>
           <p>Không tìm thấy người dùng này.</p>
         </div>
       </div>
@@ -226,6 +229,9 @@ function UserProfilePage() {
           )}
           {answersError && (
             <div className="card state-box state-error">
+              <span className="state-box-icon">
+                <AlertCircle size={22} />
+              </span>
               <p>Không tải được câu trả lời.</p>
               <button type="button" className="btn btn-secondary btn-sm" onClick={fetchAnswers}>
                 Thử lại
@@ -234,6 +240,9 @@ function UserProfilePage() {
           )}
           {answers && answers.length === 0 && (
             <div className="card state-box">
+              <span className="state-box-icon">
+                <MessageSquare size={22} />
+              </span>
               <p>Người dùng này chưa trả lời câu hỏi nào.</p>
             </div>
           )}
@@ -264,6 +273,9 @@ function UserProfilePage() {
           {!activityItems && <div className="skeleton" style={{ height: 160, borderRadius: 8 }} />}
           {activityItems && activityItems.length === 0 && (
             <div className="card state-box">
+              <span className="state-box-icon">
+                <Activity size={22} />
+              </span>
               <p>Chưa có hoạt động nào.</p>
             </div>
           )}

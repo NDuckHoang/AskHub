@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCheck } from 'lucide-react'
+import { CheckCheck, AlertCircle, BellOff } from 'lucide-react'
 import * as notificationService from '../services/notificationService'
 import Pagination from '../components/Pagination'
 import { formatRelativeTime } from '../utils/formatTime'
@@ -66,6 +66,9 @@ function NotificationsPage() {
 
       {error && (
         <div className="card state-box state-error">
+          <span className="state-box-icon">
+            <AlertCircle size={22} />
+          </span>
           <p>Không tải được thông báo.</p>
           <button type="button" className="btn btn-secondary btn-sm" onClick={fetchNotifications}>
             Thử lại
@@ -75,6 +78,9 @@ function NotificationsPage() {
 
       {notifications && notifications.length === 0 && (
         <div className="card state-box">
+          <span className="state-box-icon">
+            <BellOff size={22} />
+          </span>
           <p>Bạn chưa có thông báo nào.</p>
         </div>
       )}

@@ -2,10 +2,10 @@
   margin-bottom: 4px;
 }
 
-.admin-page-tabs {
-  margin: 0 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+.admin-page-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .admin-tab-badge {

@@ -4,23 +4,28 @@
 :root {
   color-scheme: light;
 
-  /* Màu - warm neutral + navy, xem CLAUDE.md để biết lý do chọn bảng màu này.
+  /* Màu - brand identity riêng: teal (--primary) + coral (--accent), xem CLAUDE.md
+     mục 2-3 (cập nhật 2026-10-16) để biết lý do chọn bảng màu này.
      --bg-subtle/--bg-hover tách riêng vai trò "khối phụ tĩnh" và "trạng thái hover"
      (trước đây dùng chung 1 token khiến giao diện thiếu phân lớp) */
-  --page-bg: #f3f5f7;
+  --page-bg: #f5f7fa;
   --bg: #ffffff;
-  --bg-subtle: #edf1f5;
-  --bg-hover: #f7f9fb;
-  --text: #252b33;
-  --text-secondary: #687383;
-  --border: #d9dee5;
-  --primary: #234a70;
-  --primary-dark: #193a59;
-  --primary-soft: #e8eef6;
-  --primary-soft-hover: #dce6f0;
-  --tag-bg: #e8eef6;
-  --tag-text: #315b8a;
-  --success: #285b40;
+  --bg-subtle: #eef2f5;
+  --bg-hover: #f5f8fa;
+  --text: #172b3a;
+  --text-secondary: #667788;
+  --border: #e1e7ec;
+  --primary: #087f73;
+  --primary-dark: #066a5f;
+  --primary-soft: #e6f5f3;
+  --primary-soft-hover: #cceae6;
+  --tag-bg: #e6f5f3;
+  --tag-text: #066a5f;
+  --accent: #ff781f;
+  --accent-dark: #d9661a;
+  --accent-soft: #ffeee2;
+  --brand-gradient: linear-gradient(135deg, #087f73 0%, #103f3a 100%);
+  --success: #15803d;
   --success-soft: #e6f0ea;
   --warning-soft: #f7eedb;
   --warning-text: #7a5b1e;
@@ -35,26 +40,34 @@
   /* Khối */
   --radius-sm: 6px;
   --radius-lg: 8px;
-  --shadow-menu: 0 4px 12px rgba(37, 43, 51, 0.12);
-  --shadow-btn: 0 1px 2px rgba(37, 43, 51, 0.08);
-  --shadow-btn-hover: 0 3px 6px rgba(37, 43, 51, 0.12);
-  --shadow-btn-primary: 0 1px 3px rgba(35, 74, 112, 0.35);
-  --shadow-btn-primary-hover: 0 4px 10px rgba(25, 58, 89, 0.4);
-  --shadow-btn-active: 0 1px 1px rgba(37, 43, 51, 0.12);
+  --radius-xl: 16px;
+  --shadow-menu: 0 4px 12px rgba(23, 43, 58, 0.14);
+  --shadow-btn: 0 1px 2px rgba(23, 43, 58, 0.08);
+  --shadow-btn-hover: 0 3px 6px rgba(23, 43, 58, 0.12);
+  --shadow-btn-primary: 0 1px 3px rgba(8, 127, 115, 0.35);
+  --shadow-btn-primary-hover: 0 4px 10px rgba(6, 106, 95, 0.4);
+  --shadow-btn-active: 0 1px 1px rgba(23, 43, 58, 0.12);
+  --shadow-card-hover: 0 8px 20px rgba(8, 127, 115, 0.16);
 
   /* Layout */
-  --header-height: 56px;
+  --header-height: 64px;
   --content-max-width: 720px;
-  --page-max-width: 1200px;
+  --page-max-width: 1440px;
 
-  /* Header/Footer: nền navy đậm cố định, KHÔNG đổi theo light/dark mode
+  /* AppRail/Footer: nền teal đậm cố định, KHÔNG đổi theo light/dark mode
      (khác với --bg - đây là màu thương hiệu riêng, giữ nguyên để luôn tách
-     biệt rõ với nền trang, tránh lặp lỗi header/footer trùng màu nền) */
-  --chrome-bg: #193a59;
+     biệt rõ với nền trang, tránh lặp lỗi rail/footer trùng màu nền) */
+  --chrome-bg: #103f3a;
   --chrome-text: #ffffff;
   --chrome-text-muted: rgba(255, 255, 255, 0.68);
   --chrome-border: rgba(255, 255, 255, 0.14);
   --chrome-hover-bg: rgba(255, 255, 255, 0.1);
+
+  /* Header (Navbar): nền sáng riêng, tương phản có chủ đích với AppRail/Footer tối
+     ("Light Floating Header" - cập nhật 2026-10-19). Light mode = trắng tinh, dark
+     mode đổi giá trị bên dưới sang 1 sắc tối nhạt hơn nền trang, vẫn đọc được như
+     "mặt phẳng nổi" chứ không biến mất vào nền. */
+  --header-bg: #ffffff;
 }
 
 /* =========================================================
@@ -68,15 +81,20 @@
   --bg: #0d1117;
   --bg-subtle: #161b22;
   --bg-hover: #1c232c;
+  --header-bg: #161b22;
   --text: #e6edf3;
   --text-secondary: #8b949e;
   --border: #30363d;
-  --primary: #4b8bf5;
-  --primary-dark: #6ca5ff;
-  --primary-soft: #132f52;
-  --primary-soft-hover: #1b3b66;
-  --tag-bg: #16304f;
-  --tag-text: #8bb4e0;
+  --primary: #2dd4bf;
+  --primary-dark: #5eead4;
+  --primary-soft: #0f2d29;
+  --primary-soft-hover: #134e49;
+  --tag-bg: #0f2d29;
+  --tag-text: #5eead4;
+  --accent: #ff9152;
+  --accent-dark: #ffab73;
+  --accent-soft: #3a1d0a;
+  --brand-gradient: linear-gradient(135deg, #087f73 0%, #103f3a 100%);
   --success: #3fb950;
   --success-soft: #122a1c;
   --warning-soft: #3a2f16;
@@ -87,8 +105,9 @@
   --shadow-btn: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-btn-hover: 0 3px 8px rgba(0, 0, 0, 0.5);
   --shadow-btn-primary: 0 1px 3px rgba(0, 0, 0, 0.45);
-  --shadow-btn-primary-hover: 0 4px 12px rgba(75, 139, 245, 0.35);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(45, 212, 191, 0.35);
   --shadow-btn-active: 0 1px 1px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
   --skeleton-shine: rgba(255, 255, 255, 0.06);
 }
 
@@ -124,9 +143,10 @@ figure {
 }
 
 h1 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
   line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 h2 {
@@ -235,7 +255,7 @@ select:focus-visible,
   padding: 0 16px;
   font-size: 15px;
   font-weight: 500;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   border: 1px solid transparent;
   cursor: pointer;
   transition: background-color 150ms, border-color 150ms, color 150ms, transform 100ms, box-shadow 150ms;
@@ -268,6 +288,7 @@ select:focus-visible,
   background: var(--primary-dark);
   border-color: var(--primary-dark);
   box-shadow: var(--shadow-btn-primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -335,6 +356,41 @@ select:focus-visible,
   color: var(--text);
 }
 
+.btn-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-1px);
+}
+
+.btn-accent:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
+}
+
+.btn-gradient {
+  background: var(--brand-gradient);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.btn-gradient:hover:not(:disabled) {
+  box-shadow: var(--shadow-btn-primary-hover);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.btn-gradient:active:not(:disabled) {
+  box-shadow: var(--shadow-btn-active);
+}
+
 /* =========================================================
    FORM (input / textarea / select)
    ========================================================= */
@@ -366,12 +422,12 @@ select:focus-visible,
 .select {
   width: 100%;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg);
+  border-radius: var(--radius-lg);
+  background: var(--bg-subtle);
   color: var(--text);
   padding: 0 12px;
-  height: 36px;
-  transition: border-color 150ms, box-shadow 150ms;
+  height: 38px;
+  transition: border-color 150ms, box-shadow 150ms, background-color 150ms;
 }
 
 .textarea {
@@ -392,6 +448,7 @@ select:focus-visible,
 .textarea:focus,
 .select:focus {
   outline: none;
+  background: var(--bg);
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-soft);
 }
@@ -432,6 +489,18 @@ select:focus-visible,
   border-radius: var(--radius-lg);
 }
 
+/* Card có thể bấm (category, v.v.) - nâng nhẹ + đổ bóng rõ hơn khi hover,
+   dùng cùng với transition đặt sẵn trên .card hoặc class riêng của từng nơi */
+.card-hover {
+  transition: transform 150ms, box-shadow 150ms, border-color 150ms;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--primary);
+}
+
 /* =========================================================
    TAG
    ========================================================= */
@@ -439,12 +508,13 @@ select:focus-visible,
   display: inline-flex;
   align-items: center;
   height: 22px;
-  padding: 0 8px;
+  padding: 0 10px;
   background: var(--tag-bg);
   color: var(--tag-text);
   font-size: 13px;
   font-weight: 500;
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--primary-soft-hover);
+  border-radius: 9999px;
   white-space: nowrap;
 }
 
@@ -499,6 +569,24 @@ a.tag-pill:hover {
 }
 
 .state-box.state-error {
+  color: var(--danger);
+}
+
+/* Icon tròn phía trên câu giải thích của empty/error state - tùy chọn, dùng khi
+   muốn nhấn mạnh (trang chính), bỏ qua ở những state-box phụ (admin panel) để đỡ rối */
+.state-box-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.state-box.state-error .state-box-icon {
+  background: var(--danger-soft);
   color: var(--danger);
 }
 

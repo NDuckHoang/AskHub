@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import QuestionList from '../components/QuestionList'
 import FeaturedQuestions from '../components/FeaturedQuestions'
-import WelcomeBanner from '../components/WelcomeBanner'
+import Hero from '../components/Hero'
 import Pagination from '../components/Pagination'
 import Sidebar from '../components/Sidebar'
 import '../components/QuestionSortBar.css'
@@ -74,7 +74,7 @@ function HomePage() {
   return (
     <div className="container content-with-sidebar">
       <div>
-        <WelcomeBanner />
+        <Hero totalQuestions={pagination.total > 0 ? pagination.total : null} />
         <FeaturedQuestions />
 
         <h1>Câu hỏi mới nhất</h1>

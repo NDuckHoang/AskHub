@@ -15,7 +15,10 @@ const TYPE_MESSAGES = {
   NEW_COMMENT: (n) => `${n.actor_username} đã bình luận vào "${n.question_title}"`,
 }
 
-function NotificationBell() {
+// placement: 'bottom' (mặc định, trong Navbar) | 'rail' (trong AppRail - dropdown mở
+// sang phải vì chuông nằm sát đáy màn hình, mở xuống sẽ bị tràn ra ngoài viewport)
+// showLabel: hiện chữ "Thông báo" cạnh icon - dùng khi AppRail đang mở rộng
+function NotificationBell({ placement = 'bottom', showLabel = false }) {
   const { user } = useAuth()
   const [open, setOpen] = useState(false)
   const [unreadCount, setUnreadCount] = useState(0)
@@ -83,10 +86,11 @@ function NotificationBell() {
         {unreadCount > 0 && (
           <span className="notification-bell-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
         )}
+        {showLabel && <span className="notification-bell-label">Thông báo</span>}
       </button>
 
       {open && (
-        <div className="notification-dropdown animate-scale-in">
+        <div className={`notification-dropdown animate-scale-in${placement === 'rail' ? ' notification-dropdown-rail' : ''}`}>
           <div className="notification-dropdown-header">
             <span>Thông báo</span>
             {unreadCount > 0 && (

@@ -15,7 +15,7 @@
   height: 32px;
   background: none;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
   cursor: pointer;
   transition: background-color 150ms, color 150ms, transform 100ms;
@@ -24,6 +24,7 @@
 .vote-btn:hover:not(:disabled) {
   background: var(--bg-hover);
   color: var(--text);
+  transform: scale(1.08);
 }
 
 .vote-btn:active:not(:disabled) {
@@ -35,12 +36,24 @@
   opacity: 0.4;
 }
 
+/* Trạng thái đã vote: tô nền luôn, không chỉ đổi màu chữ, để thấy ngay đang chọn chiều nào */
 .vote-btn.is-active-up {
+  background: var(--primary-soft);
   color: var(--primary);
 }
 
+.vote-btn.is-active-up:hover:not(:disabled) {
+  background: var(--primary-soft-hover);
+}
+
 .vote-btn.is-active-down {
+  background: var(--danger-soft);
   color: var(--danger);
+}
+
+.vote-btn.is-active-down:hover:not(:disabled) {
+  background: var(--danger-soft);
+  filter: brightness(0.96);
 }
 
 .vote-count {

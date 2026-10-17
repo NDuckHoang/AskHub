@@ -1,23 +1,68 @@
-.auth-container {
-  display: flex;
-  justify-content: center;
-  padding: 40px 24px;
+/* Căn giữa trong .auth-main-inner (AuthLayout đã lo phần căn giữa cả trang) -
+   .auth-wrap chỉ còn vai trò giới hạn chiều rộng cố định cho card. 420px nằm vừa
+   trong cả 2 khoảng brief đưa ra (login 380-420, register 420-460) nên dùng 1 giá
+   trị chung cho cả 2 trang - tránh "2 hệ thống spacing khác nhau" như brief lưu ý. */
+.auth-wrap {
+  width: 100%;
+  max-width: 420px;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 360px;
   padding: 32px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-menu);
 }
 
-.auth-card h1 {
-  margin-bottom: 20px;
+.auth-card-head {
   text-align: center;
+  margin-bottom: 24px;
+}
+
+.auth-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.auth-card-head h1 {
+  margin-bottom: 6px;
+}
+
+.auth-card-subtitle {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Input trong form đăng nhập/đăng ký cao hơn 1 chút so với input mặc định toàn site
+   (38px) - chỉ scope riêng ở đây theo đúng yêu cầu, không đổi token .input chung */
+.auth-card .input,
+.auth-card .password-input-toggle {
+  height: 46px;
+}
+
+/* Màu chữ/placeholder tường minh - không phụ thuộc mặc định trình duyệt (vốn có thể
+   quá nhạt trên nền --bg-subtle của input) */
+.auth-card .input {
+  color: var(--text);
+}
+
+.auth-card .input::placeholder {
+  color: var(--text-secondary);
 }
 
 .auth-submit {
   width: 100%;
+  height: 46px;
   margin-top: 4px;
+  font-size: 15px;
 }
 
 .auth-switch {
@@ -43,4 +88,10 @@
   padding: 10px 12px;
   font-size: 13px;
   margin-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 20px;
+  }
 }

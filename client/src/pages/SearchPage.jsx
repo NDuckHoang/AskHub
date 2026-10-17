@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { Search } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import * as categoryService from '../services/categoryService'
 import QuestionList from '../components/QuestionList'
@@ -58,6 +59,9 @@ function SearchPage() {
     return (
       <div className="container">
         <div className="card state-box">
+          <span className="state-box-icon">
+            <Search size={22} />
+          </span>
           <p>Nhập từ khóa vào ô tìm kiếm ở trên để bắt đầu tìm câu hỏi.</p>
         </div>
       </div>
@@ -93,6 +97,9 @@ function SearchPage() {
           loading={loading}
           error={error}
           onRetry={fetchResults}
+          emptyMessage={`Không tìm thấy câu hỏi nào khớp với "${keyword}". Thử từ khóa khác hoặc bỏ bớt bộ lọc danh mục.`}
+          emptyActionTo="/questions"
+          emptyActionLabel="Xem tất cả câu hỏi"
         />
 
         <Pagination

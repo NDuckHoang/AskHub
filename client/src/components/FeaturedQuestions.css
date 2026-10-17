@@ -1,76 +1,117 @@
 .featured-questions {
-  padding: 0 16px 12px;
-  margin-bottom: 20px;
-  overflow: hidden;
+  margin-bottom: 24px;
 }
 
-/* Cùng kiểu dải tiêu đề nền ghi-xanh nhạt với sidebar, giúp tách rõ khối "nổi bật"
-   khỏi list "Câu hỏi mới nhất" ngay bên dưới dù cả 2 đều nằm trong vùng nội dung chính */
 .featured-heading {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 -16px 10px;
-  padding: 10px 16px;
-  background: var(--bg-subtle);
-  border-bottom: 1px solid var(--border);
-  color: var(--primary-dark);
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.featured-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.featured-list li {
+.featured-heading-icon {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 4px;
-  border-radius: var(--radius-sm);
-}
-
-.featured-list li:hover {
-  background: var(--bg-hover);
-}
-
-.featured-rank {
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
-  width: 18px;
-  font-size: 13px;
-  font-weight: 600;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.featured-heading h2 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.featured-heading p {
+  font-size: 12.5px;
   color: var(--text-secondary);
-  text-align: center;
+  margin-top: 1px;
 }
 
-.featured-title {
-  flex: 1;
-  min-width: 0;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.featured-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
 }
 
-.featured-title:hover {
-  color: var(--primary);
+.featured-track::-webkit-scrollbar {
+  height: 5px;
+}
+
+.featured-track::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+.featured-card {
+  position: relative;
+  flex: 0 0 236px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: inherit;
+}
+
+.featured-card:hover {
   text-decoration: none;
 }
 
-.featured-votes {
-  flex-shrink: 0;
-  font-size: 13px;
+.featured-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
   color: var(--text-secondary);
-  white-space: nowrap;
+  background: var(--bg-subtle);
+  border-radius: 9999px;
+}
+
+.featured-rank.is-top-1 {
+  color: #ffffff;
+  background: var(--accent);
+}
+
+.featured-rank.is-top-2,
+.featured-rank.is-top-3 {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+.featured-card-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.featured-card-votes {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  color: var(--primary-dark);
 }
 
 @media (max-width: 480px) {
-  .featured-title {
-    white-space: normal;
+  .featured-card {
+    flex-basis: 208px;
   }
 }

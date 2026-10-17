@@ -12,6 +12,9 @@
 /* Dải tiêu đề nền ghi-xanh nhạt, tràn hết chiều rộng card - tạo phân cấp rõ giữa
    tiêu đề nhóm và nội dung bên dưới thay vì chỉ là chữ in đậm trên nền trắng */
 .sidebar-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
   font-weight: 600;
   margin: 0 -16px 12px;
@@ -84,10 +87,15 @@
   text-align: center;
 }
 
-/* Top 3: đổi màu chữ (hạng + tên) thành vàng/bạc/đồng, không dùng background/glow */
+/* Top 3: đổi màu chữ (hạng + tên) thành vàng/bạc/đồng + viền tròn quanh avatar,
+   không dùng background/glow - chỉ nhấn nhẹ, dùng box-shadow nên không đổi kích thước avatar */
 .sidebar-leaderboard-row.is-gold .sidebar-leaderboard-rank,
 .sidebar-leaderboard-row.is-gold .sidebar-leaderboard-name {
   color: #ab8714;
+}
+
+.sidebar-leaderboard-row.is-gold .user-avatar {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px #ab8714;
 }
 
 .sidebar-leaderboard-row.is-silver .sidebar-leaderboard-rank,
@@ -95,9 +103,17 @@
   color: #8a94a6;
 }
 
+.sidebar-leaderboard-row.is-silver .user-avatar {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px #8a94a6;
+}
+
 .sidebar-leaderboard-row.is-bronze .sidebar-leaderboard-rank,
 .sidebar-leaderboard-row.is-bronze .sidebar-leaderboard-name {
   color: #ab6a37;
+}
+
+.sidebar-leaderboard-row.is-bronze .user-avatar {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px #ab6a37;
 }
 
 .sidebar-leaderboard-row.is-gold:hover .sidebar-leaderboard-name,

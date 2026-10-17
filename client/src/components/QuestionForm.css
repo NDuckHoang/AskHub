@@ -3,15 +3,16 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  min-height: 36px;
+  min-height: 38px;
   padding: 6px 8px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg);
-  transition: border-color 150ms, box-shadow 150ms;
+  border-radius: var(--radius-lg);
+  background: var(--bg-subtle);
+  transition: border-color 150ms, box-shadow 150ms, background-color 150ms;
 }
 
 .tag-input-box:focus-within {
+  background: var(--bg);
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-soft);
 }

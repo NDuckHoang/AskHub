@@ -51,6 +51,16 @@
   min-width: 0;
 }
 
+.admin-row-info > a {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.admin-row-info > a:hover {
+  color: var(--primary);
+}
+
 .admin-row-meta {
   font-size: 13px;
   color: var(--text-secondary);

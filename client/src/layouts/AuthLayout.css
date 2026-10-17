@@ -1,0 +1,251 @@
+/* Split-screen auth layout: banner thương hiệu (trái) + form (phải). Banner luôn
+   dùng nền tối cố định (không đổi theo light/dark mode) - cùng tinh thần với
+   --chrome-bg của AppRail/Footer, xem CLAUDE.md mục 29. */
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* ============ Banner trái ============ */
+.auth-banner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 56px;
+  background: linear-gradient(160deg, #103f3a 0%, #0a2622 100%);
+  color: #ffffff;
+}
+
+.auth-banner::before,
+.auth-banner::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.auth-banner::before {
+  width: 420px;
+  height: 420px;
+  top: -140px;
+  right: -140px;
+  background: radial-gradient(circle, rgba(8, 127, 115, 0.45) 0%, transparent 70%);
+}
+
+.auth-banner::after {
+  width: 320px;
+  height: 320px;
+  bottom: -100px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(255, 120, 31, 0.16) 0%, transparent 70%);
+}
+
+.auth-banner-logo {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 64px;
+}
+
+.auth-banner-logo:hover {
+  text-decoration: none;
+}
+
+.auth-banner-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.auth-banner-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 460px;
+}
+
+/* Vị trí hero thứ 2 duy nhất ngoài trang chủ - xem CLAUDE.md mục 3 + 29 */
+.auth-banner-body h1 {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+.auth-banner-desc {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 36px;
+}
+
+.auth-banner-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-banner-points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.auth-banner-point-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #5eead4;
+}
+
+/* ============ Panel phải (form) ============ */
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--page-bg);
+}
+
+.auth-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  height: var(--header-height);
+  padding: 0 32px;
+}
+
+/* ThemeToggle mặc định dùng màu --chrome-text-muted (cho nền tối AppRail) -
+   đổi màu cho khớp nền sáng của panel phải */
+.auth-panel-header .theme-toggle {
+  color: var(--text-secondary);
+}
+
+.auth-panel-header .theme-toggle:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px 40px;
+}
+
+.auth-main-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-footer {
+  flex-shrink: 0;
+  padding: 16px 24px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+/* ============ Tablet: vẫn 2 cột, thu hẹp banner + giảm chi tiết trang trí ============ */
+@media (max-width: 1100px) {
+  .auth-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .auth-banner {
+    padding: 40px;
+  }
+
+  .auth-banner-body h1 {
+    font-size: 32px;
+  }
+
+  .auth-banner-points {
+    display: none;
+  }
+}
+
+/* ============ Mobile: 1 cột, banner thu gọn thành dải trên cùng ============ */
+@media (max-width: 768px) {
+  .auth-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .auth-banner {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 20px;
+  }
+
+  .auth-banner::before,
+  .auth-banner::after {
+    display: none;
+  }
+
+  .auth-banner-logo {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .auth-banner-body {
+    flex: 1;
+    max-width: none;
+  }
+
+  .auth-banner-body h1 {
+    display: none;
+  }
+
+  .auth-banner-desc {
+    margin-bottom: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .auth-banner-points {
+    display: none;
+  }
+
+  .auth-panel {
+    min-height: 0;
+  }
+
+  .auth-panel-header {
+    padding: 0 16px;
+  }
+
+  .auth-main {
+    padding: 24px 16px 32px;
+  }
+}

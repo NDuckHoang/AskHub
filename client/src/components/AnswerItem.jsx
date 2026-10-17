@@ -87,7 +87,7 @@ function AnswerItem({
       />
 
       <div className="answer-body">
-        {answer.is_accepted && (
+        {Boolean(answer.is_accepted) && (
           <div className="answer-accepted-badge">
             <Check size={14} /> Câu trả lời được chấp nhận
           </div>

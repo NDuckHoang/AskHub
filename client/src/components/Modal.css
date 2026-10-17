@@ -18,6 +18,8 @@
   max-height: calc(100vh - 96px);
   display: flex;
   flex-direction: column;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
 }
 
 .modal-header {
@@ -41,7 +43,7 @@
   height: 28px;
   background: none;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
   cursor: pointer;
 }

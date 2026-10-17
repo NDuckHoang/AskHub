@@ -1,0 +1,116 @@
+.admin-nav-group {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Trigger - cùng kích thước/màu với .app-rail-link để đồng bộ với điều hướng chính */
+.admin-nav-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--chrome-text-muted);
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+}
+
+.admin-nav-trigger:hover {
+  background: var(--chrome-hover-bg);
+  color: var(--chrome-text);
+}
+
+.admin-nav-group.is-expanded .admin-nav-trigger {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-left: 12px;
+}
+
+.admin-nav-chevron {
+  margin-left: auto;
+  transition: transform 150ms;
+}
+
+.admin-nav-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+/* Rail mở rộng: danh sách con nằm ngay trong luồng. Icon căn đúng 1 cột với toàn bộ
+   icon khác trong rail (không thụt lề icon - trước đây lệch 18px trông như lỗi), chỉ
+   phân biệt "đây là mục con" bằng cỡ chữ/icon nhỏ hơn và màu nhạt hơn khi chưa active. */
+.admin-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.admin-nav-list .admin-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--chrome-text-muted);
+  transition: background-color 150ms, color 150ms;
+}
+
+.admin-nav-list .admin-nav-item:hover {
+  background: var(--chrome-hover-bg);
+  color: var(--chrome-text);
+  text-decoration: none;
+}
+
+.admin-nav-list .admin-nav-item.is-active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Rail thu gọn: danh sách con hiện dạng flyout nổi sang phải, neo theo trigger -
+   tái dùng ngôn ngữ thị giác của navbar-dropdown (nền trắng, viền, đổ bóng) */
+.admin-nav-list-flyout {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 0;
+  margin-top: 0;
+  padding-left: 0;
+  width: 190px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+  z-index: 30;
+  transform-origin: top left;
+}
+
+.admin-nav-list-flyout .admin-nav-item {
+  color: var(--text);
+  padding: 8px 10px;
+}
+
+.admin-nav-list-flyout .admin-nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.admin-nav-list-flyout .admin-nav-item.is-active {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.admin-tab-badge {
+  margin-left: auto;
+}
