@@ -4,6 +4,7 @@ const userModel = require('../models/userModel');
 const questionModel = require('../models/questionModel');
 const answerModel = require('../models/answerModel');
 const reportModel = require('../models/reportModel');
+const { isRootAdmin } = require('../utils/rootAdmin');
 
 function parseId(rawId) {
   const id = Number(rawId);
@@ -81,7 +82,10 @@ async function getUsers(req, res) {
   const { users, total } = await userModel.findAllForAdmin({ search, page, limit });
 
   res.json({
-    users,
+    // is_root: đánh dấu tài khoản quản trị gốc để frontend ẩn nút Khóa/Xóa/Hạ quyền
+    users: users.map((u) => ({ ...u, is_root: isRootAdmin(u) })),
+    // Người đang xem có phải admin gốc không -> frontend chỉ hiện nút Thăng/Hạ quyền cho admin gốc
+    can_manage_roles: isRootAdmin(req.user),
     pagination: { page, limit, total, totalPages: Math.ceil(total / limit) || 1 },
   });
 }
@@ -104,9 +108,54 @@ async function updateUserStatus(req, res) {
   if (!user) {
     return res.status(404).json({ message: 'Không tìm thấy người dùng' });
   }
+  // Tài khoản quản trị gốc được bảo vệ tuyệt đối (xem utils/rootAdmin.js)
+  if (isRootAdmin(user)) {
+    return res.status(403).json({ message: 'Không thể khóa, xóa hay đổi quyền tài khoản quản trị gốc' });
+  }
 
   await userModel.updateStatus(id, status);
   res.json({ message: status === 'BLOCKED' ? 'Đã khóa tài khoản' : 'Đã mở khóa tài khoản' });
+}
+
+// PUT /api/admin/users/:id/role { role: 'ADMIN' | 'USER' } - thăng/hạ quyền Admin
+// authMiddleware đọc lại role từ database ở mỗi request, nên quyền mới có hiệu lực ngay
+// (người được đổi quyền không cần đăng nhập lại).
+async function updateUserRole(req, res) {
+  const id = parseId(req.params.id);
+  if (!id) {
+    return res.status(400).json({ message: 'id không hợp lệ' });
+  }
+  // Chỉ admin gốc mới được thăng/hạ quyền - các Admin khác vẫn quản lý nội dung, khóa/xóa người dùng bình thường
+  if (!isRootAdmin(req.user)) {
+    return res.status(403).json({ message: 'Chỉ tài khoản quản trị gốc mới có quyền thăng/hạ quyền Admin' });
+  }
+  // Không cho tự đổi quyền mình -> người đang thao tác luôn còn là Admin, hệ thống không bao giờ hết Admin
+  if (id === req.user.id) {
+    return res.status(400).json({ message: 'Không thể tự thay đổi quyền của chính mình' });
+  }
+
+  const { role } = req.body;
+  if (!['ADMIN', 'USER'].includes(role)) {
+    return res.status(400).json({ message: 'role phải là ADMIN hoặc USER' });
+  }
+
+  const user = await userModel.findById(id);
+  if (!user) {
+    return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+  }
+  // Tài khoản quản trị gốc được bảo vệ tuyệt đối (xem utils/rootAdmin.js)
+  if (isRootAdmin(user)) {
+    return res.status(403).json({ message: 'Không thể khóa, xóa hay đổi quyền tài khoản quản trị gốc' });
+  }
+  if (user.role === role) {
+    return res.status(400).json({ message: role === 'ADMIN' ? 'Người dùng này đã là Admin' : 'Người dùng này không phải Admin' });
+  }
+  if (role === 'ADMIN' && user.status === 'BLOCKED') {
+    return res.status(400).json({ message: 'Không thể thăng quyền tài khoản đang bị khóa, hãy mở khóa trước' });
+  }
+
+  await userModel.updateRole(id, role);
+  res.json({ message: role === 'ADMIN' ? 'Đã thăng quyền Admin' : 'Đã hạ quyền xuống Người dùng' });
 }
 
 async function deleteUser(req, res) {
@@ -121,6 +170,10 @@ async function deleteUser(req, res) {
   const user = await userModel.findById(id);
   if (!user) {
     return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+  }
+  // Tài khoản quản trị gốc được bảo vệ tuyệt đối (xem utils/rootAdmin.js)
+  if (isRootAdmin(user)) {
+    return res.status(403).json({ message: 'Không thể khóa, xóa hay đổi quyền tài khoản quản trị gốc' });
   }
 
   // FK trong schema.sql đã đặt ON DELETE CASCADE nên câu hỏi/trả lời/bình luận/vote
@@ -396,6 +449,7 @@ async function exportAnswers(req, res) {
 }
 
 module.exports = {
+  updateUserRole,
   getStats,
   getActivityStats,
   getUsers,

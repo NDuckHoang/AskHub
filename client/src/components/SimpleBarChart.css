@@ -44,3 +44,23 @@
     grid-template-columns: 80px 1fr 30px;
   }
 }
+
+/* Thanh mọc từ trái sang phải khi biểu đồ xuất hiện, so le theo thứ tự hàng */
+.simple-bar-fill {
+  transform-origin: left;
+  animation: bar-grow 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.simple-bar-row:nth-child(2) .simple-bar-fill { animation-delay: 70ms; }
+.simple-bar-row:nth-child(3) .simple-bar-fill { animation-delay: 140ms; }
+.simple-bar-row:nth-child(4) .simple-bar-fill { animation-delay: 210ms; }
+.simple-bar-row:nth-child(n + 5) .simple-bar-fill { animation-delay: 280ms; }
+
+@keyframes bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

@@ -1,0 +1,580 @@
+/* ===== Trang /leaderboard ===== */
+.leaderboard-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.leaderboard-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.leaderboard-subtitle {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+/* ===== Podium Top 3: hạng 2 - hạng 1 - hạng 3, hạng 1 cao và nổi bật nhất ===== */
+.podium {
+  --rank-color: var(--primary);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto 28px;
+}
+
+.podium-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 16px 0;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  color: var(--text);
+  text-align: center;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.podium-card:hover {
+  text-decoration: none;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--rank-color);
+}
+
+/* Màu huy chương Vàng - Bạc - Đồng cho Top 3 (chỉ dùng trong trang này).
+   --rank-color: viền, vòng avatar, bậc podium | --rank-text: chữ màu (đậm hơn để đủ tương phản)
+   --rank-soft: nền nhạt | --rank-on: chữ đặt trên nền --rank-color */
+.podium-card.rank-1 {
+  --rank-color: #e0a800;
+  --rank-text: #8a6100;
+  --rank-soft: #fff6d6;
+  --rank-on: #3d2a00;
+  padding-top: 28px;
+  border-color: var(--rank-color);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.podium-card.rank-2 {
+  --rank-color: #a3aeb9;
+  --rank-text: #55616d;
+  --rank-soft: #eef1f4;
+  --rank-on: #1f2a33;
+}
+
+.podium-card.rank-3 {
+  --rank-color: #c27c3e;
+  --rank-text: #8a4f1c;
+  --rank-soft: #f8e9dc;
+  --rank-on: #2e1806;
+}
+
+/* Dark mode: chữ sáng hơn, nền là sắc độ tối cùng tông */
+:root[data-theme='dark'] .podium-card.rank-1 {
+  --rank-color: #f5c542;
+  --rank-text: #f5c542;
+  --rank-soft: rgba(245, 197, 66, 0.14);
+}
+
+:root[data-theme='dark'] .podium-card.rank-2 {
+  --rank-color: #c3ccd5;
+  --rank-text: #cbd5df;
+  --rank-soft: rgba(195, 204, 213, 0.12);
+}
+
+:root[data-theme='dark'] .podium-card.rank-3 {
+  --rank-color: #d9915a;
+  --rank-text: #e0a073;
+  --rank-soft: rgba(217, 145, 90, 0.14);
+}
+
+.podium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: var(--rank-soft);
+  color: var(--rank-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.podium-card.rank-1 .podium-badge {
+  background: var(--rank-color);
+  color: var(--rank-on);
+}
+
+.podium-avatar {
+  position: relative;
+  margin: 8px 0 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 7px var(--rank-color);
+}
+
+.podium-avatar .user-avatar-fallback {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.podium-rank {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  background: var(--rank-color);
+  color: var(--rank-on);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.podium-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.podium-points {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.podium-points .stat-number {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--rank-text);
+}
+
+.podium-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.podium-stats b {
+  color: var(--text);
+}
+
+/* Bậc podium dưới đáy card: cao thấp khác nhau theo hạng */
+.podium-step {
+  align-self: stretch;
+  height: 24px;
+  margin: 14px -16px 0;
+  background: var(--rank-soft);
+  border-top: 3px solid var(--rank-color);
+}
+
+.podium-card.rank-1 .podium-step {
+  height: 52px;
+}
+
+.podium-card.rank-2 .podium-step {
+  height: 36px;
+}
+
+.podium-skeleton {
+  height: 260px;
+  border-radius: var(--radius-xl);
+}
+
+.podium-skeleton.is-first {
+  height: 300px;
+}
+
+/* ===== Bảng xếp hạng (hạng 4 trở đi) ===== */
+.leaderboard-table-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th {
+  padding: 12px 16px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.leaderboard-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.leaderboard-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.leaderboard-table tbody tr {
+  transition: background-color 150ms;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+/* Dòng của chính người đang đăng nhập */
+.leaderboard-table tbody tr.is-me {
+  background: var(--primary-soft);
+}
+
+.leaderboard-table .col-rank {
+  width: 64px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.leaderboard-table .col-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.leaderboard-points {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.leaderboard-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: var(--text);
+}
+
+.leaderboard-user:hover {
+  text-decoration: none;
+}
+
+.leaderboard-user:hover .leaderboard-username {
+  color: var(--primary);
+}
+
+.leaderboard-user-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.leaderboard-username {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: color 150ms;
+}
+
+.leaderboard-me {
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background: var(--primary);
+  color: var(--bg);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Dòng mô tả số liệu chỉ hiện trên mobile (khi các cột số phụ bị ẩn) */
+.leaderboard-user-meta {
+  display: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.leaderboard-row-skeleton {
+  height: 44px;
+  margin: 10px 16px;
+  border-radius: 8px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .leaderboard-table .col-optional {
+    display: none;
+  }
+
+  .leaderboard-user-meta {
+    display: block;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .leaderboard-table .col-rank {
+    width: 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboard-title {
+    font-size: 24px;
+  }
+
+  .podium {
+    gap: 8px;
+  }
+
+  .podium-card {
+    padding: 14px 8px 0;
+  }
+
+  .podium-card.rank-1 {
+    padding-top: 18px;
+  }
+
+  /* Màn hẹp: bỏ nhãn chữ huy hiệu và dòng số liệu phụ cho podium gọn */
+  .podium-badge {
+    font-size: 0;
+    gap: 0;
+    padding: 4px;
+  }
+
+  .podium-stats {
+    display: none;
+  }
+
+  .podium-name {
+    font-size: 14px;
+  }
+
+  .podium-points .stat-number {
+    font-size: 18px;
+  }
+
+  .podium-step {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+}
+
+/* ===== Bố cục gọn: tiêu đề, podium và bảng cùng 1 cột rộng tối đa 860px, căn giữa ===== */
+.leaderboard-head,
+.leaderboard-table-card {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.leaderboard-head {
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.leaderboard-table th {
+  padding: 10px 14px;
+}
+
+.leaderboard-table td {
+  padding: 8px 14px;
+  font-size: 13.5px;
+}
+
+.leaderboard-table .col-rank {
+  width: 52px;
+}
+
+/* ===== Khối "Cách tính điểm uy tín" (cuối trang, cùng cột 860px) ===== */
+.reputation-rules {
+  max-width: 860px;
+  margin: 28px auto 0;
+  padding: 20px 24px;
+  border-radius: var(--radius-xl);
+}
+
+.reputation-rules-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.reputation-rule-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reputation-rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13.5px;
+}
+
+.reputation-rule-icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reputation-rule-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.reputation-rule-points {
+  flex: none;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Cộng điểm: xanh lá; trừ điểm: đỏ */
+.reputation-rule.is-plus .reputation-rule-icon {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.reputation-rule.is-plus .reputation-rule-points {
+  color: var(--success);
+}
+
+.reputation-rule.is-minus .reputation-rule-icon {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.reputation-rule.is-minus .reputation-rule-points {
+  color: var(--danger);
+}
+
+.reputation-notes {
+  margin: 16px 0 0;
+  padding: 14px 0 0 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+  .reputation-rules {
+    padding: 16px;
+  }
+}
+
+/* CSS chung đã bỏ kiểu danh sách của <ul>, bật lại dấu chấm đầu dòng cho phần ghi chú */
+.reputation-notes li {
+  list-style: disc;
+}
+
+.reputation-notes li::marker {
+  color: var(--primary);
+}
+
+/* ===== Bảng (trái) + quy tắc tính điểm (phải) =====
+   Khối quy tắc dính dưới header khi cuộn; màn < 1024px thì xuống dưới bảng */
+.leaderboard-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.leaderboard-body .leaderboard-table-card {
+  max-width: none;
+}
+
+.leaderboard-body .reputation-rules {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+  max-width: none;
+  margin: 0;
+  padding: 18px;
+}
+
+.leaderboard-body .reputation-rules-title {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+/* Cột hẹp: mỗi quy tắc 1 dòng, gọn hơn */
+.leaderboard-body .reputation-rule-list {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.leaderboard-body .reputation-rule {
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
+.leaderboard-body .reputation-rule-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.leaderboard-body .reputation-notes {
+  margin-top: 12px;
+  padding-top: 12px;
+  font-size: 12.5px;
+}
+
+@media (max-width: 1024px) {
+  .leaderboard-body {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 860px;
+  }
+
+  .leaderboard-body .reputation-rules {
+    position: static;
+  }
+
+  /* Đủ rộng thì quay lại xếp nhiều cột như trước */
+  .leaderboard-body .reputation-rule-list {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}

@@ -249,3 +249,27 @@
     padding: 24px 16px 32px;
   }
 }
+
+/* Hình nền banner trôi nhẹ + các điểm nổi bật hiện lần lượt */
+.auth-banner::before {
+  animation: float-soft 9s ease-in-out infinite;
+}
+.auth-banner::after {
+  animation: float-soft 11s ease-in-out infinite reverse;
+}
+.auth-banner-points li {
+  animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+.auth-banner-points li:nth-child(1) { animation-delay: 250ms; }
+.auth-banner-points li:nth-child(2) { animation-delay: 370ms; }
+.auth-banner-points li:nth-child(3) { animation-delay: 490ms; }
+.auth-main {
+  animation: rise 500ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+@media (max-width: 768px) {
+  /* Cho phép dòng mô tả ngắn được cắt "..." thay vì đẩy tràn ra ngoài màn hình */
+  .auth-banner-body {
+    min-width: 0;
+  }
+}

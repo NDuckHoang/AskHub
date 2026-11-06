@@ -147,3 +147,131 @@
     font-size: 15.5px;
   }
 }
+
+/* Tiêu đề đổi màu thương hiệu khi rê chuột vào cả hàng */
+.question-item:hover .question-item-title a,
+.question-item:hover h3 a {
+  color: var(--primary);
+}
+
+/* === Theo thiết kế mới: 3 ô số liệu xếp NGANG (vote | trả lời | xem) + đoạn mô tả ngắn === */
+.question-item {
+  gap: 18px;
+  padding: 18px 20px 18px 17px;
+}
+
+.question-item-stats {
+  width: 168px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.q-stat-box {
+  width: 48px;
+  padding: 6px 0;
+}
+
+.q-stat-views {
+  width: 48px;
+  padding: 6px 0;
+  line-height: 1.2;
+  font-size: 11px;
+}
+
+.q-stat-views .stat-number {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.question-item-excerpt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .question-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .question-item-stats {
+    width: auto;
+  }
+}
+
+/* === Theo prototype: hàng cuối = tag bên trái, người đăng bên phải; tag xám, danh mục teal === */
+.question-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.question-item-footer .question-item-meta {
+  margin-top: 0;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+.question-item .category-pill {
+  height: 24px;
+  background: var(--primary-soft);
+  border-color: transparent;
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Icon riêng của danh mục (utils/categoryIcons.js) */
+.question-item .category-pill svg {
+  flex: none;
+}
+
+.question-item .tag-pill {
+  height: 24px;
+  background: var(--bg-subtle);
+  border-color: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.question-item a.tag-pill:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+/* Badge "Hot" (cam) và "Mới" (teal) cạnh tiêu đề - giúp danh sách có điểm nhấn khi lướt */
+.question-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.question-badge.is-hot {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.question-badge.is-new {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+:root[data-theme='dark'] .question-badge.is-new {
+  color: var(--primary);
+}

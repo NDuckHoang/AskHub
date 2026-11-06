@@ -20,6 +20,8 @@ CREATE TABLE users (
   username    VARCHAR(30)  NOT NULL UNIQUE,
   email       VARCHAR(190) NOT NULL UNIQUE,
   password    VARCHAR(255) NOT NULL,          -- lưu hash bcrypt, không lưu plaintext
+  security_question VARCHAR(255) DEFAULT NULL, -- câu hỏi bảo mật để lấy lại mật khẩu
+  security_answer   VARCHAR(255) DEFAULT NULL, -- hash bcrypt của câu trả lời (đã chuẩn hóa), không lưu plaintext
   role        ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
   avatar      VARCHAR(500) DEFAULT NULL,
   bio         VARCHAR(500) DEFAULT NULL,       -- giới thiệu bản thân / tiểu sử

@@ -1,16 +1,65 @@
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, Compass } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useAskModal } from '../hooks/useAskModal'
+import { useCountUp } from '../hooks/useCountUp'
+import * as questionService from '../services/questionService'
+import * as categoryService from '../services/categoryService'
 import './Hero.css'
 
-// Khối giới thiệu đầu trang chủ - thay cho banner ảnh tĩnh cũ, dùng đúng thương hiệu
-// (gradient teal + coral) thay vì ảnh stock photo. totalQuestions lấy từ dữ liệu thật
-// HomePage đã gọi API (không bịa số liệu).
+const ROTATE_MS = 2400 // thời gian giữa 2 lần đổi chữ trong tiêu đề
+
+// Ô số liệu trong hero: số đếm từ 0 lên khi có dữ liệu thật
+function HeroStat({ value, label }) {
+  const shown = useCountUp(value)
+  return (
+    <div className="hero-stat-tile">
+      <span className="hero-stat-number stat-number">{shown === null ? '-' : shown.toLocaleString('vi-VN')}</span>
+      <span className="hero-stat-label">{label}</span>
+    </div>
+  )
+}
+
+// Khối giới thiệu đầu trang chủ (gradient teal + cam). Tất cả số liệu lấy từ API có sẵn:
+// tổng câu hỏi (HomePage truyền vào), số danh mục, số câu hỏi đang chờ trả lời.
 function Hero({ totalQuestions }) {
   const { user } = useAuth()
   const { openAskModal } = useAskModal()
   const navigate = useNavigate()
+  const [categoryCount, setCategoryCount] = useState(null)
+  const [unansweredCount, setUnansweredCount] = useState(null)
+  const [topicNames, setTopicNames] = useState([])
+  const [topicIndex, setTopicIndex] = useState(0)
+
+  useEffect(() => {
+    categoryService
+      .getCategories()
+      .then((list) => {
+        setCategoryCount(list.length)
+        // Chữ xoay vòng trong tiêu đề: tên danh mục thật, nhiều câu hỏi trước, bỏ mục "Khác"
+        const names = [...list]
+          .sort((a, b) => b.question_count - a.question_count)
+          .map((c) => c.name)
+          .filter((name) => name.toLowerCase() !== 'khác')
+        setTopicNames(names)
+      })
+      .catch(() => {})
+    questionService
+      .getQuestions({ sort: 'unanswered', page: 1, limit: 1 })
+      .then((data) => setUnansweredCount(data.pagination.total))
+      .catch(() => {})
+  }, [])
+
+  // Đổi chữ trong tiêu đề mỗi ROTATE_MS. Người dùng bật "giảm chuyển động" thì giữ chữ đầu tiên đứng yên.
+  useEffect(() => {
+    if (topicNames.length < 2) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    const timer = setInterval(() => {
+      setTopicIndex((i) => (i + 1) % topicNames.length)
+    }, ROTATE_MS)
+    return () => clearInterval(timer)
+  }, [topicNames])
 
   function handleAskClick() {
     if (user) {
@@ -22,50 +71,45 @@ function Hero({ totalQuestions }) {
 
   return (
     <section className="hero">
-      {/* Họa tiết trừu tượng - các điểm nối bằng đường mảnh, gợi liên tưởng "mạng lưới tri
-          thức"/sơ đồ code, không phải ảnh thật, độ mờ thấp nên không cạnh tranh với chữ */}
-      <svg className="hero-pattern" viewBox="0 0 520 300" fill="none" aria-hidden="true">
-        <path
-          d="M300 40 L390 90 L470 60 M390 90 L410 170 M390 90 L320 160 M320 160 L250 220 M410 170 L480 230 M250 220 L180 190"
-          stroke="rgba(255,255,255,0.22)"
-          strokeWidth="1.4"
-        />
-        <circle cx="300" cy="40" r="4" fill="rgba(255,255,255,0.35)" />
-        <circle cx="390" cy="90" r="5" fill="rgba(255,255,255,0.4)" />
-        <circle cx="470" cy="60" r="3.5" fill="rgba(255,255,255,0.3)" />
-        <circle cx="410" cy="170" r="4" fill="rgba(255,255,255,0.3)" />
-        <circle cx="320" cy="160" r="3" fill="rgba(255,255,255,0.25)" />
-        <circle cx="250" cy="220" r="4.5" fill="rgba(255,255,255,0.3)" />
-        <circle cx="480" cy="230" r="3" fill="rgba(255,255,255,0.25)" />
-        <circle cx="180" cy="190" r="3" fill="rgba(255,255,255,0.22)" />
-      </svg>
+      <span className="hero-shape hero-shape-ring anim-float" aria-hidden="true" />
+      <span className="hero-shape hero-shape-dot anim-float" aria-hidden="true" />
 
       <div className="hero-text">
-        <span className="hero-eyebrow">Cộng đồng hỏi đáp lập trình</span>
-        <h1 className="hero-title">Nơi câu hỏi lập trình của bạn có lời giải</h1>
+        <span className="hero-eyebrow">
+          <Check size={13} strokeWidth={2.6} /> Cộng đồng hỏi đáp lập trình cho sinh viên
+        </span>
+        {/* aria-label cố định để trình đọc màn hình không đọc lại mỗi lần chữ đổi */}
+        <h1 className="hero-title" aria-label="Hỏi gì về lập trình cũng có người trả lời.">
+          <span aria-hidden="true">
+            Hỏi gì về{' '}
+            <span className="hero-rotator">
+              {/* key đổi -> phần tử mới được tạo -> chạy lại hiệu ứng trượt lên */}
+              <span key={topicIndex} className="hero-rotator-word">
+                {topicNames[topicIndex] || 'lập trình'}
+              </span>
+            </span>{' '}
+            <br />
+            cũng có người trả lời.
+          </span>
+        </h1>
         <p className="hero-subtitle">
-          Đặt câu hỏi, chia sẻ kiến thức và cùng cộng đồng AskHub giải quyết vấn đề mỗi ngày.
+          Đặt câu hỏi, chia sẻ lời giải và tích lũy uy tín từ những câu trả lời được cộng đồng bình chọn.
         </p>
         <div className="hero-actions">
-          <button type="button" className="btn btn-gradient" onClick={handleAskClick}>
-            Đặt câu hỏi <ArrowRight size={16} />
+          <button type="button" className="btn btn-accent hero-primary-btn" onClick={handleAskClick}>
+            Đặt câu hỏi đầu tiên
           </button>
           <Link to="/categories" className="btn btn-secondary hero-secondary-btn">
-            <Compass size={16} /> Khám phá danh mục
+            Khám phá chủ đề
           </Link>
         </div>
       </div>
 
-      {totalQuestions != null && (
-        <div className="hero-stat">
-          <span className="hero-stat-number stat-number">{totalQuestions.toLocaleString('vi-VN')}</span>
-          <span className="hero-stat-label">
-            câu hỏi
-            <br />
-            từ cộng đồng
-          </span>
-        </div>
-      )}
+      <div className="hero-stats">
+        <HeroStat value={totalQuestions} label="Câu hỏi" />
+        <HeroStat value={categoryCount} label="Danh mục" />
+        <HeroStat value={unansweredCount} label="Chờ trả lời" />
+      </div>
     </section>
   )
 }

@@ -1,0 +1,121 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-02T09:00:00Z"
+ },
+ "title": "AskHub Redesign",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 1560,
+   "title": "Trang chủ",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "QuestionDetail.dc.html": {
+   "x": 1560,
+   "y": 0,
+   "w": 1440,
+   "h": 1560,
+   "title": "Chi tiết câu hỏi",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Ask.dc.html": {
+   "x": 3120,
+   "y": 0,
+   "w": 1440,
+   "h": 1160,
+   "title": "Đặt câu hỏi",
+   "expand": "fill"
+  },
+  "Profile.dc.html": {
+   "x": 0,
+   "y": 1980,
+   "w": 1440,
+   "h": 1240,
+   "title": "Hồ sơ người dùng",
+   "expand": "fill"
+  },
+  "Admin.dc.html": {
+   "x": 1560,
+   "y": 1980,
+   "w": 1440,
+   "h": 1240,
+   "title": "Quản trị",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Login.dc.html": {
+   "x": 3120,
+   "y": 1980,
+   "w": 1440,
+   "h": 820,
+   "title": "Đăng nhập",
+   "expand": "fill"
+  },
+  "MobileHome.dc.html": {
+   "x": 0,
+   "y": 3660,
+   "w": 390,
+   "h": 844,
+   "title": "Mobile - Trang chủ"
+  },
+  "MobileQuestion.dc.html": {
+   "x": 470,
+   "y": 3660,
+   "w": 390,
+   "h": 844,
+   "title": "Mobile - Chi tiết"
+  },
+  "MobileAdmin.dc.html": {
+   "x": 940,
+   "y": 3660,
+   "w": 390,
+   "h": 844,
+   "title": "Mobile - Quản trị"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "QuestionDetail.dc.html",
+  "Ask.dc.html",
+  "Profile.dc.html",
+  "Admin.dc.html",
+  "Login.dc.html",
+  "MobileHome.dc.html",
+  "MobileQuestion.dc.html",
+  "MobileAdmin.dc.html"
+ ],
+ "notes": {
+  "t1": {
+   "x": 0,
+   "y": -260,
+   "text": "Desktop - người dùng",
+   "kind": "title1",
+   "maxW": 4560
+  },
+  "t2": {
+   "x": 0,
+   "y": 1720,
+   "text": "Hồ sơ, Quản trị, Đăng nhập",
+   "kind": "title1",
+   "maxW": 4560
+  },
+  "t3": {
+   "x": 0,
+   "y": 3400,
+   "text": "Mobile 390px",
+   "kind": "title1",
+   "maxW": 1330
+  }
+ },
+ "designSystems": []
+}

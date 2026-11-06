@@ -1,0 +1,132 @@
+/* Popup Chia sẻ: link + nút sao chép, bên dưới là các nút chia sẻ nhanh */
+.share-label {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.share-link-row {
+  display: flex;
+  gap: 8px;
+}
+
+.share-link-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.share-copy-btn {
+  flex: none;
+  min-width: 128px;
+}
+
+.share-hint {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.share-link-row + .share-label,
+.share-hint + .share-label {
+  margin-top: 20px;
+}
+
+.share-targets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+}
+
+.share-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 160ms, background-color 160ms, transform 160ms;
+}
+
+.share-target:hover {
+  border-color: var(--primary);
+  background: var(--bg-subtle);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.share-target-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Màu nhận diện của từng nơi chia sẻ (chỉ dùng cho vòng tròn icon nhỏ) */
+.share-target.is-facebook .share-target-icon {
+  background: #1877f2;
+  font-family: Georgia, serif;
+}
+
+.share-target.is-x .share-target-icon {
+  background: #111111;
+}
+
+.share-target.is-email .share-target-icon {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.share-target.is-more .share-target-icon {
+  background: var(--bg-subtle);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+:root[data-theme='dark'] .share-target.is-x .share-target-icon {
+  background: #ffffff;
+  color: #111111;
+}
+
+@media (max-width: 420px) {
+  .share-link-row {
+    flex-direction: column;
+  }
+
+  /* Trong cột dọc, flex: 1 sẽ thành chiều cao (bị ép dẹt) - đặt lại kích thước cố định */
+  .share-link-input {
+    flex: none;
+    width: 100%;
+  }
+
+  .share-copy-btn {
+    width: 100%;
+  }
+
+  /* 4 nút xếp 2x2 thay vì 3 + 1 nút lẻ */
+  .share-targets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .share-target:hover {
+    transform: none;
+  }
+}

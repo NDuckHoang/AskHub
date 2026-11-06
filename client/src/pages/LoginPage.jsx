@@ -10,9 +10,12 @@ function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const justRegistered = location.state?.justRegistered
+  const passwordReset = location.state?.passwordReset
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  // Mặc định tick sẵn để giữ hành vi cũ (trước đây luôn nhớ đăng nhập)
+  const [remember, setRemember] = useState(true)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -31,7 +34,7 @@ function LoginPage() {
 
     setSubmitting(true)
     try {
-      await login(email.trim(), password)
+      await login(email.trim(), password, remember)
       const redirectTo = location.state?.from?.pathname || '/'
       navigate(redirectTo, { replace: true })
     } catch (err) {
@@ -54,6 +57,9 @@ function LoginPage() {
 
         {justRegistered && (
           <div className="auth-success">Đăng ký thành công! Hãy đăng nhập để tiếp tục.</div>
+        )}
+        {passwordReset && (
+          <div className="auth-success">Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới.</div>
         )}
         {error && <div className="auth-error">{error}</div>}
 
@@ -84,6 +90,16 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
+          </div>
+
+          <div className="auth-options">
+            <label className="auth-remember">
+              <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+              Ghi nhớ đăng nhập
+            </label>
+            <Link to="/forgot-password" className="auth-forgot">
+              Quên mật khẩu?
+            </Link>
           </div>
 
           <button type="submit" className="btn btn-primary auth-submit" disabled={submitting}>

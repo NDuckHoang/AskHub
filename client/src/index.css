@@ -24,6 +24,7 @@
   --accent: #ff781f;
   --accent-dark: #d9661a;
   --accent-soft: #ffeee2;
+  --accent-text: #9a4208;       /* chữ cam trên nền --accent-soft, đủ tương phản AA */
   --brand-gradient: linear-gradient(135deg, #087f73 0%, #103f3a 100%);
   --success: #15803d;
   --success-soft: #e6f0ea;
@@ -42,6 +43,11 @@
   --radius-lg: 8px;
   --radius-xl: 16px;
   --shadow-menu: 0 4px 12px rgba(23, 43, 58, 0.14);
+  /* Nút: màu chữ đặt trên nền --primary / --accent (đủ tương phản AA), viền đậm cho nút viền */
+  --on-primary: #ffffff;
+  --on-accent: #ffffff;
+  --border-strong: #c5d0d8;
+  --shadow-btn-accent-hover: 0 4px 12px rgba(255, 120, 31, 0.35);
   --shadow-btn: 0 1px 2px rgba(23, 43, 58, 0.08);
   --shadow-btn-hover: 0 3px 6px rgba(23, 43, 58, 0.12);
   --shadow-btn-primary: 0 1px 3px rgba(8, 127, 115, 0.35);
@@ -94,6 +100,7 @@
   --accent: #ff9152;
   --accent-dark: #ffab73;
   --accent-soft: #3a1d0a;
+  --accent-text: #ffab73;
   --brand-gradient: linear-gradient(135deg, #087f73 0%, #103f3a 100%);
   --success: #3fb950;
   --success-soft: #122a1c;
@@ -102,6 +109,11 @@
   --danger: #f85149;
   --danger-soft: #2d1215;
   --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.55);
+  /* Dark: --primary là teal sáng nên chữ trên nút phải tối mới đọc được */
+  --on-primary: #042f2a;
+  --on-accent: #ffffff;
+  --border-strong: #4b5563;
+  --shadow-btn-accent-hover: 0 4px 14px rgba(255, 145, 82, 0.3);
   --shadow-btn: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-btn-hover: 0 3px 8px rgba(0, 0, 0, 0.5);
   --shadow-btn-primary: 0 1px 3px rgba(0, 0, 0, 0.45);
@@ -246,74 +258,103 @@ select:focus-visible,
 /* =========================================================
    BUTTON
    ========================================================= */
+/* ===== Nút (button) dùng chung =====
+   Kích thước: .btn 40px, .btn-sm 32px. Chữ đậm 600 để nhãn nút rõ ràng.
+   Hiệu ứng: hover nâng 1px + bóng đổ; bấm thì lún xuống; focus bằng bàn phím có vòng kép
+   (vòng nền + vòng teal) nhìn rõ trên mọi màu nền. Disabled: mờ, không hiệu ứng. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 16px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: var(--radius-lg);
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 10px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 150ms, border-color 150ms, color 150ms, transform 100ms, box-shadow 150ms;
   white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn svg {
+  flex-shrink: 0;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
 }
 
 .btn:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-btn-active);
 }
 
 .btn:disabled {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
 }
 
 .btn-sm {
-  height: 30px;
+  height: 32px;
   padding: 0 12px;
+  gap: 6px;
   font-size: 13px;
+  border-radius: 8px;
 }
 
+/* --- Chính (teal): hành động chính của form/trang --- */
 .btn-primary {
   background: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--on-primary);
   box-shadow: var(--shadow-btn-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--primary-dark);
   border-color: var(--primary-dark);
+  color: var(--on-primary);
   box-shadow: var(--shadow-btn-primary-hover);
   transform: translateY(-1px);
 }
 
-.btn-primary:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
-}
-
+/* --- Phụ (viền): hành động thứ yếu. Hover chuyển sang tông teal để rõ là bấm được --- */
 .btn-secondary {
   background: var(--bg);
-  border-color: var(--border);
+  border-color: var(--border-strong);
   color: var(--text);
   box-shadow: var(--shadow-btn);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--bg-hover);
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary-dark);
   box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-1px);
 }
 
-.btn-secondary:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
-}
-
+/* --- Nguy hiểm (xóa...): viền đỏ nhạt, hover nền đỏ nhạt + viền đỏ --- */
 .btn-danger {
   background: var(--bg);
-  border-color: var(--border);
+  border-color: var(--border-strong);
   color: var(--danger);
   box-shadow: var(--shadow-btn);
 }
@@ -321,16 +362,15 @@ select:focus-visible,
 .btn-danger:hover:not(:disabled) {
   background: var(--danger-soft);
   border-color: var(--danger);
+  color: var(--danger);
   box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-1px);
 }
 
-.btn-danger:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
-}
-
+/* --- Thành công (mở khóa...) --- */
 .btn-success {
   background: var(--bg);
-  border-color: var(--border);
+  border-color: var(--border-strong);
   color: var(--success);
   box-shadow: var(--shadow-btn);
 }
@@ -338,13 +378,12 @@ select:focus-visible,
 .btn-success:hover:not(:disabled) {
   background: var(--success-soft);
   border-color: var(--success);
+  color: var(--success);
   box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-1px);
 }
 
-.btn-success:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
-}
-
+/* --- Trong suốt: hành động phụ nằm trong dòng nội dung (Lưu, Chia sẻ, Hủy...) --- */
 .btn-ghost {
   background: transparent;
   border-color: transparent;
@@ -356,24 +395,23 @@ select:focus-visible,
   color: var(--text);
 }
 
+/* --- Cam (CTA nổi bật nhất, vd "Đặt câu hỏi"): chữ trắng theo yêu cầu thiết kế --- */
 .btn-accent {
   background: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--on-accent);
   box-shadow: var(--shadow-btn);
 }
 
 .btn-accent:hover:not(:disabled) {
   background: var(--accent-dark);
   border-color: var(--accent-dark);
-  box-shadow: var(--shadow-btn-hover);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-btn-accent-hover);
   transform: translateY(-1px);
 }
 
-.btn-accent:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
-}
-
+/* --- Gradient thương hiệu (nền teal đậm nên chữ trắng vẫn rõ ở cả 2 theme) --- */
 .btn-gradient {
   background: var(--brand-gradient);
   border-color: transparent;
@@ -382,13 +420,18 @@ select:focus-visible,
 }
 
 .btn-gradient:hover:not(:disabled) {
+  color: #ffffff;
   box-shadow: var(--shadow-btn-primary-hover);
-  filter: brightness(1.06);
+  filter: brightness(1.08);
   transform: translateY(-1px);
 }
 
-.btn-gradient:active:not(:disabled) {
-  box-shadow: var(--shadow-btn-active);
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:hover:not(:disabled),
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
 }
 
 /* =========================================================
@@ -656,3 +699,90 @@ a.tag-pill:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* =========================================================
+   CHUYỂN ĐỘNG DÙNG CHUNG (redesign 2026-11) - đều tắt khi prefers-reduced-motion
+   ========================================================= */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.28);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 120, 31, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(255, 120, 31, 0);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Các con trực tiếp hiện dần lần lượt (so le 70ms) */
+.stagger > * {
+  animation: rise 500ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+.stagger > *:nth-child(2) { animation-delay: 70ms; }
+.stagger > *:nth-child(3) { animation-delay: 140ms; }
+.stagger > *:nth-child(4) { animation-delay: 210ms; }
+.stagger > *:nth-child(5) { animation-delay: 280ms; }
+.stagger > *:nth-child(6) { animation-delay: 350ms; }
+.stagger > *:nth-child(n + 7) { animation-delay: 420ms; }
+
+.anim-pop {
+  animation: pop 320ms ease;
+}
+
+.anim-float {
+  animation: float-soft 8s ease-in-out infinite;
+}
+
+.anim-pulse {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+/* Nâng nhẹ khi rê chuột - dùng cho card độc lập (không dùng cho hàng trong danh sách) */
+.lift {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+

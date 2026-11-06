@@ -1,9 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
+import AdminLayout from './layouts/AdminLayout'
 import AuthLayout from './layouts/AuthLayout'
 import HomePage from './pages/HomePage'
 import QuestionsPage from './pages/QuestionsPage'
 import CategoriesPage from './pages/CategoriesPage'
+import LeaderboardPage from './pages/LeaderboardPage'
 import SearchPage from './pages/SearchPage'
 import UserProfilePage from './pages/UserProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
@@ -19,6 +21,7 @@ import AskPage from './pages/AskPage'
 import EditQuestionPage from './pages/EditQuestionPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import PagePlaceholder from './components/PagePlaceholder'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminRoute from './components/AdminRoute'
@@ -29,6 +32,7 @@ function App() {
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Route>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
@@ -43,6 +47,7 @@ function App() {
           }
         />
         <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/users/:id" element={<UserProfilePage />} />
         <Route
@@ -51,54 +56,6 @@ function App() {
             <ProtectedRoute>
               <EditProfilePage />
             </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <AdminPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/users"
-          element={
-            <AdminRoute>
-              <AdminUsersPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/questions"
-          element={
-            <AdminRoute>
-              <AdminQuestionsPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/answers"
-          element={
-            <AdminRoute>
-              <AdminAnswersPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/categories"
-          element={
-            <AdminRoute>
-              <AdminCategoriesPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/reports"
-          element={
-            <AdminRoute>
-              <AdminReportsPage />
-            </AdminRoute>
           }
         />
         <Route
@@ -118,6 +75,20 @@ function App() {
           }
         />
         <Route path="*" element={<PagePlaceholder title="Không tìm thấy trang" />} />
+      </Route>
+      <Route
+        element={
+          <AdminRoute>
+            <AdminLayout />
+          </AdminRoute>
+        }
+      >
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/questions" element={<AdminQuestionsPage />} />
+        <Route path="/admin/answers" element={<AdminAnswersPage />} />
+        <Route path="/admin/categories" element={<AdminCategoriesPage />} />
+        <Route path="/admin/reports" element={<AdminReportsPage />} />
       </Route>
     </Routes>
   )

@@ -96,3 +96,145 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Cột hoạt động mọc lên từ đáy khi vào trang, so le theo thứ tự ngày */
+.activity-chart-bars > * {
+  transform-origin: bottom;
+  animation: grow-y 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.activity-chart-col:nth-child(2) .activity-chart-bars > * { animation-delay: 60ms; }
+.activity-chart-col:nth-child(3) .activity-chart-bars > * { animation-delay: 120ms; }
+.activity-chart-col:nth-child(4) .activity-chart-bars > * { animation-delay: 180ms; }
+.activity-chart-col:nth-child(5) .activity-chart-bars > * { animation-delay: 240ms; }
+.activity-chart-col:nth-child(6) .activity-chart-bars > * { animation-delay: 300ms; }
+.activity-chart-col:nth-child(7) .activity-chart-bars > * { animation-delay: 360ms; }
+
+/* === Theo prototype: cột dọc theo danh mục (2/3) + "Cần xử lý" (1/3), hoạt động ở hàng riêng === */
+.admin-charts-grid {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.admin-activity-box {
+  grid-column: 1 / -1;
+}
+
+.admin-chart-box {
+  padding: 22px;
+  border-radius: var(--radius-xl);
+}
+
+.admin-column-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 220px;
+  padding-top: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-column {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: relative;
+  padding-bottom: 26px;
+}
+
+.admin-column-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.admin-column-bar {
+  width: 100%;
+  max-width: 48px;
+  min-height: 4px;
+  border-radius: 8px 8px 0 0;
+  background: var(--primary-soft-hover);
+  transform-origin: bottom;
+  animation: grow-y 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transition: filter 200ms;
+}
+
+.admin-column-bar.is-top {
+  background: var(--primary);
+}
+
+.admin-column:hover .admin-column-bar {
+  filter: brightness(1.1);
+}
+
+.admin-column-label {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-todo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--text);
+  transition: background-color 150ms;
+}
+
+.admin-todo-row:hover {
+  background: var(--bg-hover);
+  text-decoration: none;
+}
+
+.admin-todo-count {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.admin-todo-row.is-alert .admin-todo-count {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.admin-todo-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-todo-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .admin-charts-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

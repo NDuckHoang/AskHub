@@ -45,3 +45,64 @@
   font-size: 15px;
   height: 24px;
 }
+
+/* Danh mục + Tags cạnh nhau; hàng nút có đường kẻ phía trên, nút căn phải (theo prototype) */
+.question-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.question-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .question-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .question-form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Gợi ý ngắn dưới nhãn + dòng trạng thái/bộ đếm ký tự dưới ô nhập */
+.question-form-hint {
+  display: block;
+  margin: -2px 0 6px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.question-form-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.question-form-meta .field-error {
+  margin: 0;
+}
+
+.question-form-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.question-form-counter {
+  flex: none;
+  margin-left: auto;
+}

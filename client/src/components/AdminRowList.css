@@ -65,3 +65,36 @@
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+/* Hàng danh sách admin: vạch teal bên trái khi rê chuột, đồng bộ với danh sách câu hỏi */
+.admin-row,
+.admin-category-item {
+  border-left: 3px solid transparent;
+  padding-left: 13px;
+  transition: background-color 150ms, border-left-color 150ms;
+}
+
+.admin-row:hover {
+  border-left-color: var(--primary);
+}
+
+/* Ô tìm kiếm admin: có icon-nền nhẹ, focus rõ */
+.admin-search-form .input {
+  height: 42px;
+  border-radius: 11px;
+}
+
+@media (max-width: 600px) {
+  .admin-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-search-form {
+    max-width: none;
+  }
+
+  .admin-panel-toolbar {
+    justify-content: stretch;
+  }
+}

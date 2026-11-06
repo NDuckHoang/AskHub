@@ -1,0 +1,151 @@
+/* Khung ngoài: chứa hàng chip + 2 nút mũi tên đặt đè lên 2 mép */
+.category-chips-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Luôn 1 dòng, cuộn ngang. Padding trên/dưới để hiệu ứng nâng chip + bóng đổ khi hover
+   không bị cắt bởi overflow; margin âm bù lại để vị trí hàng chip không đổi. */
+.category-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  margin: -4px -2px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.category-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.category-chips > * {
+  flex: none;
+}
+
+/* Mép mờ dần ở phía còn chip bị khuất - gợi ý có thể cuộn tiếp */
+.category-chips.fade-right {
+  mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
+}
+
+.category-chips.fade-left {
+  mask-image: linear-gradient(to left, #000 calc(100% - 64px), transparent);
+}
+
+.category-chips.fade-left.fade-right {
+  mask-image: linear-gradient(to right, transparent, #000 64px, #000 calc(100% - 64px), transparent);
+}
+
+.category-chips-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  margin-top: -19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-menu);
+  cursor: pointer;
+  transition: border-color 150ms, color 150ms, transform 150ms;
+}
+
+.category-chips-arrow:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: scale(1.06);
+}
+
+.category-chips-arrow.is-left {
+  left: -6px;
+}
+
+.category-chips-arrow.is-right {
+  right: -6px;
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px 5px 5px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: var(--shadow-btn);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.category-chip:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Icon của chip "Tất cả" (các chip khác dùng CategoryIcon) */
+.category-chip-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-chip-count {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.category-chip-skeleton {
+  width: 110px;
+  height: 36px;
+  border-radius: 9999px;
+}
+
+/* Mobile: tràn ra sát mép màn hình, vuốt bằng tay nên ẩn nút mũi tên */
+@media (max-width: 768px) {
+  .category-chips {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .category-chips-arrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-chips {
+    scroll-behavior: auto;
+  }
+}
+
+/* Chip "Tất cả": nền tối như prototype */
+.category-chip.is-all {
+  background: var(--chrome-bg);
+  border-color: var(--chrome-bg);
+  color: #ffffff;
+}
+
+.category-chip.is-all .category-chip-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.category-chip.is-all .category-chip-count {
+  color: rgba(255, 255, 255, 0.8);
+}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { ShieldCheck, Pencil, Phone, UserX, MessageSquare, Activity, AlertCircle } from 'lucide-react'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
+import { ShieldCheck, Pencil, Phone, UserX, MessageSquare, Activity, AlertCircle, Star, HelpCircle, CheckCircle2 } from 'lucide-react'
 import * as userService from '../services/userService'
 import * as questionService from '../services/questionService'
 import { useAuth } from '../hooks/useAuth'
@@ -20,6 +20,14 @@ const TABS = [
   { value: 'saved', label: 'Đã lưu' },
 ]
 
+// Số đếm hiển thị cạnh tên tab (null = không hiện)
+function getTabCount(tab, profile, activityItems) {
+  if (tab === 'questions') return profile.question_count
+  if (tab === 'answers') return profile.answer_count
+  if (tab === 'activity') return activityItems ? activityItems.length : null
+  return null
+}
+
 function formatJoinDate(dateString) {
   return new Date(dateString).toLocaleDateString('vi-VN', {
     day: '2-digit',
@@ -34,7 +42,15 @@ function UserProfilePage() {
   const isOwnProfile = currentUser && String(currentUser.id) === id
   const [profile, setProfile] = useState(null)
   const [profileError, setProfileError] = useState(false)
-  const [tab, setTab] = useState('questions')
+  // Tab đang mở lưu trên URL (?tab=answers) để sidebar có thể trỏ thẳng tới
+  // 'Câu trả lời của tôi' / 'Câu hỏi đã lưu'. Không có ?tab hoặc giá trị lạ -> tab Câu hỏi.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const tab = TABS.some((t) => t.value === tabParam) ? tabParam : 'questions'
+
+  function setTab(value) {
+    setSearchParams(value === 'questions' ? {} : { tab: value }, { replace: true })
+  }
 
   const [questions, setQuestions] = useState(null)
   const [questionsError, setQuestionsError] = useState(false)
@@ -46,7 +62,6 @@ function UserProfilePage() {
   useEffect(() => {
     setProfile(null)
     setProfileError(false)
-    setTab('questions')
     setQuestions(null)
     setAnswers(null)
     setSavedQuestions(null)
@@ -86,10 +101,11 @@ function UserProfilePage() {
   // Chỉ fetch dữ liệu của tab khi thật sự cần (lần đầu mở tab đó)
   useEffect(() => {
     if (!profile) return
-    if ((tab === 'questions' || tab === 'activity') && questions === null && !questionsError) {
+    // Cột phải (chủ đề + hoạt động gần đây) cần cả câu hỏi lẫn câu trả lời, nên tải ngay khi có hồ sơ
+    if (questions === null && !questionsError) {
       fetchQuestions()
     }
-    if ((tab === 'answers' || tab === 'activity') && answers === null && !answersError) {
+    if (answers === null && !answersError) {
       fetchAnswers()
     }
     if (tab === 'saved' && isOwnProfile && savedQuestions === null && !savedError) {
@@ -140,77 +156,114 @@ function UserProfilePage() {
         ].sort((a, b) => new Date(b.time) - new Date(a.time))
       : null
 
+  // Chủ đề hay hỏi: đếm câu hỏi của người dùng theo danh mục (tối đa 5 mục, nhiều nhất trước)
+  const topicCounts = {}
+  ;(questions || []).forEach((q) => {
+    topicCounts[q.category_name] = (topicCounts[q.category_name] || 0) + 1
+  })
+  const topTopics = Object.entries(topicCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+
   return (
     <div className="container user-profile-page">
       <div className="card user-profile-header">
-        <div className="user-profile-avatar-wrap">
-          <UserAvatar username={profile.username} avatar={profile.avatar} size={96} />
-        </div>
+        <div className="user-profile-cover" />
+        <div className="user-profile-head-row">
+          <div className="user-profile-avatar-wrap">
+            <UserAvatar username={profile.username} avatar={profile.avatar} size={96} />
+          </div>
 
-        <div className="user-profile-info">
-          <div className="user-profile-name-row">
-            <h1>{profile.username}</h1>
-            {profile.role === 'ADMIN' && (
+          <div className="user-profile-info">
+            <div className="user-profile-name-row">
+              <h1>{profile.username}</h1>
               <span className="user-profile-admin-badge">
-                <ShieldCheck size={14} /> Admin
+                {profile.role === 'ADMIN' ? (
+                  <>
+                    <ShieldCheck size={13} /> Admin
+                  </>
+                ) : (
+                  'Thành viên'
+                )}
               </span>
-            )}
-          </div>
-
-          <div className="user-profile-meta">
-            <span>Tham gia {formatJoinDate(profile.created_at)}</span>
-            {profile.gender && (
-              <>
-                <span>·</span>
-                <span>{GENDER_LABELS[profile.gender]}</span>
-              </>
-            )}
-            {profile.contact && (
-              <>
-                <span>·</span>
-                <span className="user-profile-contact">
-                  <Phone size={13} /> {profile.contact}
-                </span>
-              </>
-            )}
-          </div>
-
-          {profile.bio && <p className="user-profile-bio">{profile.bio}</p>}
-
-          <div className="user-profile-stats">
-            <div className="user-profile-stat">
-              <span className="user-profile-stat-value stat-number">{profile.reputation}</span>
-              <span className="user-profile-stat-label">điểm uy tín</span>
             </div>
-            <div className="user-profile-stat">
-              <span className="user-profile-stat-value stat-number">{profile.question_count}</span>
-              <span className="user-profile-stat-label">câu hỏi</span>
-            </div>
-            <div className="user-profile-stat">
-              <span className="user-profile-stat-value stat-number">{profile.answer_count}</span>
-              <span className="user-profile-stat-label">câu trả lời</span>
+
+            <div className="user-profile-meta">
+              <span>Tham gia {formatJoinDate(profile.created_at)}</span>
+              {profile.gender && (
+                <>
+                  <span>·</span>
+                  <span>{GENDER_LABELS[profile.gender]}</span>
+                </>
+              )}
+              {profile.contact && (
+                <>
+                  <span>·</span>
+                  <span className="user-profile-contact">
+                    <Phone size={13} /> {profile.contact}
+                  </span>
+                </>
+              )}
+              {profile.bio && (
+                <>
+                  <span>·</span>
+                  <span>{profile.bio}</span>
+                </>
+              )}
             </div>
           </div>
+
+          {isOwnProfile && (
+            <Link to={`/users/${id}/edit`} className="user-profile-edit-btn">
+              <Pencil size={16} /> Chỉnh sửa hồ sơ
+            </Link>
+          )}
         </div>
-
-        {isOwnProfile && (
-          <Link to={`/users/${id}/edit`} className="btn btn-secondary btn-sm user-profile-edit-btn">
-            <Pencil size={14} /> Chỉnh sửa hồ sơ
-          </Link>
-        )}
       </div>
 
-      <div className="question-sort-tabs user-profile-tabs">
-        {TABS.filter((t) => t.value !== 'saved' || isOwnProfile).map((t) => (
-          <button
-            key={t.value}
-            type="button"
-            className={`question-sort-tab${tab === t.value ? ' is-active' : ''}`}
-            onClick={() => setTab(t.value)}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="user-profile-stats stagger">
+        <div className="user-profile-stat">
+          <span className="user-profile-stat-icon is-accent"><Star size={20} /></span>
+          <div>
+            <div className="user-profile-stat-value stat-number">{profile.reputation}</div>
+            <div className="user-profile-stat-label">điểm uy tín</div>
+          </div>
+        </div>
+        <div className="user-profile-stat">
+          <span className="user-profile-stat-icon"><HelpCircle size={20} /></span>
+          <div>
+            <div className="user-profile-stat-value stat-number">{profile.question_count}</div>
+            <div className="user-profile-stat-label">câu hỏi</div>
+          </div>
+        </div>
+        <div className="user-profile-stat">
+          <span className="user-profile-stat-icon is-success"><CheckCircle2 size={20} /></span>
+          <div>
+            <div className="user-profile-stat-value stat-number">{profile.answer_count}</div>
+            <div className="user-profile-stat-label">câu trả lời</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="user-profile-layout">
+      <div className="user-profile-main">
+      <div className="user-profile-tabs" role="tablist">
+        {TABS.filter((t) => t.value !== 'saved' || isOwnProfile).map((t) => {
+          const count = getTabCount(t.value, profile, activityItems)
+          return (
+            <button
+              key={t.value}
+              type="button"
+              role="tab"
+              aria-selected={tab === t.value}
+              className={`user-profile-tab${tab === t.value ? ' is-active' : ''}`}
+              onClick={() => setTab(t.value)}
+            >
+              {t.label}
+              {count !== null && <span className="user-profile-tab-count">{count}</span>}
+            </button>
+          )
+        })}
       </div>
 
       {tab === 'questions' && (
@@ -302,6 +355,48 @@ function UserProfilePage() {
           )}
         </>
       )}
+      </div>
+
+      <aside className="user-profile-aside">
+        <div className="card user-profile-aside-card">
+          <h2 className="user-profile-aside-title">Chủ đề hay hỏi</h2>
+          {topTopics.length === 0 ? (
+            <p className="user-profile-aside-empty">Chưa có dữ liệu.</p>
+          ) : (
+            topTopics.map(([name, count]) => (
+              <div key={name} className="user-profile-topic">
+                <div className="user-profile-topic-head">
+                  <span>{name}</span>
+                  <span className="stat-number">{count}</span>
+                </div>
+                <div className="user-profile-topic-bar">
+                  <span style={{ width: `${(count / topTopics[0][1]) * 100}%` }} />
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="card user-profile-aside-card">
+          <h2 className="user-profile-aside-title">Hoạt động gần đây</h2>
+          {!activityItems || activityItems.length === 0 ? (
+            <p className="user-profile-aside-empty">Chưa có hoạt động nào.</p>
+          ) : (
+            <ul className="user-profile-recent">
+              {activityItems.slice(0, 5).map((item) => (
+                <li key={`${item.type}-${item.data.id}`}>
+                  <span className={`user-profile-recent-dot${item.type === 'answer' ? ' is-answer' : ''}`} />
+                  <span>
+                    {item.type === 'question' ? 'Đặt câu hỏi mới' : 'Trả lời một câu hỏi'}
+                    <span className="user-profile-recent-time"> · {formatRelativeTime(item.time)}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </aside>
+      </div>
     </div>
   )
 }

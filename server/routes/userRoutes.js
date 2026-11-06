@@ -5,6 +5,7 @@ const {
   getUserAnswers,
   updateProfile,
   changePassword,
+  updateSecurityQuestion,
 } = require('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -16,5 +17,6 @@ router.get('/:id', getUserProfile);
 router.get('/:id/answers', getUserAnswers);
 router.put('/:id', authMiddleware, updateProfile);
 router.put('/:id/password', authMiddleware, changePassword);
+router.put('/:id/security-question', authMiddleware, updateSecurityQuestion);
 
 module.exports = router;

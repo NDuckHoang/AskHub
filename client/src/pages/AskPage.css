@@ -6,3 +6,33 @@
   padding: 24px;
   max-width: var(--content-max-width);
 }
+
+/* Form đặt câu hỏi hiện dần khi vào trang */
+.ask-page-card {
+  animation: rise 500ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+/* === Theo thiết kế mới: form + cột mẹo bên phải === */
+.ask-page-subtitle {
+  margin: -8px 0 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.ask-page-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.ask-page-layout .ask-page-card {
+  max-width: none;
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 900px) {
+  .ask-page-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

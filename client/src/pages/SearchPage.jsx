@@ -1,3 +1,4 @@
+import Select from '../components/Select'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Search } from 'lucide-react'
@@ -78,18 +79,13 @@ function SearchPage() {
             <span className="question-toolbar-count">{pagination.total} câu hỏi</span>
           )}
 
-          <select
-            className="select search-category-select"
-            value={categoryId}
-            onChange={(e) => updateParams({ category_id: e.target.value || null })}
-          >
-            <option value="">Tất cả danh mục</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+          <Select
+            className="search-category-select"
+            ariaLabel="Lọc theo danh mục"
+            value={String(categoryId ?? '')}
+            onChange={(v) => updateParams({ category_id: v || null })}
+            options={[{ value: '', label: 'Tất cả danh mục' }, ...categories.map((c) => ({ value: String(c.id), label: c.name }))]}
+          />
         </div>
 
         <QuestionList

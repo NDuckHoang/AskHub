@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Pencil, Trash2, AlertCircle, MessageSquarePlus, MessageSquare } from 'lucide-react'
+import { Pencil, Trash2, AlertCircle, MessageSquarePlus, MessageSquare, Check } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import * as answerService from '../services/answerService'
 import { useAuth } from '../hooks/useAuth'
@@ -17,6 +17,7 @@ import AnswerItem from '../components/AnswerItem'
 import ReportButton from '../components/ReportButton'
 import SaveButton from '../components/SaveButton'
 import ShareButton from '../components/ShareButton'
+import QuestionAside from '../components/QuestionAside'
 import { formatRelativeTime } from '../utils/formatTime'
 import './QuestionDetailPage.css'
 
@@ -102,7 +103,7 @@ function QuestionDetailPage() {
 
   if (loadingQuestion) {
     return (
-      <div className="container question-detail-page">
+      <div className="container question-detail-page stagger">
         <div className="skeleton" style={{ height: 28, width: '60%', marginBottom: 12 }} />
         <div className="skeleton" style={{ height: 16, width: '100%', marginBottom: 8 }} />
         <div className="skeleton" style={{ height: 16, width: '90%' }} />
@@ -130,20 +131,19 @@ function QuestionDetailPage() {
   const canDeleteQuestion = user && (isQuestionOwner || user.role === 'ADMIN')
 
   return (
-    <div className="container question-detail-page">
-      <h1 className="question-detail-title">{question.title}</h1>
-
-      <div className="question-detail-meta-row">
-        <span className="question-detail-author">
-          <UserAvatar username={question.author_username} avatar={question.author_avatar} size={28} />
-          Hỏi bởi{' '}
-          <Link to={`/users/${question.user_id}`} className="question-detail-author-name">
-            {question.author_username}
-          </Link>{' '}
-          · {formatRelativeTime(question.created_at)}
-        </span>
-        <span>{question.views} lượt xem</span>
-      </div>
+    <div className="container content-with-sidebar question-detail-layout">
+      <div className="question-detail-page stagger">
+        <nav className="question-breadcrumb" aria-label="Breadcrumb">
+          <Link to="/">Trang chủ</Link>
+          {question.category_id && (
+            <>
+              <span>/</span>
+              <Link to={`/questions?category_id=${question.category_id}`}>{question.category_name}</Link>
+            </>
+          )}
+          <span>/</span>
+          <span>Câu hỏi #{question.id}</span>
+        </nav>
 
       <div className="question-detail-body card">
         <VoteButton
@@ -155,6 +155,19 @@ function QuestionDetailPage() {
         />
 
         <div className="question-detail-content">
+          <div className="question-detail-meta-row">
+            {question.accepted_count > 0 && (
+              <span className="question-detail-solved">
+                <Check size={12} strokeWidth={3} /> Đã giải quyết
+              </span>
+            )}
+            <span>
+              Đăng {formatRelativeTime(question.created_at)} · {question.views} lượt xem
+            </span>
+          </div>
+
+          <h1 className="question-detail-title">{question.title}</h1>
+
           <MarkdownContent text={question.content} />
 
           {(question.category_id || question.tags.length > 0) && (
@@ -178,13 +191,23 @@ function QuestionDetailPage() {
               </button>
             )}
             <SaveButton questionId={question.id} saved={question.is_saved} />
-            <ShareButton />
+            <ShareButton title={question.title} />
             {!isQuestionOwner && user && <ReportButton targetType="QUESTION" targetId={question.id} />}
+            <span className="question-detail-author">
+              <UserAvatar username={question.author_username} avatar={question.author_avatar} size={32} />
+              <span className="question-detail-author-info">
+                <Link to={`/users/${question.user_id}`} className="question-detail-author-name">
+                  {question.author_username}
+                </Link>
+                <small>Người đăng câu hỏi</small>
+              </span>
+            </span>
           </div>
 
           <CommentList
             comments={question.comments}
             questionId={question.id}
+            postAuthorId={question.user_id}
             onChange={handleQuestionCommentsChange}
           />
         </div>
@@ -254,6 +277,8 @@ function QuestionDetailPage() {
           </div>
         )}
       </div>
+    </div>
+      <QuestionAside question={question} answerCount={loadingAnswers ? null : answers.length} />
     </div>
   )
 }

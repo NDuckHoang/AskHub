@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { AlertCircle, FolderOpen } from 'lucide-react'
 import * as categoryService from '../services/categoryService'
 import * as questionService from '../services/questionService'
+import CategoryIcon from '../components/CategoryIcon'
 import './CategoriesPage.css'
 
 const SAMPLE_COUNT = 3
@@ -56,7 +57,7 @@ function CategoriesPage() {
       <p className="categories-subtitle">Chọn một danh mục để xem các câu hỏi liên quan.</p>
 
       {!categories && !error && (
-        <div className="category-grid">
+        <div className="category-grid stagger">
           {Array.from({ length: 8 }).map((_, i) => (
             <CategorySkeleton key={i} />
           ))}
@@ -89,6 +90,7 @@ function CategoriesPage() {
           {categories.map((c) => (
             <div key={c.id} className="card category-card">
               <Link to={`/questions?category_id=${c.id}`} className="category-card-header">
+                <CategoryIcon name={c.name} size={40} />
                 <h2>{c.name}</h2>
                 <span className="category-count stat-number">{c.question_count} câu hỏi</span>
               </Link>

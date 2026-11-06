@@ -20,6 +20,18 @@ async function getCategories(req, res) {
   res.json({ categories });
 }
 
+// GET /api/categories/trending?limit=6 - chủ đề hot cho trang chủ (công khai)
+const TRENDING_DAYS = 30;
+
+async function getTrendingCategories(req, res) {
+  let limit = parseInt(req.query.limit, 10);
+  if (!Number.isInteger(limit) || limit < 1) limit = 6;
+  if (limit > 20) limit = 20;
+
+  const categories = await categoryModel.findTrending(TRENDING_DAYS, limit);
+  res.json({ days: TRENDING_DAYS, categories });
+}
+
 async function createCategory(req, res) {
   const error = validateInput(req.body);
   if (error) {
@@ -80,4 +92,4 @@ async function deleteCategory(req, res) {
   res.json({ message: 'Đã xóa danh mục' });
 }
 
-module.exports = { getCategories, createCategory, updateCategory, deleteCategory };
+module.exports = { getCategories, getTrendingCategories, createCategory, updateCategory, deleteCategory };

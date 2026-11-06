@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
 import * as questionService from '../services/questionService'
 import QuestionList from '../components/QuestionList'
-import FeaturedQuestions from '../components/FeaturedQuestions'
 import Hero from '../components/Hero'
+import CategoryChips from '../components/CategoryChips'
+import HomeHighlights from '../components/HomeHighlights'
 import Pagination from '../components/Pagination'
 import Sidebar from '../components/Sidebar'
 import '../components/QuestionSortBar.css'
 import './HomePage.css'
 
-// Home chỉ cần 2 lựa chọn sort đơn giản, filter/search đầy đủ chuyển hết sang /questions
+// 4 kiểu sắp xếp giống prototype; filter/search đầy đủ vẫn ở /questions
 const HOME_SORT_OPTIONS = [
   { value: 'newest', label: 'Mới nhất' },
+  { value: 'votes', label: 'Nhiều vote' },
+  { value: 'answers', label: 'Nhiều trả lời' },
   { value: 'unanswered', label: 'Chưa trả lời' },
 ]
 
@@ -22,6 +23,7 @@ const RECENT_DAYS = 2
 function HomePage() {
   const [questions, setQuestions] = useState([])
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 })
+  const [totalAll, setTotalAll] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [sort, setSort] = useState('newest')
@@ -46,6 +48,7 @@ function HomePage() {
           ].slice(0, PAGE_SIZE)
           setQuestions(merged)
           setPagination(fullData.pagination)
+          setTotalAll(fullData.pagination.total)
         })
         .catch(() => setError(true))
         .finally(() => setLoading(false))
@@ -57,6 +60,7 @@ function HomePage() {
       .then((data) => {
         setQuestions(data.questions)
         setPagination(data.pagination)
+        if (sort !== 'unanswered') setTotalAll(data.pagination.total)
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false))
@@ -72,47 +76,44 @@ function HomePage() {
   }
 
   return (
-    <div className="container content-with-sidebar">
-      <div>
-        <Hero totalQuestions={pagination.total > 0 ? pagination.total : null} />
-        <FeaturedQuestions />
+    <div className="container home-page stagger">
+      <Hero totalQuestions={totalAll} />
+      <CategoryChips />
+      <HomeHighlights />
 
-        <h1>Câu hỏi mới nhất</h1>
+      <div className="content-with-sidebar">
+        <div>
+          <div className="home-simple-toolbar">
+            <h2 className="home-section-title">Câu hỏi mới nhất</h2>
 
-        <div className="home-simple-toolbar">
-          {!loading && !error && (
-            <span className="question-toolbar-count">{pagination.total} câu hỏi</span>
-          )}
-
-          <div className="home-simple-tabs">
-            {HOME_SORT_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                className={`question-sort-tab${sort === opt.value ? ' is-active' : ''}`}
-                onClick={() => handleSortChange(opt.value)}
-              >
-                {opt.label}
-              </button>
-            ))}
+            <div className="home-simple-tabs" role="tablist">
+              {HOME_SORT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  role="tab"
+                  aria-selected={sort === opt.value}
+                  className={`question-sort-tab${sort === opt.value ? ' is-active' : ''}`}
+                  onClick={() => handleSortChange(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <Link to="/questions" className="home-browse-all-link">
-            Xem tất cả câu hỏi <ArrowRight size={14} />
-          </Link>
+          <QuestionList
+            questions={questions}
+            loading={loading}
+            error={error}
+            onRetry={fetchQuestions}
+          />
+
+          <Pagination page={pagination.page} totalPages={pagination.totalPages} onChange={setPage} />
         </div>
 
-        <QuestionList
-          questions={questions}
-          loading={loading}
-          error={error}
-          onRetry={fetchQuestions}
-        />
-
-        <Pagination page={pagination.page} totalPages={pagination.totalPages} onChange={setPage} />
+        <Sidebar />
       </div>
-
-      <Sidebar />
     </div>
   )
 }

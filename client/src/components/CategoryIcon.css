@@ -1,0 +1,27 @@
+/* Vòng tròn icon danh mục: chỉ dùng tông thật nhạt làm nền, không thêm màu đậm mới vào giao diện */
+.category-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.category-icon.tone-yellow { background: #fef3c7; color: #854d0e; }
+.category-icon.tone-teal { background: #d6f0ec; color: #066a5f; }
+.category-icon.tone-green { background: #dcfce7; color: #166534; }
+.category-icon.tone-indigo { background: #e0e7ff; color: #3730a3; }
+.category-icon.tone-blue { background: #dbeafe; color: #1e40af; }
+.category-icon.tone-orange { background: #ffe3d0; color: #9a4208; }
+.category-icon.tone-pink { background: #fde7f3; color: #9d174d; }
+.category-icon.tone-gray { background: #eef2f5; color: #3d4f5e; }
+
+/* Dark mode: nền tối trong suốt cùng tông, chữ sáng để đủ tương phản */
+:root[data-theme='dark'] .category-icon.tone-yellow { background: rgba(250, 204, 21, 0.14); color: #fde68a; }
+:root[data-theme='dark'] .category-icon.tone-teal { background: rgba(45, 212, 191, 0.14); color: #99f6e4; }
+:root[data-theme='dark'] .category-icon.tone-green { background: rgba(74, 222, 128, 0.14); color: #bbf7d0; }
+:root[data-theme='dark'] .category-icon.tone-indigo { background: rgba(129, 140, 248, 0.16); color: #c7d2fe; }
+:root[data-theme='dark'] .category-icon.tone-blue { background: rgba(96, 165, 250, 0.16); color: #bfdbfe; }
+:root[data-theme='dark'] .category-icon.tone-orange { background: rgba(255, 145, 82, 0.16); color: #fed7aa; }
+:root[data-theme='dark'] .category-icon.tone-pink { background: rgba(244, 114, 182, 0.16); color: #fbcfe8; }
+:root[data-theme='dark'] .category-icon.tone-gray { background: rgba(148, 163, 184, 0.16); color: #e2e8f0; }

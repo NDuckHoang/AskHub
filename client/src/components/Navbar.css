@@ -299,11 +299,15 @@
   font-weight: 600;
   background: var(--accent);
   border-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-btn);
 }
 
 .navbar-ask-btn:hover:not(:disabled) {
   background: var(--accent-dark);
   border-color: var(--accent-dark);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-btn-accent-hover);
 }
 
 .navbar-ask-btn:focus-visible {
@@ -497,5 +501,178 @@
 
   .navbar-username {
     display: none;
+  }
+}
+
+/* Mobile: thu gọn khoảng cách để logo + nút hành động nằm cùng 1 hàng (24px gap mặc định
+   khiến hàng bị tràn và logo rớt xuống 1 dòng riêng) */
+@media (max-width: 768px) {
+  .navbar-inner {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-actions {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-auth-links {
+    gap: 4px;
+  }
+
+  .navbar-auth-links .btn {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* ===== Header 3 vùng (desktop >= 769px): tên trang | ô tìm kiếm | nút Đặt câu hỏi =====
+   Grid 1fr - (tối đa 640px) - 1fr để ô tìm kiếm luôn nằm chính giữa, bất kể tên trang dài hay ngắn.
+   Logo và nav links đã display:none ở desktop nên không chiếm cột nào. */
+.navbar-context {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .navbar-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 640px) minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .navbar-collapsible {
+    min-width: 0;
+  }
+
+  .navbar-search {
+    max-width: none;
+  }
+
+  .navbar-actions {
+    justify-self: end;
+  }
+
+  .navbar-context {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+}
+
+.navbar-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.navbar-crumb a {
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 150ms;
+}
+
+.navbar-crumb a:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.navbar-page-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Breadcrumb: tên trang hiện tại nhỏ lại cho cân với các cấp cha */
+.navbar-crumb + .navbar-crumb,
+.navbar-crumb ~ .navbar-page-title {
+  font-size: 14px;
+}
+
+/* ===== Dropdown gợi ý câu hỏi khi gõ (dùng chung khung với lịch sử tìm kiếm) ===== */
+.navbar-suggest .navbar-search-history-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-suggest-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 10px 8px;
+}
+
+.navbar-suggest-loading .skeleton {
+  height: 18px;
+  border-radius: 6px;
+}
+
+.navbar-suggest-empty {
+  margin: 0;
+  padding: 8px 12px 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.navbar-suggest-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: none;
+  color: var(--primary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar-suggest-all:hover {
+  background: var(--bg-hover);
+}
+
+/* Tên trang / breadcrumb bên trái header: làm mờ để không tranh chú ý với ô tìm kiếm
+   và nội dung trang - chỉ là thông tin "đang ở đâu". Rê chuột vào thì rõ lại. */
+.navbar-context {
+  opacity: 0.6;
+  transition: opacity 150ms;
+}
+
+.navbar-context:hover,
+.navbar-context:focus-within {
+  opacity: 1;
+}
+
+.navbar-page-title {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Desktop hẹp (769-1100px, vd tablet ngang / cửa sổ thu nhỏ): cột giữa không còn chỗ cho
+   ô tìm kiếm tối thiểu 320px -> đè lên nút "Đặt câu hỏi". Đổi sang: tên trang co tối đa 180px,
+   ô tìm kiếm chiếm phần còn lại, cột nút rộng theo nội dung. */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .navbar-inner {
+    grid-template-columns: minmax(0, 180px) minmax(0, 1fr) auto;
+    gap: 16px;
   }
 }

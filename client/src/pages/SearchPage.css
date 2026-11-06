@@ -22,3 +22,7 @@
     align-items: stretch;
   }
 }
+
+.search-heading {
+  animation: rise 450ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}

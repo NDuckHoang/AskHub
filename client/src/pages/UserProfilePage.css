@@ -1,55 +1,78 @@
+/* Header hồ sơ theo prototype: ảnh bìa gradient 96px, avatar đè lên bìa, tên + huy hiệu + nút sửa cùng hàng */
 .user-profile-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  padding: 32px 28px;
+  overflow: hidden;
   margin-top: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  padding: 0;
+  border-radius: var(--radius-xl);
+}
+
+.user-profile-cover {
+  height: 96px;
+  background: var(--brand-gradient);
+}
+
+.user-profile-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 0 28px 24px;
+  margin-top: -40px;
+}
+
+.user-profile-avatar-wrap {
+  flex: none;
 }
 
 .user-profile-avatar-wrap .user-avatar,
 .user-profile-avatar-wrap .user-avatar-fallback {
-  border: 1px solid var(--border);
+  border: 4px solid var(--bg);
 }
 
 .user-profile-avatar-wrap .user-avatar-fallback {
-  font-size: 36px;
+  font-size: 32px;
+  font-weight: 800;
 }
 
 .user-profile-info {
-  flex: 1;
+  flex: 1 1 280px;
   min-width: 0;
+  padding-top: 44px;
 }
 
 .user-profile-name-row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .user-profile-info h1 {
-  font-size: 24px;
+  margin: 0;
+  font-size: 28px;
   font-weight: 700;
 }
 
-.user-profile-edit-btn {
-  flex-shrink: 0;
+.user-profile-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .user-profile-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 2px;
   font-size: 14px;
   color: var(--text-secondary);
-}
-
-.user-profile-bio {
-  margin-top: 12px;
-  font-size: 14px;
-  color: var(--text);
-  max-width: 600px;
 }
 
 .user-profile-contact {
@@ -58,37 +81,81 @@
   gap: 4px;
 }
 
-.user-profile-admin-badge {
+.user-profile-edit-btn {
+  flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--primary-dark);
-  background: var(--primary-soft);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  margin-top: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 500;
+  transition: border-color 150ms, box-shadow 150ms;
 }
 
+.user-profile-edit-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+  text-decoration: none;
+  box-shadow: var(--shadow-btn);
+}
+
+/* 3 thẻ thống kê riêng bên dưới header */
 .user-profile-stats {
   display: flex;
-  gap: 28px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .user-profile-stat {
+  flex: 1 1 200px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.user-profile-stat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.user-profile-stat-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.user-profile-stat-icon.is-accent {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.user-profile-stat-icon.is-success {
+  background: var(--success-soft);
+  color: var(--success);
 }
 
 .user-profile-stat-value {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
+  line-height: 1.1;
   color: var(--text);
-  line-height: 1.2;
 }
 
 .user-profile-stat-label {
@@ -96,10 +163,50 @@
   color: var(--text-secondary);
 }
 
+/* Tab gạch chân có số đếm */
 .user-profile-tabs {
-  margin: 0 0 16px;
-  padding-bottom: 8px;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
   border-bottom: 1px solid var(--border);
+}
+
+.user-profile-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: -1px;
+  padding: 10px 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 150ms, border-color 150ms;
+}
+
+.user-profile-tab:hover {
+  color: var(--text);
+}
+
+.user-profile-tab.is-active {
+  color: var(--primary-dark);
+  border-bottom-color: var(--primary);
+}
+
+.user-profile-tab-count {
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background: var(--bg-subtle);
+  font-size: 12px;
+}
+
+.user-profile-tab.is-active .user-profile-tab-count {
+  background: var(--primary-soft);
 }
 
 .user-answer-list {
@@ -150,36 +257,144 @@
   color: var(--text-secondary);
 }
 
-@media (max-width: 480px) {
-  .user-profile-header {
+
+@media (max-width: 600px) {
+  .user-profile-head-row {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 24px 20px;
-    gap: 16px;
+    padding: 0 20px 20px;
+    gap: 12px;
   }
 
-  .user-profile-name-row {
-    flex-direction: column;
-    gap: 6px;
+  .user-profile-info {
+    flex: none;
+    padding-top: 0;
   }
 
+  .user-profile-name-row,
   .user-profile-meta {
     justify-content: center;
   }
 
-  .user-profile-bio {
-    max-width: none;
-  }
-
-  .user-profile-stats {
-    justify-content: center;
-    width: 100%;
-    gap: 24px;
+  .user-profile-info h1 {
+    font-size: 24px;
   }
 
   .user-profile-edit-btn {
+    margin-top: 0;
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Bố cục 2 cột như prototype: nội dung các tab + cột phải (chủ đề, hoạt động gần đây) */
+.user-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  align-items: start;
+}
+
+.user-profile-main {
+  min-width: 0;
+}
+
+.user-profile-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-profile-aside-card {
+  padding: 16px 20px;
+}
+
+.user-profile-aside-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.user-profile-aside-empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-profile-topic + .user-profile-topic {
+  margin-top: 12px;
+}
+
+.user-profile-topic-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.user-profile-topic-bar {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.user-profile-topic-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--primary);
+}
+
+.user-profile-recent {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13.5px;
+}
+
+.user-profile-recent li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.user-profile-recent-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.user-profile-recent-dot.is-answer {
+  background: var(--accent);
+}
+
+.user-profile-recent-time {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .user-profile-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .user-profile-tab {
+    padding: 10px 8px;
+    font-size: 14px;
+    gap: 4px;
+  }
+
+  .user-profile-tab-count {
+    padding: 1px 6px;
   }
 }

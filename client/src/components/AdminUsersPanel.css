@@ -90,3 +90,53 @@
     justify-content: space-between;
   }
 }
+
+.admin-user-row {
+  border-left: 3px solid transparent;
+  padding-left: 13px;
+  transition: background-color 150ms, border-left-color 150ms;
+}
+
+.admin-user-row:hover {
+  border-left-color: var(--primary);
+}
+
+.admin-status-badge,
+.admin-role-badge {
+  border-radius: 9999px;
+  padding: 1px 8px;
+}
+
+@media (max-width: 600px) {
+  .admin-user-actions {
+    width: 100%;
+  }
+
+  .admin-user-actions .btn {
+    flex: 1;
+  }
+}
+
+/* Nút "Thăng Admin": viền teal để phân biệt với Khóa (trung tính) và Xóa (đỏ) */
+.admin-promote-btn {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.admin-promote-btn:hover:not(:disabled) {
+  background: var(--primary-soft);
+}
+
+/* Huy hiệu tài khoản quản trị gốc: vàng, có vương miện - phân biệt với Admin thường */
+.admin-role-badge.is-root {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #fff6d6;
+  color: #8a6100;
+}
+
+:root[data-theme='dark'] .admin-role-badge.is-root {
+  background: rgba(245, 197, 66, 0.16);
+  color: #f5c542;
+}

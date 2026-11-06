@@ -1,3 +1,4 @@
+import Select from './Select'
 import { useState } from 'react'
 import { Download } from 'lucide-react'
 import Modal from './Modal'
@@ -64,18 +65,12 @@ function ExportButton({ onExport, label = 'Xuất Excel', filterSummary, fields 
                 {fields.map((f) => (
                   <label key={f.name} className="field-label" htmlFor={`export-field-${f.name}`}>
                     {f.label}
-                    <select
+                    <Select
                       id={`export-field-${f.name}`}
-                      className="select"
                       value={fieldValues[f.name] || ''}
-                      onChange={(e) => setFieldValues((prev) => ({ ...prev, [f.name]: e.target.value }))}
-                    >
-                      {f.options.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(v) => setFieldValues((prev) => ({ ...prev, [f.name]: v }))}
+                      options={f.options}
+                    />
                   </label>
                 ))}
               </div>

@@ -16,6 +16,11 @@ export function updateUserStatus(id, status) {
   return api.put(`/admin/users/${id}/status`, { status }).then((res) => res.data)
 }
 
+// Thăng/hạ quyền Admin: role = 'ADMIN' | 'USER'
+export function updateUserRole(id, role) {
+  return api.put(`/admin/users/${id}/role`, { role }).then((res) => res.data)
+}
+
 export function deleteUser(id) {
   return api.delete(`/admin/users/${id}`).then((res) => res.data)
 }

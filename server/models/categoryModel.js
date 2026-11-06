@@ -39,4 +39,38 @@ async function remove(id) {
   await pool.query('DELETE FROM categories WHERE id = ?', [id]);
 }
 
-module.exports = { findAll, findById, findByName, create, update, remove };
+// Thống kê cho khối "Chủ đề hot" ở trang chủ (chỉ đọc, không đổi database).
+// Với mỗi danh mục có câu hỏi:
+//  - question_count / answer_count / comment_count: tổng từ trước tới nay
+//  - recent_questions: số câu hỏi trong `days` ngày gần nhất
+//  - previous_questions: số câu hỏi trong `days` ngày liền trước đó (để so xu hướng tăng/giảm)
+//  - recent_answers: số câu trả lời mới trong `days` ngày gần nhất
+// Xếp hạng: hoạt động gần đây (câu hỏi + trả lời mới) trước, hòa thì xét tổng tương tác.
+async function findTrending(days = 30, limit = 6) {
+  const [rows] = await pool.query(
+    `SELECT c.id, c.name,
+       (SELECT COUNT(*) FROM questions q WHERE q.category_id = c.id) AS question_count,
+       (SELECT COUNT(*) FROM answers a JOIN questions q ON q.id = a.question_id
+         WHERE q.category_id = c.id) AS answer_count,
+       (SELECT COUNT(*) FROM comments cm JOIN questions q ON q.id = cm.question_id
+         WHERE q.category_id = c.id)
+       + (SELECT COUNT(*) FROM comments cm JOIN answers a ON a.id = cm.answer_id
+           JOIN questions q ON q.id = a.question_id WHERE q.category_id = c.id) AS comment_count,
+       (SELECT COUNT(*) FROM questions q WHERE q.category_id = c.id
+         AND q.created_at >= NOW() - INTERVAL ? DAY) AS recent_questions,
+       (SELECT COUNT(*) FROM questions q WHERE q.category_id = c.id
+         AND q.created_at < NOW() - INTERVAL ? DAY
+         AND q.created_at >= NOW() - INTERVAL ? DAY) AS previous_questions,
+       (SELECT COUNT(*) FROM answers a JOIN questions q ON q.id = a.question_id
+         WHERE q.category_id = c.id AND a.created_at >= NOW() - INTERVAL ? DAY) AS recent_answers
+     FROM categories c
+     HAVING question_count > 0
+     ORDER BY (recent_questions + recent_answers) DESC,
+       (question_count + answer_count + comment_count) DESC, c.name ASC
+     LIMIT ?`,
+    [days, days, days * 2, days, limit]
+  );
+  return rows;
+}
+
+module.exports = { findTrending, findAll, findById, findByName, create, update, remove };

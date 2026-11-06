@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>AskHub - Chi tiết câu hỏi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--page:#f5f7fa;--sub:#eef2f5;--text:#172b3a;--mut:#5b6b7a;--bd:#e1e7ec;--p:#087f73;--pd:#066a5f;--ps:#e6f5f3;--chrome:#103f3a;--acc:#ff781f;--accs:#ffeee2;--ok:#15803d;--oks:#e6f0ea}
+body{margin:0;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.6;color:var(--text);background:var(--page);-webkit-font-smoothing:antialiased}
+a{color:var(--pd);text-decoration:none}a:hover{color:var(--p)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(4deg)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,120,31,.5)}100%{box-shadow:0 0 0 14px rgba(255,120,31,0)}}
+main>*{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+main>*:nth-child(2){animation-delay:.08s}main>*:nth-child(3){animation-delay:.16s}main>*:nth-child(4){animation-delay:.24s}
+main aside>*{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+main aside>*:nth-child(1){animation-delay:.2s}main aside>*:nth-child(2){animation-delay:.3s}main aside>*:nth-child(3){animation-delay:.4s}main aside>*:nth-child(4){animation-delay:.5s}
+a,button,article,section,label,input{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease,color .2s ease,opacity .2s ease}
+main aside>section:hover{box-shadow:0 10px 28px rgba(8,127,115,.14)!important;transform:translateY(-2px)}
+main article:hover{background:#f8fcfb!important}
+main article h3 a:hover{color:#087f73!important}
+button:hover{transform:translateY(-1px)}
+button:active{transform:scale(.96)}
+a[href="Ask.dc.html"]:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(255,120,31,.45)!important}
+nav[aria-label="Điều hướng chính"] a:hover{background:rgba(255,255,255,.14)!important;color:#fff!important;transform:scale(1.08)}
+section[aria-label="Danh mục"] a:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(8,127,115,.18)!important;border-color:#087f73!important}
+input:focus,label:focus-within{border-color:#087f73!important;box-shadow:0 0 0 4px #e6f5f3!important}
+:focus-visible{outline:3px solid rgba(255,120,31,.55);outline-offset:2px}
+.pop{animation:pop .35s ease}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="display:flex;width:100%;min-height:1560px;background:var(--page)">
+
+<nav aria-label="Điều hướng chính" style="width:72px;flex:none;background:var(--chrome);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:8px">
+<div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#0fa090,#087f73);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;margin-bottom:16px">A</div>
+<a href="Main.dc.html" aria-label="Trang chủ" style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7)">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></a>
+<a href="Main.dc.html" aria-label="Câu hỏi" style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff;position:relative">
+<span style="position:absolute;left:-14px;top:12px;width:4px;height:20px;border-radius:0 4px 4px 0;background:var(--acc)"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg></a>
+<a href="Main.dc.html" aria-label="Danh mục" style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7)">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a>
+<a href="Ask.dc.html" aria-label="Đặt câu hỏi" style="margin-top:12px;width:48px;height:48px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;color:#2a1200;box-shadow:0 4px 10px rgba(255,120,31,.4)">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></a>
+<div style="flex:1"></div>
+<div style="width:40px;height:40px;border-radius:50%;background:#5eead4;color:#103f3a;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center">MH</div>
+</nav>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column">
+<header style="height:64px;flex:none;background:#fff;border-bottom:1px solid var(--bd);box-shadow:0 1px 2px rgba(23,43,58,.06);display:flex;align-items:center;gap:16px;padding:0 32px">
+<label style="flex:1;max-width:640px;height:42px;border:1px solid var(--bd);border-radius:11px;display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut)">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+<span style="flex:1;font-size:14px">Tìm câu hỏi, thẻ, người dùng...</span></label>
+<div style="flex:1"></div>
+<a href="Ask.dc.html" style="height:42px;border-radius:10px;background:var(--acc);color:#2a1200;font-weight:600;padding:0 18px;display:flex;align-items:center;gap:8px">Đặt câu hỏi</a>
+</header>
+
+<main style="padding:24px 32px 48px;max-width:1368px;width:100%;box-sizing:border-box;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:999 1 640px;min-width:0;display:flex;flex-direction:column;gap:20px">
+
+<nav aria-label="Breadcrumb" style="font-size:13px;color:var(--mut);display:flex;gap:8px;align-items:center">
+<a href="Main.dc.html">Trang chủ</a><span>/</span><a href="Main.dc.html">NodeJS</a><span>/</span><span>Câu hỏi #482</span></nav>
+
+<!-- Câu hỏi -->
+<article style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:24px;display:flex;gap:20px">
+<div style="flex:none;width:48px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<button aria-label="Upvote" aria-pressed="{{qUpOn}}" onClick="{{qUp}}" class="{{qPop}}" style="width:44px;height:44px;border-radius:12px;border:1px solid {{qUpBd}};background:{{qUpBg}};color:{{qUpFg}};display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+<div class="{{qPop}}" style="font-size:20px;font-weight:700;font-variant-numeric:tabular-nums">{{qVotes}}</div>
+<button aria-label="Downvote" aria-pressed="{{qDownOn}}" onClick="{{qDown}}" style="width:44px;height:44px;border-radius:12px;border:1px solid {{qDownBd}};background:{{qDownBg}};color:{{qDownFg}};display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+<button aria-label="Lưu câu hỏi" aria-pressed="{{saved}}" onClick="{{toggleSave}}" style="margin-top:8px;width:44px;height:44px;border-radius:12px;border:1px solid {{saveBd}};background:{{saveBg}};color:{{saveFg}};display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+</div>
+<div style="flex:1;min-width:0">
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+<span style="font-size:12px;font-weight:600;background:var(--oks);color:var(--ok);border-radius:9999px;padding:2px 10px;display:flex;align-items:center;gap:4px">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Đã giải quyết</span>
+<span style="font-size:13px;color:var(--mut)">Đăng 6 giờ trước · 312 lượt xem</span></div>
+<h1 style="margin:0 0 16px;font-size:28px;line-height:1.25;font-weight:700;letter-spacing:-.01em">Tại sao Node.js sử dụng Event Loop và nó hoạt động ra sao?</h1>
+<div style="max-width:720px;font-size:15px;line-height:1.65">
+<p style="margin:0 0 12px">Mình đọc nhiều bài về Node.js nhưng vẫn chưa hiểu thứ tự thực thi giữa <code style="font-family:ui-monospace,Consolas,monospace;font-size:13.5px;background:var(--sub);padding:1px 6px;border-radius:5px">setTimeout</code>, Promise và <code style="font-family:ui-monospace,Consolas,monospace;font-size:13.5px;background:var(--sub);padding:1px 6px;border-radius:5px">process.nextTick</code>. Với đoạn code dưới đây, kết quả in ra lại không như mình nghĩ:</p>
+<pre style="margin:0 0 12px;background:#0f1f2b;color:#d7e6ee;border-radius:12px;padding:16px 18px;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;line-height:1.6;overflow-x:auto">console.log('A');
+setTimeout(() =&gt; console.log('B'), 0);
+Promise.resolve().then(() =&gt; console.log('C'));
+process.nextTick(() =&gt; console.log('D'));
+console.log('E');</pre>
+<p style="margin:0">Ai giải thích giúp mình vì sao thứ tự lại là A, E, D, C, B với?</p></div>
+<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+<a href="Main.dc.html" style="font-size:12px;font-weight:600;background:var(--ps);color:var(--pd);border-radius:9999px;padding:2px 10px">NodeJS</a>
+<a href="Main.dc.html" style="font-size:12px;font-weight:500;background:var(--sub);color:#3d4f5e;border-radius:9999px;padding:2px 10px">event-loop</a>
+<a href="Main.dc.html" style="font-size:12px;font-weight:500;background:var(--sub);color:#3d4f5e;border-radius:9999px;padding:2px 10px">async</a></div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd);flex-wrap:wrap">
+<a href="Main.dc.html" style="font-size:13px;color:var(--mut);font-weight:500">Chia sẻ</a>
+<a href="Main.dc.html" style="font-size:13px;color:var(--mut);font-weight:500">Báo cáo</a>
+<span style="flex:1"></span>
+<span style="width:32px;height:32px;border-radius:50%;background:#e0e7ff;color:#3730a3;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">LC</span>
+<div style="line-height:1.3"><div style="font-size:13.5px;font-weight:600">Lê Minh Cường</div><div style="font-size:12px;color:var(--mut)">2.480 điểm uy tín</div></div></div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--bd);padding-top:12px">
+<div style="font-size:13px;color:var(--text)">Bạn thử chạy trên Node 20 xem kết quả có khác không nhé. <span style="color:var(--mut)">— <a href="Main.dc.html">Trần Thị Bình</a> · 5 giờ trước</span></div>
+<a href="QuestionDetail.dc.html" style="font-size:13px;font-weight:500">Thêm bình luận</a></div>
+</div>
+</article>
+
+<!-- Trả lời -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+<h2 style="margin:0;font-size:20px;font-weight:600">2 câu trả lời</h2>
+<div style="display:flex;background:var(--sub);border-radius:10px;padding:3px">
+<button style="border:0;font-family:inherit;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;background:#fff;color:var(--pd);box-shadow:0 1px 2px rgba(23,43,58,.12)">Nhiều vote</button>
+<button style="border:0;font-family:inherit;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;background:transparent;color:var(--mut)">Mới nhất</button></div></div>
+
+<sc-for list="{{answers}}" as="a" hint-placeholder-count="2">
+<article style="background:#fff;border:1px solid {{a.bd}};border-radius:16px;padding:24px;display:flex;gap:20px;box-shadow:{{a.sh}}">
+<div style="flex:none;width:48px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<button aria-label="Upvote" aria-pressed="{{a.upOn}}" onClick="{{a.up}}" class="{{a.pop}}" style="width:44px;height:44px;border-radius:12px;border:1px solid {{a.upBd}};background:{{a.upBg}};color:{{a.upFg}};display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+<div class="{{a.pop}}" style="font-size:18px;font-weight:700;font-variant-numeric:tabular-nums">{{a.votes}}</div>
+<button aria-label="Downvote" aria-pressed="{{a.downOn}}" onClick="{{a.down}}" style="width:44px;height:44px;border-radius:12px;border:1px solid {{a.downBd}};background:{{a.downBg}};color:{{a.downFg}};display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+<div style="width:44px;height:44px;border-radius:50%;background:{{a.okBg}};color:{{a.okFg}};display:flex;align-items:center;justify-content:center;margin-top:6px" role="img" aria-label="{{a.okLabel}}" class="{{a.okPop}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div>
+</div>
+<div style="flex:1;min-width:0">
+<div style="display:{{a.badge}};margin-bottom:10px"><span style="font-size:12px;font-weight:600;background:var(--oks);color:var(--ok);border-radius:9999px;padding:2px 10px">Câu trả lời được chấp nhận</span></div>
+<div style="max-width:720px;font-size:15px;line-height:1.65">
+<p style="margin:0 0 12px">{{a.p1}}</p>
+<p style="margin:0">{{a.p2}}</p></div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)">
+<span style="font-size:13px;color:var(--mut)">{{a.time}}</span><span style="flex:1"></span>
+<span style="width:32px;height:32px;border-radius:50%;background:{{a.avBg}};color:{{a.avFg}};font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{a.ab}}</span>
+<div style="line-height:1.3"><div style="font-size:13.5px;font-weight:600">{{a.author}}</div><div style="font-size:12px;color:var(--mut)">{{a.rep}} điểm uy tín</div></div></div>
+</div>
+</article>
+</sc-for>
+
+<!-- Form trả lời -->
+<section style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:24px">
+<h2 style="margin:0 0 12px;font-size:20px;font-weight:600">Câu trả lời của bạn</h2>
+<div style="border:1px solid var(--bd);border-radius:12px;overflow:hidden">
+<div style="display:flex;gap:4px;padding:8px;background:var(--sub);border-bottom:1px solid var(--bd)">
+<span style="padding:3px 10px;font-size:13px;font-weight:700;border-radius:6px;background:#fff">B</span><span style="padding:3px 10px;font-size:13px;font-style:italic;border-radius:6px">I</span><span style="padding:3px 10px;font-size:13px;font-family:ui-monospace,Consolas,monospace;border-radius:6px">&lt;/&gt;</span>
+<span style="flex:1"></span><span style="font-size:12px;color:var(--mut);padding:4px 8px">Hỗ trợ Markdown</span></div>
+<div style="padding:14px 16px;min-height:96px;color:var(--mut);font-size:14px">Viết lời giải của bạn, kèm ví dụ code nếu cần...</div></div>
+<div style="display:flex;justify-content:flex-end;margin-top:14px"><button style="height:44px;padding:0 22px;border-radius:10px;border:0;background:var(--p);color:#fff;font-family:inherit;font-weight:600;font-size:15px;box-shadow:0 1px 3px rgba(8,127,115,.35);cursor:pointer">Đăng câu trả lời</button></div>
+</section>
+</div>
+
+<aside style="flex:1 1 300px;max-width:320px;min-width:280px;display:flex;flex-direction:column;gap:16px">
+<section style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:18px 20px">
+<h2 style="margin:0 0 12px;font-size:15px;font-weight:700;color:var(--pd)">Thông tin câu hỏi</h2>
+<dl style="margin:0;display:grid;grid-template-columns:1fr auto;gap:8px 12px;font-size:13.5px">
+<dt style="color:var(--mut)">Đăng</dt><dd style="margin:0;font-weight:500">6 giờ trước</dd>
+<dt style="color:var(--mut)">Lượt xem</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums">312</dd>
+<dt style="color:var(--mut)">Câu trả lời</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums">2</dd>
+<dt style="color:var(--mut)">Danh mục</dt><dd style="margin:0;font-weight:500">NodeJS</dd></dl></section>
+<section style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:18px 20px">
+<h2 style="margin:0 0 12px;font-size:15px;font-weight:700;color:var(--pd)">Câu hỏi liên quan</h2>
+<ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{related}}" as="r" hint-placeholder-count="4">
+<li style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;min-width:30px;text-align:center;font-size:13px;font-weight:700;background:{{r.bg}};color:{{r.fg}};border-radius:6px;padding:1px 0;font-variant-numeric:tabular-nums">{{r.n}}</span><a href="QuestionDetail.dc.html" style="font-size:14px;line-height:1.4;color:var(--text)">{{r.t}}</a></li>
+</sc-for></ul></section>
+</aside>
+</main>
+
+<footer style="margin-top:auto;background:var(--chrome);color:rgba(255,255,255,.75);padding:20px 32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-size:13px">
+<b style="color:#fff;font-size:15px">AskHub</b><span>Diễn đàn hỏi đáp lập trình cho sinh viên</span><span style="flex:1"></span><span>© 2026 AskHub</span></footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  state = { q: 0, a0: 0, a1: 0, saved: false, pop: "" };
+  vote(key, dir) { this.setState((st) => ({ [key]: st[key] === dir ? 0 : dir, pop: key + Date.now() })); setTimeout(() => this.setState({ pop: "" }), 400); }
+  renderVals() {
+    const st = this.state;
+    const sty = (v, dir) => v === dir ? { bd: dir > 0 ? "#087f73" : "#cf222e", bg: dir > 0 ? "#e6f5f3" : "#fdecea", fg: dir > 0 ? "#066a5f" : "#b4232c" } : { bd: "#e1e7ec", bg: "#ffffff", fg: "#5b6b7a" };
+    const qu = sty(st.q, 1), qd = sty(st.q, -1);
+    const base = [18, 4];
+    const mkA = (a, i) => { const k = "a" + i, v = st[k], u = sty(v, 1), d = sty(v, -1); return { ...a, votes: base[i] + v, up: () => this.vote(k, 1), down: () => this.vote(k, -1), upOn: v === 1, downOn: v === -1, upBd: u.bd, upBg: u.bg, upFg: u.fg, downBd: d.bd, downBg: d.bg, downFg: d.fg, pop: st.pop.indexOf(k) === 0 ? "pop" : "", okPop: i === 0 ? "pop" : "" }; };
+    const answersRaw = [
+        { votes: 18, bd: '#9fd6cf', sh: '0 4px 14px rgba(8,127,115,.12)', okBg: '#15803d', okFg: '#fff', okLabel: 'Đã chấp nhận', badge: 'block',
+          p1: 'Event Loop cho phép Node.js xử lý nhiều tác vụ bất đồng bộ trên một luồng duy nhất. Sau khi chạy xong code đồng bộ (A, E), Node xử lý hàng đợi process.nextTick trước (D), rồi tới microtask của Promise (C), cuối cùng mới tới callback của timer (B).',
+          p2: 'Bạn có thể nhớ thứ tự: đồng bộ → nextTick → microtask → timers → I/O callbacks → setImmediate.',
+          time: 'Trả lời 5 giờ trước', author: 'Nguyễn Văn An', ab: 'NA', rep: '1.935', avBg: '#d6f0ec', avFg: '#066a5f' },
+        { votes: 4, bd: '#e1e7ec', sh: 'none', okBg: '#eef2f5', okFg: '#5b6b7a', okLabel: 'Chưa chấp nhận', badge: 'none',
+          p1: 'Bổ sung thêm: setTimeout với 0ms thực tế vẫn có độ trễ tối thiểu khoảng 1ms, nên luôn chạy sau các microtask đã xếp hàng.',
+          p2: 'Bạn có thể đọc thêm tài liệu chính thức "The Node.js Event Loop" để xem sơ đồ từng pha.',
+          time: 'Trả lời 3 giờ trước', author: 'Hoàng Thu Em', ab: 'HE', rep: '1.214', avBg: '#fde7f3', avFg: '#9d174d' }
+      ];
+    return {
+      qVotes: 21 + st.q, qUp: () => this.vote('q', 1), qDown: () => this.vote('q', -1), qUpOn: st.q === 1, qDownOn: st.q === -1,
+      qUpBd: qu.bd, qUpBg: qu.bg, qUpFg: qu.fg, qDownBd: qd.bd, qDownBg: qd.bg, qDownFg: qd.fg, qPop: st.pop.indexOf('q') === 0 ? 'pop' : '',
+      saved: st.saved, toggleSave: () => this.setState({ saved: !st.saved }), saveBd: st.saved ? '#ff781f' : '#e1e7ec', saveBg: st.saved ? '#ffeee2' : '#ffffff', saveFg: st.saved ? '#b04a07' : '#5b6b7a',
+      answers: answersRaw.map(mkA),
+      related: [
+        { n: 15, t: 'JWT hoạt động như thế nào và lưu token ở đâu cho an toàn?', bg: '#e6f0ea', fg: '#15803d' },
+        { n: 6, t: 'Làm thế nào để kết nối React với Express và xử lý CORS?', bg: '#eef2f5', fg: '#5b6b7a' },
+        { n: 11, t: 'async/await khác gì với Promise.then?', bg: '#e6f0ea', fg: '#15803d' },
+        { n: 3, t: 'Khi nào nên dùng cluster trong Node.js?', bg: '#eef2f5', fg: '#5b6b7a' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

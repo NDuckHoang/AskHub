@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getCategories,
+  getTrendingCategories,
   createCategory,
   updateCategory,
   deleteCategory,
@@ -11,6 +12,7 @@ const adminMiddleware = require('../middleware/adminMiddleware');
 const router = express.Router();
 
 router.get('/', getCategories);
+router.get('/trending', getTrendingCategories);
 router.post('/', authMiddleware, adminMiddleware, createCategory);
 router.put('/:id', authMiddleware, adminMiddleware, updateCategory);
 router.delete('/:id', authMiddleware, adminMiddleware, deleteCategory);

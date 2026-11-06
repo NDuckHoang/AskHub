@@ -55,3 +55,16 @@
 .markdown-content a {
   color: var(--primary);
 }
+
+/* Khối code nền tối như prototype (cả light lẫn dark mode) */
+.markdown-content pre {
+  background: #0f1f2b;
+  border-color: #0f1f2b;
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #d7e6ee;
+}
+
+.markdown-content pre code {
+  color: inherit;
+}

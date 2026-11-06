@@ -5,7 +5,7 @@ import ToastContainer from '../components/ToastContainer'
 import logoIcon from '../assets/logo-icon.png'
 import './AuthLayout.css'
 
-// Layout riêng cho /login và /register - split-screen: cột trái quảng bá thương
+// Layout riêng cho /login, /register và /forgot-password - split-screen: cột trái quảng bá thương
 // hiệu AskHub, cột phải là form. KHÔNG dùng AppRail/Navbar đầy đủ của trang chủ
 // (không sidebar, không search toàn cục, không nút "Đặt câu hỏi").
 function AuthLayout() {

@@ -32,3 +32,41 @@
     margin-left: 0;
   }
 }
+
+/* Tiêu đề mục cấp trang: 20px/600 (kiểu chữ hero chỉ dành cho Hero) */
+.home-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+
+/* Tiêu đề mục (trái) + tab sắp xếp (phải) cùng 1 hàng */
+.home-page .content-with-sidebar {
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+
+.home-simple-toolbar {
+  justify-content: space-between;
+  margin: 0 0 16px;
+}
+
+.home-simple-toolbar .home-section-title {
+  margin: 0;
+  flex: 1;
+}
+
+.home-simple-tabs {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .home-page .content-with-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-simple-toolbar {
+    flex-direction: row;
+    align-items: center;
+  }
+}

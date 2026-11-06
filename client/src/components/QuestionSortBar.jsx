@@ -1,3 +1,4 @@
+import Select from './Select'
 import './QuestionSortBar.css'
 
 const SORT_OPTIONS = [
@@ -26,14 +27,13 @@ function QuestionSortBar({ total, loading, error, sort, onSortChange, categoryId
         ))}
       </div>
 
-      <select className="select question-category-select" value={categoryId} onChange={onCategoryChange}>
-        <option value="">Tất cả danh mục</option>
-        {categories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.name}
-          </option>
-        ))}
-      </select>
+      <Select
+        className="question-category-select"
+        ariaLabel="Lọc theo danh mục"
+        value={String(categoryId ?? '')}
+        onChange={(v) => onCategoryChange({ target: { value: v } })}
+        options={[{ value: '', label: 'Tất cả danh mục' }, ...categories.map((c) => ({ value: String(c.id), label: c.name }))]}
+      />
     </div>
   )
 }

@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom'
-import { CheckCircle2 } from 'lucide-react'
+import { Flame, Sparkles } from 'lucide-react'
 import Tag from './Tag'
 import CategoryPill from './CategoryPill'
 import UserAvatar from './UserAvatar'
 import { formatRelativeTime } from '../utils/formatTime'
+import { toExcerpt } from '../utils/plainText'
 import './QuestionItem.css'
+
+// Ngưỡng gắn badge, tính hoàn toàn từ dữ liệu thật của câu hỏi
+const NEW_HOURS = 24 // đăng trong 24 giờ gần đây -> 'Mới'
+const HOT_VOTES = 5 // từ 5 vote trở lên -> 'Hot'
+const HOT_VIEWS = 300 // hoặc từ 300 lượt xem trở lên -> 'Hot'
+
+// Câu hỏi đăng trong NEW_HOURS giờ gần đây hay không
+function isRecent(dateString) {
+  return Date.now() - new Date(dateString).getTime() < NEW_HOURS * 60 * 60 * 1000
+}
 
 // Một dòng câu hỏi trong danh sách: dòng số liệu, tiêu đề, tag, người đăng
 // animationDelay: để QuestionList tạo hiệu ứng xuất hiện lần lượt (stagger) khi danh sách vừa tải xong
@@ -13,6 +24,7 @@ function QuestionItem({ question, animationDelay }) {
     id,
     user_id,
     title,
+    content,
     views,
     vote_count,
     answer_count,
@@ -26,6 +38,8 @@ function QuestionItem({ question, animationDelay }) {
   } = question
 
   const hasAccepted = accepted_count > 0
+  const isNew = isRecent(created_at)
+  const isHot = vote_count >= HOT_VOTES || views >= HOT_VIEWS
 
   return (
     <article
@@ -51,28 +65,34 @@ function QuestionItem({ question, animationDelay }) {
       <div className="question-item-body">
         <h3 className="question-item-title">
           <Link to={`/questions/${id}`}>{title}</Link>
-          {hasAccepted && (
-            <span className="question-item-solved">
-              <CheckCircle2 size={12} /> Đã giải quyết
+          {isHot && (
+            <span className="question-badge is-hot">
+              <Flame size={12} /> Hot
+            </span>
+          )}
+          {isNew && (
+            <span className="question-badge is-new">
+              <Sparkles size={12} /> Mới
             </span>
           )}
         </h3>
 
-        {(category_id || tags.length > 0) && (
+        {content && <p className="question-item-excerpt">{toExcerpt(content)}</p>}
+
+        <div className="question-item-footer">
           <div className="question-item-tags">
-            <CategoryPill id={category_id} name={category_name} />
+            {category_id && <CategoryPill id={category_id} name={category_name} />}
             {tags.map((t) => (
               <Tag key={t.id} id={t.id} name={t.name} />
             ))}
           </div>
-        )}
 
-        <div className="question-item-meta">
-          <UserAvatar username={author_username} avatar={author_avatar} size={28} />
-          <span>
-            Hỏi bởi <Link to={`/users/${user_id}`}>{author_username}</Link> ·{' '}
-            {formatRelativeTime(created_at)}
-          </span>
+          <div className="question-item-meta">
+            <UserAvatar username={author_username} avatar={author_avatar} size={22} />
+            <span>
+              <Link to={`/users/${user_id}`}>{author_username}</Link> · {formatRelativeTime(created_at)}
+            </span>
+          </div>
         </div>
       </div>
     </article>

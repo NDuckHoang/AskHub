@@ -92,3 +92,19 @@
 .category-card-skeleton {
   padding: 20px;
 }
+
+/* Số lượng câu hỏi nổi bật hơn + icon mũi tên trượt nhẹ khi rê chuột */
+.category-card:hover .category-count {
+  color: var(--primary);
+}
+
+/* Đầu thẻ danh mục có icon tròn: căn giữa theo chiều dọc, tên chiếm phần còn lại */
+.category-card-header {
+  align-items: center;
+  gap: 12px;
+}
+
+.category-card-header h2 {
+  flex: 1;
+  min-width: 0;
+}

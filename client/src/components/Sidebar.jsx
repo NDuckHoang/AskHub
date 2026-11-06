@@ -79,6 +79,10 @@ function Sidebar() {
             })}
           </ul>
         )}
+
+        <Link to="/leaderboard" className="sidebar-see-all">
+          Xem bảng xếp hạng đầy đủ
+        </Link>
       </SidebarSection>
 
       <SidebarSection title="Thống kê theo danh mục" icon={BarChart2}>
@@ -120,6 +124,13 @@ function Sidebar() {
           </div>
         )}
       </SidebarSection>
+      <section className="sidebar-tip">
+
+        <h3>Mẹo đặt câu hỏi hay</h3>
+
+        <p>Nêu rõ lỗi gặp phải, kèm đoạn code tối thiểu và những gì bạn đã thử. Câu hỏi càng cụ thể, câu trả lời càng nhanh.</p>
+
+      </section>
     </aside>
   )
 }

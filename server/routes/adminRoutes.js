@@ -6,6 +6,7 @@ const {
   getActivityStats,
   getUsers,
   updateUserStatus,
+  updateUserRole,
   deleteUser,
   deleteQuestion,
   getAnswers,
@@ -27,6 +28,7 @@ router.get('/stats/activity', getActivityStats);
 
 router.get('/users', getUsers);
 router.put('/users/:id/status', updateUserStatus);
+router.put('/users/:id/role', updateUserRole);
 router.delete('/users/:id', deleteUser);
 
 router.delete('/questions/:id', deleteQuestion);

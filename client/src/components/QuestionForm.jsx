@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+import { X, CheckCircle2 } from 'lucide-react'
 import * as categoryService from '../services/categoryService'
+import Select from './Select'
 import MarkdownEditor from './MarkdownEditor'
 import './QuestionForm.css'
+
+// Giới hạn độ dài - giống hệt rule bên backend
+const TITLE_MIN = 10
+const TITLE_MAX = 255
+const CONTENT_MIN = 20
 
 // Validate giống hệt rule bên backend để báo lỗi ngay, không cần đợi submit
 function validate({ title, content, categoryId, tags }) {
@@ -10,11 +16,11 @@ function validate({ title, content, categoryId, tags }) {
   const trimmedTitle = title.trim()
   const trimmedContent = content.trim()
 
-  if (trimmedTitle.length < 10 || trimmedTitle.length > 255) {
-    errors.title = 'Tiêu đề phải có từ 10 đến 255 ký tự'
+  if (trimmedTitle.length < TITLE_MIN || trimmedTitle.length > TITLE_MAX) {
+    errors.title = `Tiêu đề phải có từ ${TITLE_MIN} đến ${TITLE_MAX} ký tự`
   }
-  if (trimmedContent.length < 20) {
-    errors.content = 'Nội dung phải có ít nhất 20 ký tự'
+  if (trimmedContent.length < CONTENT_MIN) {
+    errors.content = `Nội dung phải có ít nhất ${CONTENT_MIN} ký tự`
   }
   if (!categoryId) {
     errors.categoryId = 'Vui lòng chọn danh mục'
@@ -29,7 +35,9 @@ function validate({ title, content, categoryId, tags }) {
 }
 
 // Dùng chung cho trang/modal Đặt câu hỏi (tạo mới) và Sửa câu hỏi
-function QuestionForm({ initialValues, onSubmit, submitLabel }) {
+// editorRows: chiều cao ô nội dung (số dòng) - modal truyền nhỏ hơn để vừa màn hình
+// actionsStart: nội dung tùy chọn đặt bên trái hàng nút gửi (modal dùng để hiện người đăng)
+function QuestionForm({ initialValues, onSubmit, submitLabel, editorRows = 8, actionsStart }) {
   const [title, setTitle] = useState(initialValues?.title || '')
   const [content, setContent] = useState(initialValues?.content || '')
   const [categoryId, setCategoryId] = useState(initialValues?.category_id || '')
@@ -78,6 +86,9 @@ function QuestionForm({ initialValues, onSubmit, submitLabel }) {
     setTags(tags.filter((t) => t !== name))
   }
 
+  const titleLength = title.trim().length
+  const titleValid = titleLength >= TITLE_MIN && titleLength <= TITLE_MAX
+
   function handleTitleChange(e) {
     setTitle(e.target.value)
     clearError('title')
@@ -118,20 +129,38 @@ function QuestionForm({ initialValues, onSubmit, submitLabel }) {
         <label className="field-label" htmlFor="title">
           Tiêu đề
         </label>
+        <span className="question-form-hint">Tóm tắt vấn đề trong một câu, nêu rõ công nghệ đang dùng.</span>
         <input
           id="title"
           className={`input${errors.title ? ' has-error' : ''}`}
           value={title}
           onChange={handleTitleChange}
+          maxLength={TITLE_MAX}
           placeholder="Ví dụ: Làm thế nào để sử dụng useEffect trong React?"
         />
-        {errors.title && <span className="field-error">{errors.title}</span>}
+        <div className="question-form-meta">
+          {errors.title ? (
+            <span className="field-error">{errors.title}</span>
+          ) : titleValid ? (
+            <span className="question-form-ok">
+              <CheckCircle2 size={13} /> Tiêu đề hợp lệ
+            </span>
+          ) : (
+            <span>Tối thiểu {TITLE_MIN} ký tự</span>
+          )}
+          <span className="question-form-counter stat-number">
+            {titleLength} / {TITLE_MAX}
+          </span>
+        </div>
       </div>
 
       <div className="field">
         <label className="field-label" htmlFor="content">
           Nội dung
         </label>
+        <span className="question-form-hint">
+          Nêu những gì bạn đã thử, lỗi gặp phải và đoạn code liên quan (hỗ trợ Markdown).
+        </span>
         <MarkdownEditor
           id="content"
           value={content}
@@ -140,28 +169,32 @@ function QuestionForm({ initialValues, onSubmit, submitLabel }) {
           onUploadingChange={setUploadingImage}
           hasError={!!errors.content}
           placeholder="Mô tả chi tiết vấn đề bạn đang gặp phải, bạn đã thử những gì..."
-          rows={8}
+          rows={editorRows}
         />
-        {errors.content && <span className="field-error">{errors.content}</span>}
+        <div className="question-form-meta">
+          {errors.content ? (
+            <span className="field-error">{errors.content}</span>
+          ) : (
+            <span>Tối thiểu {CONTENT_MIN} ký tự</span>
+          )}
+          <span className="question-form-counter stat-number">{content.trim().length} ký tự</span>
+        </div>
       </div>
 
+      {/* Danh mục + Tags cạnh nhau trên màn rộng (như prototype), xếp dọc trên mobile */}
+      <div className="question-form-row">
       <div className="field">
         <label className="field-label" htmlFor="category">
           Danh mục
         </label>
-        <select
+        <Select
           id="category"
-          className={`select${errors.categoryId ? ' has-error' : ''}`}
-          value={categoryId}
-          onChange={handleCategoryChange}
-        >
-          <option value="">-- Chọn danh mục --</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+          hasError={Boolean(errors.categoryId)}
+          value={String(categoryId)}
+          onChange={(v) => handleCategoryChange({ target: { value: v } })}
+          placeholder="-- Chọn danh mục --"
+          options={categories.map((c) => ({ value: String(c.id), label: c.name }))}
+        />
         {errors.categoryId && <span className="field-error">{errors.categoryId}</span>}
       </div>
 
@@ -191,10 +224,14 @@ function QuestionForm({ initialValues, onSubmit, submitLabel }) {
         {errors.tags && <span className="field-error">{errors.tags}</span>}
         <span className="field-hint">Tối đa 5 tag, nhấn Enter hoặc dấu phẩy để thêm</span>
       </div>
+      </div>
 
-      <button type="submit" className="btn btn-primary" disabled={submitting || uploadingImage}>
-        {submitting ? 'Đang gửi...' : submitLabel}
-      </button>
+      <div className="question-form-actions">
+        {actionsStart}
+        <button type="submit" className="btn btn-primary" disabled={submitting || uploadingImage}>
+          {submitting ? 'Đang gửi...' : submitLabel}
+        </button>
+      </div>
     </form>
   )
 }

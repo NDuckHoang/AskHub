@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
-import { Search, Menu, X, Plus, Clock } from 'lucide-react'
+import { Search, Menu, X, Plus, Clock, ChevronRight, FileQuestion, ArrowRight } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useAskModal } from '../hooks/useAskModal'
+import * as questionService from '../services/questionService'
+import { getPageContext } from '../utils/pageContext'
 import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
 import AccountMenu from './AccountMenu'
@@ -12,6 +14,9 @@ import './Navbar.css'
 
 const SEARCH_HISTORY_KEY = 'askhub-search-history'
 const MAX_SEARCH_HISTORY = 8
+const SUGGEST_MIN_LENGTH = 2 // gõ từ 2 ký tự mới gợi ý
+const SUGGEST_DELAY_MS = 250 // chờ người dùng ngừng gõ rồi mới gọi API (debounce)
+const SUGGEST_LIMIT = 5
 
 function loadSearchHistory() {
   try {
@@ -42,8 +47,39 @@ function Navbar() {
   const [searchFocused, setSearchFocused] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [searchHistory, setSearchHistory] = useState(loadSearchHistory)
+  const [suggestions, setSuggestions] = useState([])
+  const [suggestLoading, setSuggestLoading] = useState(false)
   const searchRef = useRef(null)
   const searchInputRef = useRef(null)
+  const pageContext = getPageContext(location.pathname)
+  const trimmedQuery = query.trim()
+  const showSuggestions = historyOpen && trimmedQuery.length >= SUGGEST_MIN_LENGTH
+
+  // Gợi ý câu hỏi khi đang gõ: dùng lại API tìm kiếm có sẵn (GET /api/questions?q=...).
+  // Debounce SUGGEST_DELAY_MS; nếu người dùng gõ tiếp thì hủy lượt cũ (cancelled) để
+  // kết quả của từ khóa cũ không ghi đè kết quả của từ khóa mới.
+  useEffect(() => {
+    if (trimmedQuery.length < SUGGEST_MIN_LENGTH) return undefined
+    let cancelled = false
+    const timer = setTimeout(() => {
+      setSuggestLoading(true)
+      questionService
+        .getQuestions({ q: trimmedQuery, page: 1, limit: SUGGEST_LIMIT })
+        .then((data) => {
+          if (!cancelled) setSuggestions(data.questions)
+        })
+        .catch(() => {
+          if (!cancelled) setSuggestions([])
+        })
+        .finally(() => {
+          if (!cancelled) setSuggestLoading(false)
+        })
+    }, SUGGEST_DELAY_MS)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [trimmedQuery])
 
   // Bấm ra ngoài lịch sử tìm kiếm thì tự đóng lại
   useEffect(() => {
@@ -105,6 +141,14 @@ function Navbar() {
     setMobileOpen(false)
   }
 
+  function openSuggestion(questionId) {
+    addToHistory(trimmedQuery)
+    navigate(`/questions/${questionId}`)
+    setQuery('')
+    setHistoryOpen(false)
+    setMobileOpen(false)
+  }
+
   function handleSearchSubmit(e) {
     e.preventDefault()
     runSearch(query)
@@ -135,6 +179,19 @@ function Navbar() {
           AskHub
         </Link>
 
+        {/* Bên trái (chỉ desktop, vì logo đã nằm ở AppRail): tên trang hiện tại hoặc breadcrumb */}
+        <nav className="navbar-context" aria-label="Vị trí hiện tại">
+          {pageContext.crumbs.map((crumb) => (
+            <span key={crumb.to} className="navbar-crumb">
+              <Link to={crumb.to}>{crumb.label}</Link>
+              <ChevronRight size={14} aria-hidden="true" />
+            </span>
+          ))}
+          <span className="navbar-page-title" aria-current="page">
+            {pageContext.title}
+          </span>
+        </nav>
+
         <div className={`navbar-collapsible ${mobileOpen ? 'is-open' : ''}`}>
           <nav className="navbar-links">
             <NavLink to="/" end className={linkClass} onClick={() => setMobileOpen(false)}>
@@ -146,6 +203,33 @@ function Navbar() {
             <NavLink to="/categories" className={linkClass} onClick={() => setMobileOpen(false)}>
               Danh mục
             </NavLink>
+            <NavLink to="/leaderboard" className={linkClass} onClick={() => setMobileOpen(false)}>
+              Bảng xếp hạng
+            </NavLink>
+
+            {/* Nhóm cá nhân (giống sidebar desktop) - trỏ về các tab của trang hồ sơ */}
+            {user && (
+              <>
+                <span className="navbar-links-group-label">Cá nhân</span>
+                <Link to={`/users/${user.id}`} className="navbar-link" onClick={() => setMobileOpen(false)}>
+                  Câu hỏi của tôi
+                </Link>
+                <Link
+                  to={`/users/${user.id}?tab=answers`}
+                  className="navbar-link"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Câu trả lời của tôi
+                </Link>
+                <Link
+                  to={`/users/${user.id}?tab=saved`}
+                  className="navbar-link"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Câu hỏi đã lưu
+                </Link>
+              </>
+            )}
 
             {user?.role === 'ADMIN' && (
               <>
@@ -187,6 +271,42 @@ function Navbar() {
               <span className="navbar-search-shortcut" aria-hidden="true">
                 Ctrl+K
               </span>
+            )}
+
+            {showSuggestions && (
+              <div className="navbar-search-history navbar-suggest animate-scale-in">
+                <div className="navbar-search-history-header">
+                  <span>Câu hỏi gợi ý</span>
+                </div>
+                {suggestLoading && suggestions.length === 0 && (
+                  <div className="navbar-suggest-loading">
+                    <div className="skeleton" />
+                    <div className="skeleton" />
+                  </div>
+                )}
+                {!suggestLoading && suggestions.length === 0 && (
+                  <p className="navbar-suggest-empty">Không có câu hỏi nào khớp.</p>
+                )}
+                {suggestions.length > 0 && (
+                  <ul>
+                    {suggestions.map((q) => (
+                      <li key={q.id}>
+                        <button
+                          type="button"
+                          className="navbar-search-history-item"
+                          onClick={() => openSuggestion(q.id)}
+                        >
+                          <FileQuestion size={14} />
+                          <span>{q.title}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <button type="submit" className="navbar-suggest-all">
+                  Xem tất cả kết quả cho “{trimmedQuery}” <ArrowRight size={14} />
+                </button>
+              </div>
             )}
 
             {historyOpen && !query.trim() && searchHistory.length > 0 && (

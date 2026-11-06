@@ -186,3 +186,66 @@
   background: var(--primary);
   border-radius: 2px;
 }
+
+/* Widget sidebar: nâng nhẹ khi rê chuột, hiện dần lần lượt khi vào trang */
+.sidebar > * {
+  animation: rise 500ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.sidebar > *:nth-child(1) { animation-delay: 150ms; }
+.sidebar > *:nth-child(2) { animation-delay: 230ms; }
+.sidebar > *:nth-child(3) { animation-delay: 310ms; }
+.sidebar > *:nth-child(n + 4) { animation-delay: 390ms; }
+.sidebar > *:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+.sidebar-stat-bar-fill {
+  transform-origin: left;
+  animation: bar-grow 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Thẻ mẹo màu cam nhạt ở cuối sidebar */
+.sidebar-tip {
+  background: var(--accent-soft);
+  border-radius: var(--radius-xl);
+  padding: 18px 20px;
+}
+
+.sidebar-tip h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin-bottom: 6px;
+}
+
+.sidebar-tip p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+/* === Theo prototype: tiêu đề widget gọn, không dải nền; thẻ nền trắng bo 16px === */
+.sidebar-section {
+  padding: 18px 20px;
+  border-radius: var(--radius-xl);
+  overflow: visible;
+}
+
+.sidebar-section-title {
+  margin: 0 0 14px;
+  padding: 0;
+  background: none;
+  border-bottom: none;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sidebar-section:first-child .sidebar-section-title svg {
+  width: 26px;
+  height: 26px;
+  padding: 6px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}

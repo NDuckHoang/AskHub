@@ -83,7 +83,7 @@ function AnswerItem({
         onVote={handleVote}
         disabled={!user || isOwner}
         disabledTitle={!user ? 'Đăng nhập để vote' : 'Không thể vote cho câu trả lời của chính mình'}
-        size="sm"
+        size="md"
       />
 
       <div className="answer-body">
@@ -148,6 +148,7 @@ function AnswerItem({
         <CommentList
           comments={answer.comments}
           answerId={answer.id}
+          postAuthorId={answer.user_id}
           onChange={(newComments) => onCommentsChange(answer.id, newComments)}
         />
       </div>

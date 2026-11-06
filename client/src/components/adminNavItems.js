@@ -1,6 +1,6 @@
 import { LayoutDashboard, Users, HelpCircle, MessageSquare, Folder, Flag } from 'lucide-react'
 
-// Danh sách điều hướng của nhóm "Quản trị" - dùng chung cho AdminNavGroup (rail desktop)
+// Danh sách điều hướng của nhóm "Quản trị" - dùng chung cho AdminLayout (menu ngang)
 // và Navbar (menu mobile), tách riêng file để không phá React Fast Refresh (file chỉ
 // export component thì mới hot-reload được, xem cảnh báo oxlint react/only-export-components).
 export const ADMIN_ITEMS = [

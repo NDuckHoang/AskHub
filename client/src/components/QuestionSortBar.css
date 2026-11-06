@@ -63,3 +63,29 @@
     width: 100%;
   }
 }
+
+/* === Tab sắp xếp dạng "segmented control" (nền xám nhạt, tab đang chọn nổi trắng) === */
+.home-simple-tabs,
+.question-sort-tabs {
+  background: var(--bg-subtle);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.question-sort-tab {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 600;
+}
+
+.question-sort-tab:hover {
+  background: transparent;
+}
+
+.question-sort-tab.is-active {
+  background: var(--bg);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-btn);
+}

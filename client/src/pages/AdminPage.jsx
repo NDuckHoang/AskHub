@@ -4,7 +4,7 @@ import './AdminPage.css'
 
 // Trang /admin chỉ còn phần tổng quan (số liệu + biểu đồ). Các mục quản lý chi tiết
 // (Người dùng/Câu hỏi/Câu trả lời/Danh mục/Báo cáo) đã chuyển sang route riêng,
-// điều hướng qua nhóm "Quản trị" ở AppRail (xem AdminNavGroup.jsx).
+// điều hướng qua menu ngang của AdminLayout.
 function AdminPage() {
   return (
     <div className="container admin-page">

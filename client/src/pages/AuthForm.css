@@ -95,3 +95,121 @@
     padding: 28px 20px;
   }
 }
+
+/* Hàng "Ghi nhớ đăng nhập" (trái) + "Quên mật khẩu?" (phải) dưới ô mật khẩu */
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -4px 0 16px;
+  font-size: 13.5px;
+}
+
+.auth-remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-remember input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.auth-forgot {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ===== Trang Quên mật khẩu: thanh 2 bước ===== */
+.auth-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.auth-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.auth-step-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.auth-step.is-active {
+  color: var(--primary-dark);
+}
+
+.auth-step.is-active .auth-step-number {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg);
+}
+
+.auth-step.is-done .auth-step-number {
+  background: var(--primary-soft);
+  border-color: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.auth-step-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Câu hỏi bảo mật hiển thị ở bước 2 */
+.auth-question {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.auth-question small {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.auth-back {
+  display: block;
+  margin: 10px auto 0;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.auth-back:hover {
+  color: var(--primary);
+}

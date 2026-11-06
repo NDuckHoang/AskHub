@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Lock, Unlock, Trash2 } from 'lucide-react'
+import { Lock, Unlock, Trash2, ShieldPlus, ShieldMinus, Crown } from 'lucide-react'
 import * as adminService from '../services/adminService'
 import { useAuth } from '../hooks/useAuth'
 import { useConfirm } from '../hooks/useConfirm'
@@ -22,6 +22,8 @@ function AdminUsersPanel() {
   const [searchInput, setSearchInput] = useState('')
   const [page, setPage] = useState(1)
   const [actionError, setActionError] = useState('')
+  // Chỉ admin gốc mới thăng/hạ quyền được (backend trả về cờ này, đồng thời tự kiểm tra lại)
+  const [canManageRoles, setCanManageRoles] = useState(false)
 
   const fetchUsers = useCallback(() => {
     setUsers(null)
@@ -31,6 +33,7 @@ function AdminUsersPanel() {
       .then((data) => {
         setUsers(data.users)
         setPagination(data.pagination)
+        setCanManageRoles(Boolean(data.can_manage_roles))
       })
       .catch(() => setError(true))
   }, [search, page])
@@ -52,6 +55,34 @@ function AdminUsersPanel() {
       await adminService.updateUserStatus(u.id, newStatus)
       fetchUsers()
       showToast(newStatus === 'BLOCKED' ? `Đã khóa tài khoản "${u.username}"` : `Đã mở khóa tài khoản "${u.username}"`)
+    } catch (err) {
+      setActionError(err.response?.data?.message || 'Thao tác thất bại')
+    }
+  }
+
+  // Thăng quyền USER -> ADMIN hoặc hạ quyền ADMIN -> USER (luôn hỏi xác nhận trước)
+  async function handleToggleRole(u) {
+    const promote = u.role !== 'ADMIN'
+    const ok = await confirm(
+      promote
+        ? {
+            title: 'Thăng quyền Admin',
+            message: `Thăng "${u.username}" lên Admin? Người này sẽ có toàn quyền quản trị: khóa/xóa người dùng, xóa nội dung, quản lý danh mục và xử lý báo cáo.`,
+            confirmLabel: 'Thăng quyền',
+          }
+        : {
+            title: 'Hạ quyền Admin',
+            message: `Hạ "${u.username}" xuống Người dùng thường? Người này sẽ mất quyền truy cập trang quản trị.`,
+            danger: true,
+            confirmLabel: 'Hạ quyền',
+          }
+    )
+    if (!ok) return
+    setActionError('')
+    try {
+      await adminService.updateUserRole(u.id, promote ? 'ADMIN' : 'USER')
+      fetchUsers()
+      showToast(promote ? `Đã thăng "${u.username}" lên Admin` : `Đã hạ quyền "${u.username}"`)
     } catch (err) {
       setActionError(err.response?.data?.message || 'Thao tác thất bại')
     }
@@ -144,7 +175,13 @@ function AdminUsersPanel() {
                 <div className="admin-user-info">
                   <span className="admin-user-name">
                     {u.username}
-                    {u.role === 'ADMIN' && <span className="admin-role-badge">Admin</span>}
+                    {u.is_root ? (
+                      <span className="admin-role-badge is-root">
+                        <Crown size={11} /> Quản trị gốc
+                      </span>
+                    ) : (
+                      u.role === 'ADMIN' && <span className="admin-role-badge">Admin</span>
+                    )}
                     {u.status === 'BLOCKED' && <span className="admin-status-badge">Đã khóa</span>}
                   </span>
                   <span className="admin-user-email">{u.email}</span>
@@ -152,8 +189,27 @@ function AdminUsersPanel() {
               </Link>
               <span className="admin-user-reputation stat-number">{u.reputation} điểm</span>
               <div className="admin-user-actions">
-                {u.id !== currentUser.id && (
+                {/* Không thao tác với chính mình và tài khoản quản trị gốc (backend cũng chặn) */}
+                {u.id !== currentUser.id && !u.is_root && (
                   <>
+                    {/* Chỉ admin gốc thấy nút này; tài khoản đang khóa thì không thăng quyền được (phải mở khóa trước) */}
+                    {canManageRoles && (u.role === 'ADMIN' || u.status === 'ACTIVE') && (
+                      <button
+                        type="button"
+                        className={`btn btn-sm ${u.role === 'ADMIN' ? 'btn-ghost' : 'btn-secondary admin-promote-btn'}`}
+                        onClick={() => handleToggleRole(u)}
+                      >
+                        {u.role === 'ADMIN' ? (
+                          <>
+                            <ShieldMinus size={14} /> Hạ quyền
+                          </>
+                        ) : (
+                          <>
+                            <ShieldPlus size={14} /> Thăng Admin
+                          </>
+                        )}
+                      </button>
+                    )}
                     <button
                       type="button"
                       className={`btn btn-sm ${u.status === 'ACTIVE' ? 'btn-ghost' : 'btn-success'}`}

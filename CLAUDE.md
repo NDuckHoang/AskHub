@@ -1150,7 +1150,7 @@ Mục tiêu:
 
 Không phải một concept UI.
 
-**Cập nhật 2026-10-20 — `/login` và `/register` dùng layout split-screen:** `AuthLayout` chia 2 cột ở desktop — cột trái là banner thương hiệu (nền `--chrome-bg`/gradient teal đậm, logo + headline hero + mô tả + 2-3 điểm nổi bật của AskHub), cột phải là form trên nền sáng. Đây là vị trí hero thứ 2 duy nhất được phép ngoài trang chủ (xem mục 3). Mobile: banner thu gọn thành dải trên cùng chỉ còn logo + 1 câu mô tả ngắn, form chiếm phần lớn màn hình bên dưới. Không thêm liên kết "Quên mật khẩu?" vì dự án chưa có chức năng này.
+**Cập nhật 2026-10-20 — `/login` và `/register` dùng layout split-screen:** `AuthLayout` chia 2 cột ở desktop — cột trái là banner thương hiệu (nền `--chrome-bg`/gradient teal đậm, logo + headline hero + mô tả + 2-3 điểm nổi bật của AskHub), cột phải là form trên nền sáng. Đây là vị trí hero thứ 2 duy nhất được phép ngoài trang chủ (xem mục 3). Mobile: banner thu gọn thành dải trên cùng chỉ còn logo + 1 câu mô tả ngắn, form chiếm phần lớn màn hình bên dưới. (Cập nhật 2026-11-06: đã có "Quên mật khẩu?" bằng câu hỏi bảo mật - xem mục cuối.)
 
 ---
 
@@ -1169,3 +1169,22 @@ Không phải một concept UI.
 * Giai đoạn tiếp theo: **Giai đoạn 2 – Database** (`schema.sql` đầy đủ + dữ liệu mẫu).
 
 Cập nhật mục này mỗi khi xong một giai đoạn.
+---
+
+## Cập nhật 2026-11-02 — Redesign động + Admin độc lập
+
+* `/admin/*` dùng `AdminLayout` riêng (`client/src/layouts/AdminLayout.jsx`): header teal đậm + menu ngang, **không** có AppRail/Navbar của trang người dùng. Quyền vẫn do `AdminRoute` (bọc ngoài trong `App.jsx`) và `adminMiddleware` ở backend quyết định. AppRail chỉ còn 1 link "Quản trị" dẫn vào khu này (đã bỏ `AdminNavGroup`).
+* Chuyển động dùng chung ở cuối `index.css` (`.stagger`, `.lift`, `.anim-pop`, `.anim-float`, `.anim-pulse`, keyframes `rise`/`pop`/`float-soft`...) + hook `useCountUp`. Tất cả tắt khi `prefers-reduced-motion`.
+* Prototype thiết kế tham chiếu: `designs/askhub-redesign/`.
+
+## Cập nhật 2026-11-06 — Quên mật khẩu (câu hỏi bảo mật) + Ghi nhớ đăng nhập
+
+* **Quên mật khẩu không dùng email** (bản gửi email đã bị gỡ trước đó vì phức tạp): bảng `users` có thêm `security_question` + `security_answer` (hash bcrypt của câu trả lời đã chuẩn hóa: bỏ khoảng trắng thừa, chữ thường). Database cũ cập nhật bằng `database/add_security_question.sql` (chỉ ALTER thêm 2 cột).
+* Danh sách câu hỏi + chuẩn hóa/validate: `server/utils/securityQuestions.js`. API: `GET /api/auth/security-questions`, `POST /api/auth/forgot-password/question` (email -> câu hỏi), `POST /api/auth/forgot-password/reset` (email + câu trả lời + mật khẩu mới), `PUT /api/users/:id/security-question` (cần mật khẩu hiện tại).
+* Đăng ký bắt buộc chọn câu hỏi bảo mật. Tài khoản cũ tự thiết lập trong trang Chỉnh sửa hồ sơ. Trang `/forgot-password` dùng `AuthLayout`.
+* **Ghi nhớ đăng nhập:** tick -> token 30 ngày lưu `localStorage`; không tick -> token 1 ngày lưu `sessionStorage`. Mọi chỗ đọc/ghi token đi qua `client/src/utils/tokenStorage.js`.
+
+## Cập nhật 2026-11-06 — Phân quyền Admin + tài khoản quản trị gốc
+
+* **Admin gốc** (`ROOT_ADMIN_EMAIL` trong `server/.env`, mặc định `admin@askhub.vn`, xem `server/utils/rootAdmin.js`): không ai khóa, xóa hay đổi quyền được.
+* **Chỉ admin gốc** mới thăng/hạ quyền Admin (`PUT /api/admin/users/:id/role`). Admin thường vẫn khóa/xóa người dùng và quản lý nội dung bình thường. `GET /api/admin/users` trả `is_root` cho từng user và `can_manage_roles` cho người đang xem để frontend ẩn nút; backend luôn tự kiểm tra lại.

@@ -1,0 +1,116 @@
+/* Modal Đặt câu hỏi: 1 cột, form chiếm toàn bộ chiều rộng modal */
+
+/* --- Dải mẹo thu gọn ở đầu form (bấm để mở 4 bước xếp ngang) --- */
+.ask-modal-tips {
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+}
+
+.ask-modal-tips summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: var(--accent-text);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+/* Ẩn tam giác mặc định của <summary> (dùng icon chevron riêng) */
+.ask-modal-tips summary::-webkit-details-marker {
+  display: none;
+}
+
+.ask-modal-tips summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ask-modal-tips-chevron {
+  margin-left: auto;
+  transition: transform 200ms ease;
+}
+
+.ask-modal-tips[open] .ask-modal-tips-chevron {
+  transform: rotate(180deg);
+}
+
+/* Bên trong dải: dùng lại AskTips nhưng bỏ tiêu đề (đã có ở summary), 4 bước xếp ngang */
+.ask-modal-tips .ask-tips {
+  padding: 0 14px 14px;
+  background: transparent;
+  animation: none;
+}
+
+.ask-modal-tips .ask-tips-title {
+  display: none;
+}
+
+.ask-modal-tips .ask-tips ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ask-modal-tips .ask-tips p {
+  font-size: 12.5px;
+}
+
+/* --- Người đăng: bên trái hàng nút gửi --- */
+.ask-modal-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.ask-modal-author span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-modal-author b {
+  color: var(--text);
+}
+
+.ask-modal-tips + .question-form .question-form-actions {
+  gap: 12px;
+  align-items: center;
+}
+
+/* Hàng nút gửi dính ở đáy vùng cuộn của modal - luôn nhìn thấy, không cần cuộn xuống.
+   bottom âm = bù padding-bottom 20px của .modal-body để hàng nút sát đáy modal */
+.modal-body .question-form-actions {
+  position: sticky;
+  bottom: -20px;
+  z-index: 2;
+  margin-bottom: -20px;
+  padding-bottom: 16px;
+  background: var(--bg);
+}
+
+@media (max-width: 760px) {
+  .ask-modal-tips .ask-tips ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ask-modal-tips .ask-tips ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Màn rất hẹp: nút gửi chiếm cả hàng (rule chung của QuestionForm), người đăng xuống dòng trên */
+  .ask-modal-tips + .question-form .question-form-actions {
+    flex-wrap: wrap;
+  }
+}

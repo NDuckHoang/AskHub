@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { MessageSquareCode } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import PasswordInput from '../components/PasswordInput'
+import SecurityQuestionFields from '../components/SecurityQuestionFields'
 import './AuthForm.css'
 
 function RegisterPage() {
@@ -13,6 +14,8 @@ function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [securityQuestion, setSecurityQuestion] = useState('')
+  const [securityAnswer, setSecurityAnswer] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -36,10 +39,14 @@ function RegisterPage() {
       setError('Mật khẩu nhập lại không khớp')
       return
     }
+    if (!securityQuestion || securityAnswer.trim().length < 2) {
+      setError('Vui lòng chọn câu hỏi bảo mật và nhập câu trả lời (ít nhất 2 ký tự)')
+      return
+    }
 
     setSubmitting(true)
     try {
-      await register(username.trim(), email.trim(), password)
+      await register(username.trim(), email.trim(), password, securityQuestion, securityAnswer)
       navigate('/login', { state: { justRegistered: true } })
     } catch (err) {
       setError(err.response?.data?.message || 'Đăng ký thất bại, vui lòng thử lại')
@@ -116,6 +123,15 @@ function RegisterPage() {
               autoComplete="new-password"
             />
           </div>
+
+          {/* Câu hỏi bảo mật: dùng để lấy lại mật khẩu khi quên (trang /forgot-password) */}
+          <SecurityQuestionFields
+            idPrefix="register-security"
+            question={securityQuestion}
+            onQuestionChange={setSecurityQuestion}
+            answer={securityAnswer}
+            onAnswerChange={setSecurityAnswer}
+          />
 
           <button type="submit" className="btn btn-primary auth-submit" disabled={submitting}>
             {submitting ? 'Đang đăng ký...' : 'Đăng ký'}

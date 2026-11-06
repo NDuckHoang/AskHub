@@ -1,40 +1,132 @@
 .comment-list {
   margin-top: 4px;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* --- Tiêu đề "Bình luận (N)" --- */
+.comment-list-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.comment-count {
+  margin-left: 6px;
+  padding: 0 7px;
+  border-radius: 9999px;
+  background: var(--bg-subtle);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* --- Một bình luận: avatar + khung nền nhạt --- */
 .comment-row {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
 }
 
-.comment-body {
+.comment-avatar {
+  flex: none;
+  margin-top: 2px;
+}
+
+.comment-bubble {
   flex: 1;
   min-width: 0;
+  padding: 8px 12px 10px;
+  border-radius: 4px 12px 12px 12px;
+  background: var(--bg-subtle);
+  transition: background-color 150ms;
+}
+
+.comment-row:hover .comment-bubble {
+  background: var(--bg-hover);
+}
+
+/* Bình luận vừa gửi: viền teal sáng lên rồi mờ dần, để người dùng thấy nó nằm ở đâu */
+.comment-row.is-new .comment-bubble {
+  animation: comment-highlight 1600ms ease-out;
+}
+
+@keyframes comment-highlight {
+  from {
+    background: var(--primary-soft);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  to {
+    box-shadow: 0 0 0 2px transparent;
+  }
 }
 
 .comment-meta {
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12.5px;
   color: var(--text-secondary);
 }
 
-.comment-meta a {
-  color: var(--text-secondary);
-  font-weight: 500;
+.comment-author {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.comment-author:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.comment-badge {
+  padding: 0 7px;
+  border-radius: 9999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Nút báo cáo/xóa nằm cuối dòng meta, chỉ hiện rõ khi rê chuột vào bình luận */
+.comment-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.comment-row:hover .comment-actions,
+.comment-actions:focus-within {
+  opacity: 1;
+}
+
+/* Màn cảm ứng không có hover: luôn hiện */
+@media (hover: none) {
+  .comment-actions {
+    opacity: 1;
+  }
 }
 
 .comment-text {
+  margin: 3px 0 0;
   font-size: 14px;
-  margin-top: 2px;
+  line-height: 1.55;
+  white-space: pre-wrap;
   word-break: break-word;
 }
 
 .comment-delete {
+  display: inline-flex;
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -45,21 +137,141 @@
 }
 
 .comment-delete:hover {
-  background: var(--bg-hover);
+  background: var(--bg);
   color: var(--danger);
 }
 
-.comment-form {
+/* --- Nút Xem thêm / Thu gọn --- */
+.comment-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 40px;
+  padding: 2px 4px;
+  border: none;
+  background: none;
+  color: var(--primary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comment-toggle:hover {
+  text-decoration: underline;
+}
+
+/* --- Ô viết bình luận --- */
+.comment-composer {
   display: flex;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.comment-composer > .user-avatar {
+  flex: none;
   margin-top: 4px;
 }
 
-.comment-input {
+.comment-composer-box {
   flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-subtle);
+  transition: border-color 150ms, box-shadow 150ms, background-color 150ms;
 }
 
+.comment-composer.is-active .comment-composer-box,
+.comment-composer-box:focus-within {
+  background: var(--bg);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.comment-input {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+  resize: none;
+  outline: none;
+}
+
+.comment-composer-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 8px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.comment-composer-hint {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment-composer-counter {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.comment-composer-footer .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --- Chưa đăng nhập --- */
 .comment-login-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.comment-login-hint a {
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .comment-composer-hint {
+    display: none;
+  }
+
+  .comment-composer-footer .btn-ghost {
+    margin-left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comment-row.is-new .comment-bubble {
+    animation: none;
+  }
+}
+
+/* Khung .comment-composer-box đã báo trạng thái focus (viền teal + vòng sáng),
+   tắt vòng focus mặc định của ô nhập để không bị 2 khung lồng nhau */
+.comment-composer .comment-input:focus,
+.comment-composer .comment-input:focus-visible {
+  outline: none;
+  box-shadow: none;
 }

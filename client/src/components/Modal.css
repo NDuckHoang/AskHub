@@ -1,7 +1,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(31, 35, 40, 0.5);
+  background: rgba(16, 32, 36, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,25 +22,66 @@
   overflow: hidden;
 }
 
+/* Vạch gradient thương hiệu mảnh ở mép trên mọi modal */
+.modal-panel::before {
+  content: '';
+  flex-shrink: 0;
+  height: 3px;
+  background: var(--brand-gradient);
+}
+
+.modal-panel-lg {
+  max-width: 920px;
+}
+
+.modal-panel-sm {
+  max-width: 480px;
+}
+
 .modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
-.modal-header h2 {
-  font-size: 17px;
-}
-
-.modal-close {
+.modal-header-icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.modal-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-header h2 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.modal-header-text p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.modal-close {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   background: none;
   border: none;
   border-radius: var(--radius-lg);
@@ -51,6 +92,11 @@
 .modal-close:hover {
   background: var(--bg-hover);
   color: var(--text);
+  transform: rotate(90deg);
+}
+
+.modal-close {
+  transition: background-color 150ms, color 150ms, transform 200ms ease;
 }
 
 .modal-body {

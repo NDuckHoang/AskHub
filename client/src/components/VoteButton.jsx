@@ -19,7 +19,7 @@ function VoteButton({ voteCount, myVote, onVote, disabled, disabledTitle = 'Đă
         <ChevronUp size={iconSize} />
       </button>
 
-      <span className="vote-count stat-number">{voteCount}</span>
+      <span key={voteCount} className="vote-count stat-number anim-pop">{voteCount}</span>
 
       <button
         type="button"

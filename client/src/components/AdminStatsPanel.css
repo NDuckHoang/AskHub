@@ -78,3 +78,48 @@
 .admin-stat-box-red .admin-stat-icon {
   color: var(--danger);
 }
+
+/* === Theo prototype: thẻ trắng, icon trong ô vuông bo, số 30px (thay cho thẻ tô màu cũ) === */
+.admin-stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+.admin-stat-box,
+.admin-stat-box-green,
+.admin-stat-box-blue,
+.admin-stat-box-red {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 18px 20px;
+  gap: 2px;
+}
+
+.admin-stat-box .admin-stat-label,
+.admin-stat-box-green .admin-stat-label,
+.admin-stat-box-blue .admin-stat-label,
+.admin-stat-box-red .admin-stat-label {
+  order: -1;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.admin-stat-value {
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.admin-stat-icon {
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+}
+
+.admin-stat-box-green .admin-stat-icon { background: var(--primary-soft); color: var(--primary-dark); }
+.admin-stat-box-blue .admin-stat-icon { background: var(--accent-soft); color: var(--accent-dark); }
+.admin-stat-box-red .admin-stat-icon { background: var(--danger-soft); color: var(--danger); }
+.admin-stat-box-red .admin-stat-value { color: var(--danger); }

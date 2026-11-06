@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getToken } from '../utils/tokenStorage'
 
 // Một instance axios dùng chung cho toàn bộ app.
 // Dev: không đặt VITE_API_URL -> dùng "/api", Vite proxy chuyển sang http://localhost:5000/api
@@ -10,7 +11,7 @@ const api = axios.create({
 
 // Tự động gắn JWT vào header nếu đã đăng nhập (dùng từ Giai đoạn 3)
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
+  const token = getToken()
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }

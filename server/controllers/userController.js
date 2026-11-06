@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
 const answerModel = require('../models/answerModel');
+const { normalizeAnswer, validateSecurityQuestion } = require('../utils/securityQuestions');
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENDER_VALUES = ['MALE', 'FEMALE', 'OTHER'];
@@ -18,13 +19,23 @@ function parsePagination(query) {
   return { page, limit };
 }
 
+// GET /api/users/leaderboard?page=1&limit=20 (công khai)
+// Sidebar trang chủ chỉ gửi limit và chỉ đọc `users`; trang /leaderboard dùng thêm page + pagination.
 async function getLeaderboard(req, res) {
+  const { page } = parsePagination(req.query);
   let limit = parseInt(req.query.limit, 10);
   if (!Number.isInteger(limit) || limit < 1) limit = 10;
   if (limit > 20) limit = 20;
 
-  const users = await userModel.findTopByReputation(limit);
-  res.json({ users });
+  const [users, total] = await Promise.all([
+    userModel.findTopByReputation(limit, (page - 1) * limit),
+    userModel.countLeaderboard(),
+  ]);
+
+  res.json({
+    users,
+    pagination: { page, limit, total, totalPages: Math.max(1, Math.ceil(total / limit)) },
+  });
 }
 
 async function getUserProfile(req, res) {
@@ -141,4 +152,44 @@ async function changePassword(req, res) {
   res.json({ message: 'Đổi mật khẩu thành công' });
 }
 
-module.exports = { getLeaderboard, getUserProfile, getUserAnswers, updateProfile, changePassword };
+// PUT /api/users/:id/security-question { currentPassword, securityQuestion, securityAnswer }
+// Đặt/đổi câu hỏi bảo mật (dùng cho chức năng Quên mật khẩu). Giống đổi mật khẩu: chỉ chủ tài khoản,
+// phải nhập đúng mật khẩu hiện tại - tránh người khác dùng máy đang đăng nhập sẵn để đổi câu hỏi.
+async function updateSecurityQuestion(req, res) {
+  const id = parseId(req.params.id);
+  if (!id) {
+    return res.status(400).json({ message: 'id không hợp lệ' });
+  }
+  if (req.user.id !== id) {
+    return res.status(403).json({ message: 'Bạn không có quyền đổi câu hỏi bảo mật của tài khoản này' });
+  }
+
+  const { currentPassword, securityQuestion, securityAnswer } = req.body;
+  if (!currentPassword) {
+    return res.status(400).json({ message: 'Vui lòng nhập mật khẩu hiện tại' });
+  }
+  const questionError = validateSecurityQuestion(securityQuestion, securityAnswer);
+  if (questionError) {
+    return res.status(400).json({ message: questionError });
+  }
+
+  const currentHash = await userModel.findPasswordHashById(id);
+  const isMatch = await bcrypt.compare(currentPassword, currentHash);
+  if (!isMatch) {
+    return res.status(400).json({ message: 'Mật khẩu hiện tại không đúng' });
+  }
+
+  const answerHash = await bcrypt.hash(normalizeAnswer(securityAnswer), 10);
+  await userModel.updateSecurityQuestion(id, securityQuestion, answerHash);
+
+  res.json({ message: 'Đã lưu câu hỏi bảo mật', securityQuestion });
+}
+
+module.exports = {
+  getLeaderboard,
+  getUserProfile,
+  getUserAnswers,
+  updateProfile,
+  changePassword,
+  updateSecurityQuestion,
+};

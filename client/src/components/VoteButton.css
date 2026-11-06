@@ -73,3 +73,25 @@
 .vote-button-sm .vote-count {
   font-size: 15px;
 }
+
+/* === Nút vote dạng ô viền bo 12px, 44px (kích thước thiết kế mới, đạt chuẩn chạm 44px) === */
+.vote-button-md {
+  width: 48px;
+  gap: 6px;
+}
+
+.vote-button-md .vote-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.vote-button-md .vote-btn.is-active-up {
+  border-color: var(--primary);
+}
+
+.vote-button-md .vote-btn.is-active-down {
+  border-color: var(--danger);
+}
