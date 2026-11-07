@@ -96,27 +96,44 @@ async function adjustReputation(id, delta) {
 
 // Top N user theo điểm uy tín, dùng cho bảng xếp hạng ở sidebar
 // - chỉ tính user còn hoạt động, không tính Admin (Admin không tham gia xếp hạng)
-// Bảng xếp hạng theo điểm uy tín (tổng từ trước tới nay), có phân trang.
-// Kèm số câu hỏi / câu trả lời / câu trả lời được chấp nhận để hiển thị ở trang /leaderboard.
-// Chỉ tính thành viên đang hoạt động, không tính Admin.
-async function findTopByReputation(limit = 10, offset = 0) {
+// Bảng xếp hạng theo điểm uy tín (tổng từ trước tới nay), có phân trang + tìm theo username.
+// rank_position = hạng THẬT trong toàn bảng (tính bằng ROW_NUMBER trước khi lọc theo tên),
+// nên tìm "levanc" vẫn thấy đúng hạng của levanc chứ không phải hạng 1 trong kết quả tìm.
+// Kèm số câu hỏi / câu trả lời / câu trả lời được chấp nhận. Chỉ tính thành viên đang hoạt động, không tính Admin.
+const LEADERBOARD_RANKED = `
+  SELECT u.id, u.username, u.avatar, u.reputation,
+    (SELECT COUNT(*) FROM questions q WHERE q.user_id = u.id) AS question_count,
+    (SELECT COUNT(*) FROM answers a WHERE a.user_id = u.id) AS answer_count,
+    (SELECT COUNT(*) FROM answers a WHERE a.user_id = u.id AND a.is_accepted = 1) AS accepted_count,
+    ROW_NUMBER() OVER (ORDER BY u.reputation DESC, u.created_at ASC) AS rank_position
+  FROM users u
+  WHERE u.status = 'ACTIVE' AND u.role != 'ADMIN'`;
+
+// Điều kiện lọc theo username (dùng chung cho lấy danh sách và đếm tổng).
+// Thoát ký tự đặc biệt của LIKE (%, _) để người dùng gõ "a_b" tìm đúng chuỗi "a_b"
+function buildLeaderboardSearch(search) {
+  if (!search) return { where: '', params: [] };
+  const escaped = search.replace(/[\\%_]/g, '\\$&');
+  return { where: 'WHERE ranked.username LIKE ?', params: [`%${escaped}%`] };
+}
+
+async function findTopByReputation(limit = 10, offset = 0, search = '') {
+  const { where, params } = buildLeaderboardSearch(search);
   const [rows] = await pool.query(
-    `SELECT u.id, u.username, u.avatar, u.reputation,
-       (SELECT COUNT(*) FROM questions q WHERE q.user_id = u.id) AS question_count,
-       (SELECT COUNT(*) FROM answers a WHERE a.user_id = u.id) AS answer_count,
-       (SELECT COUNT(*) FROM answers a WHERE a.user_id = u.id AND a.is_accepted = 1) AS accepted_count
-     FROM users u
-     WHERE u.status = 'ACTIVE' AND u.role != 'ADMIN'
-     ORDER BY u.reputation DESC, u.created_at ASC
+    `SELECT * FROM (${LEADERBOARD_RANKED}) AS ranked
+     ${where}
+     ORDER BY ranked.rank_position
      LIMIT ? OFFSET ?`,
-    [limit, offset]
+    [...params, limit, offset]
   );
   return rows;
 }
 
-async function countLeaderboard() {
+async function countLeaderboard(search = '') {
+  const { where, params } = buildLeaderboardSearch(search);
   const [rows] = await pool.query(
-    "SELECT COUNT(*) AS total FROM users WHERE status = 'ACTIVE' AND role != 'ADMIN'"
+    `SELECT COUNT(*) AS total FROM (${LEADERBOARD_RANKED}) AS ranked ${where}`,
+    params
   );
   return rows[0].total;
 }

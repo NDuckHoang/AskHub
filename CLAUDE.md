@@ -1181,7 +1181,7 @@ Cập nhật mục này mỗi khi xong một giai đoạn.
 
 * **Quên mật khẩu không dùng email** (bản gửi email đã bị gỡ trước đó vì phức tạp): bảng `users` có thêm `security_question` + `security_answer` (hash bcrypt của câu trả lời đã chuẩn hóa: bỏ khoảng trắng thừa, chữ thường). Database cũ cập nhật bằng `database/add_security_question.sql` (chỉ ALTER thêm 2 cột).
 * Danh sách câu hỏi + chuẩn hóa/validate: `server/utils/securityQuestions.js`. API: `GET /api/auth/security-questions`, `POST /api/auth/forgot-password/question` (email -> câu hỏi), `POST /api/auth/forgot-password/reset` (email + câu trả lời + mật khẩu mới), `PUT /api/users/:id/security-question` (cần mật khẩu hiện tại).
-* Đăng ký bắt buộc chọn câu hỏi bảo mật. Tài khoản cũ tự thiết lập trong trang Chỉnh sửa hồ sơ. Trang `/forgot-password` dùng `AuthLayout`.
+* Đăng ký bắt buộc chọn câu hỏi bảo mật. Tài khoản cũ tự thiết lập ở trang **Bảo mật tài khoản** `/security` (`SecurityPage.jsx`: đổi mật khẩu + câu hỏi bảo mật, tách khỏi trang Chỉnh sửa hồ sơ; vào từ menu tài khoản hoặc thẻ cuối trang hồ sơ). Trang `/forgot-password` dùng `AuthLayout`.
 * **Ghi nhớ đăng nhập:** tick -> token 30 ngày lưu `localStorage`; không tick -> token 1 ngày lưu `sessionStorage`. Mọi chỗ đọc/ghi token đi qua `client/src/utils/tokenStorage.js`.
 
 ## Cập nhật 2026-11-06 — Phân quyền Admin + tài khoản quản trị gốc

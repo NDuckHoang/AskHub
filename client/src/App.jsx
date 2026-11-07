@@ -9,6 +9,7 @@ import LeaderboardPage from './pages/LeaderboardPage'
 import SearchPage from './pages/SearchPage'
 import UserProfilePage from './pages/UserProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
+import SecurityPage from './pages/SecurityPage'
 import AdminPage from './pages/AdminPage'
 import AdminUsersPage from './pages/AdminUsersPage'
 import AdminQuestionsPage from './pages/AdminQuestionsPage'
@@ -55,6 +56,14 @@ function App() {
           element={
             <ProtectedRoute>
               <EditProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/security"
+          element={
+            <ProtectedRoute>
+              <SecurityPage />
             </ProtectedRoute>
           }
         />

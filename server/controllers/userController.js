@@ -19,17 +19,19 @@ function parsePagination(query) {
   return { page, limit };
 }
 
-// GET /api/users/leaderboard?page=1&limit=20 (công khai)
+// GET /api/users/leaderboard?page=1&limit=20&search=abc (công khai)
 // Sidebar trang chủ chỉ gửi limit và chỉ đọc `users`; trang /leaderboard dùng thêm page + pagination.
 async function getLeaderboard(req, res) {
   const { page } = parsePagination(req.query);
   let limit = parseInt(req.query.limit, 10);
   if (!Number.isInteger(limit) || limit < 1) limit = 10;
   if (limit > 20) limit = 20;
+  // Tìm theo username (tùy chọn), cắt tối đa 50 ký tự
+  const search = String(req.query.search || '').trim().slice(0, 50);
 
   const [users, total] = await Promise.all([
-    userModel.findTopByReputation(limit, (page - 1) * limit),
-    userModel.countLeaderboard(),
+    userModel.findTopByReputation(limit, (page - 1) * limit, search),
+    userModel.countLeaderboard(search),
   ]);
 
   res.json({

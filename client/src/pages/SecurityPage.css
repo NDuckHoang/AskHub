@@ -1,0 +1,26 @@
+.security-page-subtitle {
+  margin: 4px 0 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Trạng thái câu hỏi bảo mật: đã thiết lập (xanh) / chưa thiết lập (cam) */
+.security-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13.5px;
+}
+
+.security-status.is-set {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.security-status.is-missing {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}

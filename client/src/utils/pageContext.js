@@ -10,6 +10,7 @@ export function getPageContext(pathname) {
   if (pathname === '/leaderboard') return { crumbs: [], title: 'Bảng xếp hạng' }
   if (pathname === '/search') return { crumbs: [], title: 'Tìm kiếm' }
   if (pathname === '/notifications') return { crumbs: [], title: 'Thông báo' }
+  if (pathname === '/security') return { crumbs: [], title: 'Bảo mật tài khoản' }
   if (pathname.startsWith('/admin')) return { crumbs: [], title: 'Quản trị' }
 
   // /questions/:id và /questions/:id/edit

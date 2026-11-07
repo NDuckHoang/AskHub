@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronDown, LogOut, User, ShieldCheck } from 'lucide-react'
+import { ChevronDown, LogOut, User, ShieldCheck, KeyRound } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import UserAvatar from './UserAvatar'
 
@@ -57,6 +57,9 @@ function AccountMenu({ placement = 'down' }) {
         <div className={`navbar-dropdown animate-scale-in${placement === 'rail' ? ' navbar-dropdown-rail' : ''}`}>
           <Link to={`/users/${user.id}`} className="navbar-dropdown-item" onClick={() => setMenuOpen(false)}>
             <User size={16} /> Hồ sơ
+          </Link>
+          <Link to="/security" className="navbar-dropdown-item" onClick={() => setMenuOpen(false)}>
+            <KeyRound size={16} /> Bảo mật
           </Link>
           {user.role === 'ADMIN' && (
             <Link to="/admin" className="navbar-dropdown-item" onClick={() => setMenuOpen(false)}>

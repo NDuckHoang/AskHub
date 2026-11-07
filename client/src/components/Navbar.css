@@ -539,7 +539,9 @@
 @media (min-width: 769px) {
   .navbar-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 640px) minmax(0, 1fr);
+    /* Cột phải tối thiểu bằng nội dung (khi chưa đăng nhập có thêm nút Đăng nhập/Đăng ký) để ô tìm kiếm
+       không bao giờ đè lên nút; còn dư chỗ thì 2 cột bên chia đều -> ô tìm kiếm vẫn nằm giữa */
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 640px) minmax(max-content, 1fr);
     gap: 24px;
   }
 

@@ -578,3 +578,128 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 }
+
+/* ===== Ô tìm kiếm thành viên (trên bảng) ===== */
+.leaderboard-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.leaderboard-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.leaderboard-search-input {
+  width: 100%;
+  height: 42px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-radius: 10px;
+}
+
+/* Ẩn nút xóa mặc định của input type="search" (đã có nút X riêng) */
+.leaderboard-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.leaderboard-search-clear {
+  position: absolute;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.leaderboard-search-clear:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.leaderboard-search-result {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+/* ===== Top 1-3 trong bảng: nền + vạch trái vàng/bạc/đồng, ô hạng có huy chương =====
+   Dùng đúng bộ màu của podium (đặt sau .is-me để màu hạng luôn hiện, nhãn "Bạn" vẫn có) */
+.leaderboard-table tbody tr.is-rank-1 {
+  --medal-color: #e0a800;
+  --medal-text: #8a6100;
+  --medal-soft: #fff6d6;
+  --medal-on: #3d2a00;
+}
+
+.leaderboard-table tbody tr.is-rank-2 {
+  --medal-color: #a3aeb9;
+  --medal-text: #55616d;
+  --medal-soft: #eef1f4;
+  --medal-on: #1f2a33;
+}
+
+.leaderboard-table tbody tr.is-rank-3 {
+  --medal-color: #c27c3e;
+  --medal-text: #8a4f1c;
+  --medal-soft: #f8e9dc;
+  --medal-on: #2e1806;
+}
+
+:root[data-theme='dark'] .leaderboard-table tbody tr.is-rank-1 {
+  --medal-color: #f5c542;
+  --medal-text: #f5c542;
+  --medal-soft: rgba(245, 197, 66, 0.12);
+}
+
+:root[data-theme='dark'] .leaderboard-table tbody tr.is-rank-2 {
+  --medal-color: #c3ccd5;
+  --medal-text: #cbd5df;
+  --medal-soft: rgba(195, 204, 213, 0.1);
+}
+
+:root[data-theme='dark'] .leaderboard-table tbody tr.is-rank-3 {
+  --medal-color: #d9915a;
+  --medal-text: #e0a073;
+  --medal-soft: rgba(217, 145, 90, 0.12);
+}
+
+.leaderboard-table tbody tr.is-rank-1,
+.leaderboard-table tbody tr.is-rank-2,
+.leaderboard-table tbody tr.is-rank-3 {
+  background: var(--medal-soft);
+  box-shadow: inset 4px 0 0 var(--medal-color);
+}
+
+.leaderboard-table tbody tr.is-rank-1:hover,
+.leaderboard-table tbody tr.is-rank-2:hover,
+.leaderboard-table tbody tr.is-rank-3:hover {
+  background: var(--medal-soft);
+  filter: brightness(0.98);
+}
+
+.leaderboard-table tbody tr[class*='is-rank-'] .leaderboard-points {
+  color: var(--medal-text);
+}
+
+.leaderboard-medal {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--medal-color);
+  color: var(--medal-on);
+  font-size: 12.5px;
+  font-weight: 800;
+}
