@@ -20,3 +20,6 @@ Thumbs.db
 
 # Ghi chú dự án cho Claude Code - chỉ giữ trên máy cá nhân, không đưa lên GitHub
 CLAUDE.md
+
+# Prototype thiết kế (claude-design) - chỉ giữ trên máy, website không dùng
+designs/
