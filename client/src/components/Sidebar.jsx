@@ -36,16 +36,16 @@ function Sidebar() {
   const [categories, setCategories] = useState(null)
   const [tags, setTags] = useState(null)
   const [leaderboard, setLeaderboard] = useState(null)
-  const [error, setError] = useState(false)
+  // Lỗi riêng từng khối: 1 khối không tải được không làm 2 khối còn lại trống theo
+  const [errors, setErrors] = useState({ categories: false, tags: false, leaderboard: false })
 
   useEffect(() => {
-    Promise.all([categoryService.getCategories(), tagService.getPopularTags(8), userService.getLeaderboard(5)])
-      .then(([categoriesData, tagsData, leaderboardData]) => {
-        setCategories(categoriesData)
-        setTags(tagsData)
-        setLeaderboard(leaderboardData)
-      })
-      .catch(() => setError(true))
+    function markError(key) {
+      setErrors((prev) => ({ ...prev, [key]: true }))
+    }
+    categoryService.getCategories().then(setCategories).catch(() => markError('categories'))
+    tagService.getPopularTags(8).then(setTags).catch(() => markError('tags'))
+    userService.getLeaderboard(5).then(setLeaderboard).catch(() => markError('leaderboard'))
   }, [])
 
   const sortedCategories = categories
@@ -58,7 +58,8 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <SidebarSection title="Bảng xếp hạng người dùng" icon={Trophy}>
-        {!leaderboard && !error && <SkeletonLines count={5} />}
+        {!leaderboard && !errors.leaderboard && <SkeletonLines count={5} />}
+        {errors.leaderboard && <p className="sidebar-error">Không tải được bảng xếp hạng.</p>}
         {leaderboard && leaderboard.length === 0 && (
           <p className="sidebar-empty">Chưa có dữ liệu xếp hạng.</p>
         )}
@@ -86,7 +87,8 @@ function Sidebar() {
       </SidebarSection>
 
       <SidebarSection title="Thống kê theo danh mục" icon={BarChart2}>
-        {!sortedCategories && !error && <SkeletonLines count={6} />}
+        {!sortedCategories && !errors.categories && <SkeletonLines count={6} />}
+        {errors.categories && <p className="sidebar-error">Không tải được thống kê danh mục.</p>}
         {sortedCategories && (
           <ul className="sidebar-stat-bars">
             {sortedCategories.map((c) => (
@@ -114,7 +116,8 @@ function Sidebar() {
       </SidebarSection>
 
       <SidebarSection title="Tag phổ biến" icon={Hash}>
-        {!tags && !error && <SkeletonLines count={4} />}
+        {!tags && !errors.tags && <SkeletonLines count={4} />}
+        {errors.tags && <p className="sidebar-error">Không tải được tag phổ biến.</p>}
         {tags && tags.length === 0 && <p className="sidebar-empty">Chưa có tag nào.</p>}
         {tags && tags.length > 0 && (
           <div className="sidebar-tag-list">

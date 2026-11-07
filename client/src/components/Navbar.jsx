@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useAskModal } from '../hooks/useAskModal'
 import * as questionService from '../services/questionService'
 import { getPageContext } from '../utils/pageContext'
+import { useIsDesktop } from '../hooks/useIsDesktop'
 import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
 import AccountMenu from './AccountMenu'
@@ -41,6 +42,7 @@ function Navbar() {
   const { openAskModal } = useAskModal()
   const location = useLocation()
   const isAdminArea = location.pathname.startsWith('/admin')
+  const isDesktop = useIsDesktop()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -367,7 +369,8 @@ function Navbar() {
 
           <ThemeToggle />
 
-          {user && <NotificationBell />}
+          {/* Desktop: chuông nằm ở sidebar trái -> chỉ tạo chuông ở đây khi là mobile (tránh gọi API 2 lần) */}
+          {user && !isDesktop && <NotificationBell />}
 
           <AccountMenu />
 

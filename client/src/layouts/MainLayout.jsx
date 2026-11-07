@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import AskQuestionModal from '../components/AskQuestionModal'
 import ToastContainer from '../components/ToastContainer'
+import { useIsDesktop } from '../hooks/useIsDesktop'
 import './MainLayout.css'
 
 // Khung chung cho mọi trang: AppRail (điều hướng dọc, chỉ desktop) bên trái,
@@ -12,10 +13,12 @@ import './MainLayout.css'
 // fade-in-up tự chạy lại mỗi khi chuyển trang.
 function MainLayout() {
   const { pathname } = useLocation()
+  // Sidebar trái chỉ có ở desktop -> chỉ tạo khi đang ở desktop (tránh chạy ngầm + gọi API thừa trên mobile)
+  const isDesktop = useIsDesktop()
 
   return (
     <div className="main-layout">
-      <AppRail />
+      {isDesktop && <AppRail />}
       <div className="main-layout-right">
         <Navbar />
         <main className="main-content">

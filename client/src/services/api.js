@@ -18,4 +18,20 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// Gọi lại 1 lần cho request GET bị lỗi server (5xx), sau RETRY_DELAY_MS.
+// Backend trên Vercel đôi khi lỗi thoáng qua khi nhiều request tới database cùng lúc;
+// gọi lại GET là an toàn vì chỉ đọc dữ liệu. POST/PUT/DELETE KHÔNG gọi lại để tránh thao tác 2 lần.
+const RETRY_DELAY_MS = 400
+
+api.interceptors.response.use(undefined, async (error) => {
+  const { config, response } = error
+  const isServerError = response && response.status >= 500
+  if (config && config.method === 'get' && isServerError && !config._retried) {
+    config._retried = true
+    await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS))
+    return api(config)
+  }
+  return Promise.reject(error)
+})
+
 export default api
