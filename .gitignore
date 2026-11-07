@@ -17,3 +17,6 @@ dev-log.txt
 Thumbs.db
 .vscode/
 .idea/
+
+# Ghi chú dự án cho Claude Code - chỉ giữ trên máy cá nhân, không đưa lên GitHub
+CLAUDE.md
